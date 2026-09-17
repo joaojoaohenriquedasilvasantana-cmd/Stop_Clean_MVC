@@ -15,7 +15,7 @@
   // (file://) ou por outro servidor (ex.: Live Server), aponta para a API
   // rodando localmente.
   const API_BASE_URL = window.location.protocol === 'file:'
-    ? 'http://localhost:3200'
+    ? 'https://stop-clean-mvc.onrender.com'
     : ''
 
   const TOKEN_KEY = 'sc_token'
