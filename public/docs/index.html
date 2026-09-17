@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentação Completa - API Stop_Clean</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0284c7;
+            --dark: #0f172a;
+            --slate: #475569;
+            --light: #f1f5f9;
+            --white: #ffffff;
+            --bg: #f8fafc;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --protected: #8b5cf6;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Lato', sans-serif; background-color: var(--bg); color: var(--slate); }
+
+        header { background-color: var(--dark); color: var(--white); padding: 3rem 1rem; text-align: center; }
+        header h1 { font-family: 'Poppins', sans-serif; font-size: 2.5rem; }
+        header span { color: var(--primary); }
+
+        .container { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
+
+        /* Tabs */
+        .tabs { display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
+        .tab-btn { 
+            background: var(--white); border: 2px solid var(--primary); color: var(--dark); 
+            padding: 0.8rem 1.5rem; border-radius: 50px; cursor: pointer; font-family: 'Poppins';
+            font-weight: 600; transition: 0.3s;
+        }
+        .tab-btn.active, .tab-btn:hover { background: var(--primary); color: var(--white); }
+
+        .tab-content { display: none; animation: fadeIn 0.4s ease; }
+        .tab-content.active { display: block; }
+
+        /* Cards */
+        .card { background: var(--white); border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); padding: 2rem; margin-bottom: 2rem; }
+        h2 { font-family: 'Poppins'; color: var(--dark); margin-bottom: 1.5rem; border-left: 5px solid var(--primary); padding-left: 1rem; }
+        
+        /* Table Styles */
+        .table-responsive { overflow-x: auto; margin: 1.5rem 0; }
+        table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        th { background: var(--light); padding: 1rem; text-align: left; color: var(--dark); font-weight: 700; }
+        td { padding: 1rem; border-bottom: 1px solid var(--light); vertical-align: middle; }
+
+        .verb { display: inline-block; padding: 0.3rem 0.8rem; border-radius: 6px; font-weight: 800; font-size: 0.75rem; color: white; width: 80px; text-align: center; text-transform: uppercase; }
+        .get { background: #3b82f6; }
+        .post { background: var(--success); }
+        .put { background: var(--warning); }
+        .delete { background: var(--danger); }
+
+        /* Badges de Acesso */
+        .badge-public { background: var(--success); color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; display: inline-block; }
+        .badge-protected { background: var(--protected); color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; display: inline-block; }
+
+        code { background: #1e293b; color: #38bdf8; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.9rem; white-space: nowrap; }
+        pre { background: #1e293b; color: #f8fafc; padding: 1.5rem; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.85rem; margin-top: 1rem; position: relative; overflow-x: auto; }
+        
+        .header-req { color: #f59e0b; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dashed #475569; display: block; }
+
+        .grid-docs { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        @media (max-width: 992px) { .grid-docs { grid-template-columns: 1fr; } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>API Stop_<span>Clean</span></h1>
+    <p>Documentação Completa - CRUD Dinâmico, Autenticação Separada por Perfil (Cliente / Funcionário) e Segurança por Permissões</p>
+</header>
+
+<div class="container">
+    <div class="tabs">
+        <button class="tab-btn active" onclick="openTab(event, 'auth')"><i class="fas fa-key"></i> AUTENTICAÇÃO</button>
+        <button class="tab-btn" onclick="openTab(event, 'usuarios')"><i class="fas fa-users"></i> CLIENTES & FUNCIONÁRIOS</button>
+        <button class="tab-btn" onclick="openTab(event, 'veiculos')"><i class="fas fa-car"></i> VEÍCULOS & SERVIÇOS</button>
+        <button class="tab-btn" onclick="openTab(event, 'agendamentos')"><i class="fas fa-calendar-alt"></i> AGENDAMENTOS</button>
+        <button class="tab-btn" onclick="openTab(event, 'permissoes')"><i class="fas fa-shield-alt"></i> PERMISSÕES & SEGURANÇA</button>
+    </div>
+
+    <!-- TAB LOGIN -->
+    <div id="auth" class="tab-content active">
+        <div class="card">
+            <h2>Autenticação Separada por Perfil</h2>
+            <p style="margin-bottom: 1.5rem;">Cliente e funcionário têm logins próprios e independentes — cada um busca apenas na sua própria tabela.</p>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Acesso</th>
+                            <th>Método</th>
+                            <th>Endpoint</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="badge-public"><i class="fas fa-globe"></i> Pública</span></td>
+                            <td><span class="verb post">POST</span></td>
+                            <td><code>/clientes/login</code></td>
+                            <td>Valida credenciais na tabela de Clientes e gera um Token JWT com <code>tipo: "cliente"</code>. Falha se o cadastro ainda não tiver email/senha (cliente criado só pelo funcionário).</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge-public"><i class="fas fa-globe"></i> Pública</span></td>
+                            <td><span class="verb post">POST</span></td>
+                            <td><code>/funcionarios/login</code></td>
+                            <td>Valida credenciais na tabela de Funcionários e gera um Token JWT com <code>tipo: "funcionario"</code>.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="grid-docs">
+                <div>
+                    <h4>Exemplo JSON - Login do Cliente</h4>
+                    <pre>{
+  "email": "marcos@email.com",
+  "senha": "456"
+}</pre>
+                    <br>
+                    <h4>Exemplo JSON - Login do Funcionário</h4>
+                    <pre>{
+  "email": "carlos@stopclean.com",
+  "senha": "123"
+}</pre>
+                </div>
+                <div style="background: var(--light); padding: 1.5rem; border-radius: 8px;">
+                    <h4>Como usar o Token?</h4>
+                    <p>Ao autenticar com sucesso, a API retorna um objeto JSON contendo o token de acesso e o tipo de usuário (<code>cliente</code> ou <code>funcionario</code>).</p>
+                    <p>Adicione o token nas requisições protegidas através do Header HTTP:</p>
+                    <br>
+                    <code>Authorization: Bearer [COLE_O_TOKEN_AQUI]</code>
+                    <p style="margin-top: 1rem;">O <code>tipo</code> guardado no token é o que define, em cada rota protegida, se o acesso é liberado só para funcionário, só para o próprio cliente, ou para ambos.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB CLIENTES & FUNCIONARIOS -->
+    <div id="usuarios" class="tab-content">
+        <div class="card">
+            <h2>Gestão de Clientes e Funcionários</h2>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Acesso</th>
+                            <th>Método</th>
+                            <th>Endpoint</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><span class="badge-public"><i class="fas fa-globe"></i> Pública</span></td><td><span class="verb get">GET</span></td><td><code>/clientes/verificar-cpf/:cpf</code></td><td>Verifica se já existe cadastro com esse CPF, e se ele está completo (com email/senha) ou não.</td></tr>
+                        <tr><td><span class="badge-public"><i class="fas fa-globe"></i> Pública</span></td><td><span class="verb post">POST</span></td><td><code>/clientes/cadastro</code></td><td>Cadastro do próprio cliente. <strong>Obrigatórios: cpf, email, senha.</strong> Se o CPF já existir (criado antes por um funcionário), completa esse cadastro em vez de duplicar.</td></tr>
+                        <tr><td><span class="badge-protected"><i class="fas fa-lock"></i> Protegida (funcionário)</span></td><td><span class="verb post">POST</span></td><td><code>/clientes/cadastro-funcionario</code></td><td>Cadastro de cliente feito pelo funcionário. <strong>Obrigatórios: cpf, telefone</strong> — sem email e sem senha.</td></tr>
+                        <tr><td><span class="badge-protected"><i class="fas fa-lock"></i> Protegida (funcionário)</span></td><td><span class="verb post">POST</span></td><td><code>/funcionarios</code></td><td>Cadastra um novo funcionário (com criptografia de senha via Bcrypt). Só um funcionário já autenticado pode cadastrar outro.</td></tr>
+                        <tr><td><span class="badge-protected"><i class="fas fa-lock"></i> Protegida (funcionário)</span></td><td><span class="verb get">GET</span></td><td><code>/clientes</code></td><td>Lista todos os clientes cadastrados.</td></tr>
+                        <tr><td><span class="badge-protected"><i class="fas fa-lock"></i> Protegida (funcionário)</span></td><td><span class="verb get">GET</span></td><td><code>/funcionarios</code></td><td>Lista todos os funcionários do sistema.</td></tr>
+                        <tr><td><span class="badge-protected"><i class="fas fa-lock"></i> Protegida</span></td><td><span class="verb get">GET</span></td><td><code>/clientes/1</code></td><td>Busca um cliente por ID. Funcionário acessa qualquer um; cliente só o próprio registro.</td></tr>
+                        <tr><td><span class="badge-protected"><i class="fas fa-lock"></i> Protegida</span></td><td><span class="verb put">PUT</span></td><td><code>/clientes/1</code></td><td>Atualiza dados do cliente. Funcionário atualiza qualquer um; cliente só o próprio (e não pode alterar cpf, tokens ou totalLavagens).</td></tr>
+                        <tr><td><span class="badge-protected"><i class="fas fa-lock"></i> Protegida (funcionário)</span></td><td><span class="verb delete">DELETE</span></td><td><code>/clientes/1</code></td><td>Remove o registro de cliente permanentemente.</td></tr>
+                        <tr><td><span class="badge-protected"><i class="fas fa-lock"></i> Protegida (funcionário)</span></td><td><span class="verb get">GET</span></td><td><code>/funcionarios/1</code></td><td>Busca um funcionário por ID.</td></tr>
+                        <tr><td><span class="badge-protected"><i class="fas fa-lock"></i> Protegida (funcionário)</span></td><td><span class="verb put">PUT</span></td><td><code>/funcionarios/1</code></td><td>Atualiza dados do funcionário especificado por ID.</td></tr>
+                        <tr><td><span class="badge-protected"><i class="fas fa-lock"></i> Protegida (funcionário)</span></td><td><span class="verb delete">DELETE</span></td><td><code>/funcionarios/1</code></td><td>Remove o registro de funcionário permanentemente.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="grid-docs">
+                <div>
+                    <h4>Exemplo JSON (POST /clientes/cadastro)</h4>
+                    <pre>{
+  "nome": "Marcos Oliveira",
+  "email": "marcos@email.com",
+  "senha": "456",
+  "telefone": "(11) 99999-9999",
+  "cpf": "987.654.321-11"
+}</pre>
+                    <br>
+                    <h4>Exemplo JSON (POST /clientes/cadastro-funcionario)</h4>
+                    <pre><span class="header-req">// Requer no Header: Authorization: Bearer Token (funcionário)</span>
+{
+  "nome": "Marcos Oliveira",
+  "cpf": "987.654.321-11",
+  "telefone": "(11) 99999-9999"
+}</pre>
+                    <br>
+                    <h4>Exemplo JSON (POST /funcionarios)</h4>
+                    <pre><span class="header-req">// Requer no Header: Authorization: Bearer Token (funcionário)</span>
+{
+  "nome": "Carlos Souza",
+  "email": "carlos@stopclean.com",
+  "senha": "123",
+  "cargo": "Gerente",
+  "cpf": "123.456.789-00"
+}</pre>
+                </div>
+                <div style="background: var(--light); padding: 1.5rem; border-radius: 8px;">
+                    <h4>Regras de Negócio</h4>
+                    <ul>
+                        <li>As senhas nunca são retornadas nas respostas da API (campos omitidos por segurança).</li>
+                        <li>Cliente e funcionário têm controllers e rotas próprios — não passam mais pelo CRUD genérico de tabela.</li>
+                        <li>O funcionário cadastra o cliente só com <strong>cpf e telefone</strong> (sem email/senha). Quando esse cliente quiser criar o próprio acesso, ele completa o cadastro em <code>/clientes/cadastro</code> informando o mesmo CPF, mais email e senha.</li>
+                        <li>Não é permitido CPF duplicado: se o cliente já tiver cadastro completo (com email e senha), a API retorna erro e orienta a fazer login.</li>
+                        <li>O cadastro de um novo funcionário exige estar autenticado como funcionário — não é mais uma rota pública. O primeiro funcionário do sistema deve ser criado direto no banco (ex.: script de seed do Prisma).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB VEICULOS & SERVICOS -->
+    <div id="veiculos" class="tab-content">
+        <div class="card">
+            <h2>Gestão de Veículos e Serviços</h2>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Acesso</th>
+                            <th>Método</th>
+                            <th>Endpoint</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><span class="badge-protected"><i class="fas fa-lock"></i> Protegida</span></td><td><span class="verb post">POST</span></td><td><code>/tipoVeiculos</code></td><td>Cadastra categorias de veículos (ex: Carro, Moto).</td></tr>
+                        <tr><td><span class="badge-protected"><i class="fas fa-lock"></i> Protegida</span></td><td><span class="verb post">POST</span></td><td><code>/veiculos</code></td><td>Registra um veículo. Se logado como cliente, vincula ao próprio cliente automaticamente; se logado como funcionário, deve informar <code>idCliente</code> no corpo.</td></tr>
+                        <tr><td><span class="badge-protected"><i class="fas fa-lock"></i> Protegida</span></td><td><span class="verb post">POST</span></td><td><code>/servicos</code></td><td>Cadastra serviços base do lava-jato (ex: Lavagem Completa).</td></tr>
+                        <tr><td><span class="badge-protected"><i class="fas fa-lock"></i> Protegida</span></td><td><span class="verb post">POST</span></td><td><code>/tipoServicos</code></td><td>Associa o serviço ao tipo de veículo definindo preço e duração.</td></tr>
+                        <tr><td><span class="badge-protected"><i class="fas fa-lock"></i> Protegida</span></td><td><span class="verb get">GET</span></td><td><code>/veiculos</code></td><td>Lista veículos (se cliente, apenas os seus; se funcionário, todos).</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="grid-docs">
+                <div>
+                    <h4>Exemplo JSON (POST /veiculos)</h4>
+                    <pre><span class="header-req">// Requer no Header: Authorization: Bearer Token</span>
+{
+  "placa": "ABC1234",
+  "marca": "Toyota",
+  "modelo": "Corolla",
+  "cor": "Prata",
+  "idTipoVeiculo": 1
+}</pre>
+                    <br>
+                    <h4>Exemplo JSON (POST /tipoServicos)</h4>
+                    <pre><span class="header-req">// Requer no Header: Authorization: Bearer Token</span>
+{
+  "idServico": 1,
+  "idTipoVeiculo": 1,
+  "preco": 60.00,
+  "duracao": "00:45:00"
+}</pre>
+                </div>
+                <div style="background: var(--light); padding: 1.5rem; border-radius: 8px;">
+                    <h4>Regras de Relacionamento</h4>
+                    <ul>
+                        <li>Se logado como Cliente, a rota <code>/veiculos</code> injeta automaticamente o ID do utilizador autenticado — o cliente não consegue cadastrar veículo para outra pessoa.</li>
+                        <li>Se logado como Funcionário, ele informa manualmente o <code>idCliente</code> do dono do veículo.</li>
+                        <li>Cliente só consegue ver, atualizar ou remover os próprios veículos (<code>GET/PUT/DELETE /veiculos/:id</code>); tentar acessar o veículo de outro cliente retorna 403.</li>
+                        <li>A tabela <code>TipoServico</code> atua como matriz de preços e tempos variados por categoria veicular.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB AGENDAMENTOS -->
+    <div id="agendamentos" class="tab-content">
+        <div class="card">
+            <h2>Gestão de Agendamentos e Vínculos</h2>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Acesso</th>
+                            <th>Método</th>
+                            <th>Endpoint</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><span class="badge-protected"><i class="fas fa-lock"></i> Protegida</span></td><td><span class="verb post">POST</span></td><td><code>/agendamentos</code></td><td>Cria um novo agendamento de lavagem.</td></tr>
+                        <tr><td><span class="badge-protected"><i class="fas fa-lock"></i> Protegida</span></td><td><span class="verb get">GET</span></td><td><code>/agendamentos</code></td><td>Lista agendamentos. Funcionário vê todos; cliente vê apenas os próprios.</td></tr>
+                        <tr><td><span class="badge-protected"><i class="fas fa-lock"></i> Protegida</span></td><td><span class="verb post">POST</span></td><td><code>/servicoAgendamentos</code></td><td>Vincula o serviço específico, o funcionário responsável e o preço aplicado ao agendamento.</td></tr>
+                        <tr><td><span class="badge-protected"><i class="fas fa-lock"></i> Protegida</span></td><td><span class="verb put">PUT</span></td><td><code>/agendamentos/1</code></td><td>Atualiza status do agendamento (ex: de AGENDADO para EM_ANDAMENTO).</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="grid-docs">
+                <div>
+                    <h4>Exemplo JSON (POST /agendamentos)</h4>
+                    <pre><span class="header-req">// Requer no Header: Authorization: Bearer Token</span>
+{
+  "idCliente": 1,
+  "idVeiculo": 1,
+  "data": "2026-07-15T00:00:00.000Z",
+  "horario": "1970-01-01T10:00:00.000Z",
+  "statusAgendamento": "AGENDADO",
+  "valorTotal": 60.00
+}</pre>
+                    <br>
+                    <h4>Exemplo JSON (POST /servicoAgendamentos)</h4>
+                    <pre><span class="header-req">// Requer no Header: Authorization: Bearer Token</span>
+{
+  "idServico": 1,
+  "idAgendamento": 1,
+  "idFuncionario": 1,
+  "precoAplicado": 60.00,
+  "obs": "Cliente solicitou secagem extra nas rodas."
+}</pre>
+                </div>
+                <div style="background: var(--light); padding: 1.5rem; border-radius: 8px;">
+                    <h4>Fluxo Operacional</h4>
+                    <p>O ecossistema do lava-jato conecta o cliente, seu veículo, o serviço contratado através da tabela <code>TipoServico</code> e o funcionário executor via <code>ServicoAgendamento</code>.</p>
+                    <p style="margin-top: 1rem;">O cliente só visualiza, atualiza ou cancela os próprios agendamentos (<code>idCliente</code> igual ao seu ID) — o acesso a agendamento de outro cliente retorna 403.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB PERMISSOES -->
+    <div id="permissoes" class="tab-content">
+        <div class="card">
+            <h2>Controle de Permissões e Segurança no Back-end</h2>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Acesso</th>
+                            <th>Método</th>
+                            <th>Endpoint</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><span class="badge-protected"><i class="fas fa-lock"></i> Protegida</span></td><td><span class="verb post">POST</span></td><td><code>/permissoes</code></td><td>Cadastra regras de acesso CRUD por tela para os funcionários.</td></tr>
+                        <tr><td><span class="badge-protected"><i class="fas fa-lock"></i> Protegida</span></td><td><span class="verb get">GET</span></td><td><code>/permissoes</code></td><td>Lista todas as permissões concedidas.</td></tr>
+                        <tr><td><span class="badge-protected"><i class="fas fa-lock"></i> Protegida</span></td><td><span class="verb put">PUT</span></td><td><code>/permissoes/1</code></td><td>Atualiza níveis de acesso (visualizar, criar, alterar, excluir).</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="grid-docs">
+                <div>
+                    <h4>Exemplo JSON (POST /permissoes)</h4>
+                    <pre><span class="header-req">// Requer no Header: Authorization: Bearer Token</span>
+{
+  "idFuncionario": 1,
+  "nomePermissao": "Controle Total de Agendamentos",
+  "tela": "Agendamentos",
+  "visualizar": true,
+  "criar": true,
+  "alterar": true,
+  "excluir": true
+}</pre>
+                </div>
+                <div style="background: var(--light); padding: 1.5rem; border-radius: 8px;">
+                    <h4>Arquitetura de Segurança</h4>
+                    <p>Para evitar vulnerabilidades, o sistema conta com um <strong>Middleware de Permissões</strong> no back-end:</p>
+                    <ul>
+                        <li>Intercepta requisições <code>POST</code>, <code>PUT</code> e <code>DELETE</code>.</li>
+                        <li>Valida automaticamente se o funcionário possui a permissão correspondente para aquela tabela/tela no banco de dados.</li>
+                        <li>Gerentes e administradores possuem acesso total nativo, garantindo flexibilidade operacional sem comprometer a segurança.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].classList.remove("active");
+        }
+        tablinks = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].classList.remove("active");
+        }
+        document.getElementById(tabName).classList.add("active");
+        evt.currentTarget.classList.add("active");
+    }
+</script>
+
+</body>
+</html>

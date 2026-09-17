@@ -1,0 +1,167 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700&display=swap');
+
+#page-cadastro {
+  --sc-bg: #1a1a1a;
+  --sc-bg-dark: #111;
+  --sc-card: #242424;
+  --sc-border: #333;
+  --sc-yellow: #F5C400;
+  --sc-red: #E53010;
+  --sc-text: #f0f0f0;
+  --sc-muted: #aaa;
+  --sc-hint: #666;
+
+  font-family: 'Barlow', sans-serif;
+  background: var(--sc-bg);
+  color: var(--sc-text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#page-cadastro * {
+  box-sizing: border-box;
+}
+
+/* TOPBAR */
+#page-cadastro .sc-topbar {
+  background: var(--sc-bg-dark);
+  border-bottom: 3px solid var(--sc-red);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  height: 56px;
+}
+
+#page-cadastro .sc-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+#page-cadastro .sc-logo-circle {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--sc-yellow);
+  border: 2px solid var(--sc-red);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1px;
+}
+
+#page-cadastro .sc-flag { display: flex; gap: 1px; }
+#page-cadastro .sc-flag span { width: 6px; height: 6px; background: #111; }
+#page-cadastro .sc-flag span:nth-child(even) { background: var(--sc-yellow); }
+
+#page-cadastro .sc-logo-text {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 1px;
+  color: #fff;
+  line-height: 1;
+}
+
+#page-cadastro .sc-logo-text small {
+  display: block;
+  font-family: 'Barlow', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--sc-red);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+#page-cadastro .back-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--sc-muted);
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Barlow', sans-serif;
+}
+
+#page-cadastro .back-btn:hover { color: var(--sc-yellow); }
+#page-cadastro .back-btn i { font-size: 18px; }
+
+/* LAYOUT & CARDS */
+#page-cadastro .page-body {
+  flex: 1;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+#page-cadastro .page-header { display: flex; flex-direction: column; gap: 4px; }
+#page-cadastro .page-header h1 { font-family: 'Bebas Neue', sans-serif; font-size: 32px; letter-spacing: 1px; color: var(--sc-text); line-height: 1; margin: 0; }
+#page-cadastro .page-header h1 span { color: var(--sc-yellow); }
+#page-cadastro .page-header p { font-size: 13px; color: var(--sc-hint); margin: 0; }
+
+#page-cadastro .type-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+#page-cadastro .type-card { background: var(--sc-card); border: 1.5px solid var(--sc-border); border-radius: 8px; padding: 14px 8px; text-align: center; cursor: pointer; transition: all 0.15s; user-select: none; }
+#page-cadastro .type-card:hover { border-color: #555; background: #2c2c2c; }
+#page-cadastro .type-card.selected { border-color: var(--sc-yellow); background: rgba(245, 196, 0, 0.06); }
+#page-cadastro .type-card i { font-size: 26px; color: var(--sc-hint); margin-bottom: 6px; display: block; transition: color 0.15s; }
+#page-cadastro .type-card.selected i { color: var(--sc-yellow); }
+#page-cadastro .type-card span { font-size: 11px; font-weight: 600; letter-spacing: 0.5px; color: var(--sc-muted); text-transform: uppercase; display: block; transition: color 0.15s; }
+#page-cadastro .type-card.selected span { color: var(--sc-yellow); }
+
+#page-cadastro .sc-card { background: var(--sc-card); border: 1px solid var(--sc-border); border-radius: 8px; padding: 20px 18px; }
+#page-cadastro .card-title { font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--sc-muted); margin-bottom: 16px; }
+#page-cadastro .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+#page-cadastro .form-group:last-child { margin-bottom: 0; }
+#page-cadastro .form-label { font-size: 12px; font-weight: 600; color: var(--sc-muted); letter-spacing: 0.5px; text-transform: uppercase; }
+#page-cadastro .form-input { background: #1e1e1e; border: 1.5px solid var(--sc-border); border-radius: 6px; padding: 11px 14px; font-family: 'Barlow', sans-serif; font-size: 14px; color: var(--sc-text); transition: border-color 0.15s; outline: none; width: 100%; }
+#page-cadastro .form-input:focus { border-color: var(--sc-yellow); }
+#page-cadastro .form-input::placeholder { color: var(--sc-hint); }
+#page-cadastro .form-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+#page-cadastro .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* PLACA & CORES */
+#page-cadastro .placa-wrap { position: relative; }
+#page-cadastro .placa-wrap .form-input { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 3px; text-transform: uppercase; padding: 10px 14px; }
+#page-cadastro .placa-badge { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 10px; font-weight: 600; letter-spacing: 1px; color: var(--sc-hint); text-transform: uppercase; pointer-events: none; }
+
+#page-cadastro .color-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+#page-cadastro .color-opt { width: 32px; height: 32px; border-radius: 50%; cursor: pointer; border: 2.5px solid transparent; transition: all 0.15s; position: relative; background: none; }
+#page-cadastro .color-opt:hover { transform: scale(1.1); }
+#page-cadastro .color-opt.selected { border-color: var(--sc-yellow); box-shadow: 0 0 0 2px rgba(245, 196, 0, 0.3); }
+#page-cadastro .color-opt.selected::after { content: '✓'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 12px; font-weight: 700; color: rgba(255, 255, 255, 0.9); }
+
+/* BOTÕES & PREVIEW */
+#page-cadastro .form-actions { display: flex; gap: 12px; }
+#page-cadastro .sc-btn { font-family: 'Barlow', sans-serif; font-size: 13px; font-weight: 600; padding: 12px 0; border-radius: 4px; cursor: pointer; transition: all 0.15s; border: none; flex: 1; text-align: center; }
+#page-cadastro .sc-btn-yellow { background: var(--sc-yellow); color: #111; }
+#page-cadastro .sc-btn-yellow:hover { background: #d4a800; }
+#page-cadastro .sc-btn-outline { background: transparent; border: 1.5px solid #555; color: #ccc; }
+#page-cadastro .sc-btn-outline:hover { border-color: var(--sc-yellow); color: var(--sc-yellow); }
+
+#page-cadastro .vehicle-preview { background: linear-gradient(135deg, #1e1e1e, #242424); border: 1px solid var(--sc-border); border-radius: 8px; padding: 18px; display: flex; align-items: center; gap: 16px; }
+#page-cadastro .preview-icon { width: 52px; height: 52px; border-radius: 10px; background: rgba(245, 196, 0, 0.1); border: 1px solid rgba(245, 196, 0, 0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+#page-cadastro .preview-icon i { font-size: 26px; color: var(--sc-yellow); }
+#page-cadastro .preview-info { flex: 1; }
+#page-cadastro .preview-model { font-size: 16px; font-weight: 600; color: var(--sc-text); margin-bottom: 4px; }
+#page-cadastro .preview-model.empty { color: var(--sc-hint); font-style: italic; font-weight: 400; font-size: 14px; }
+#page-cadastro .preview-sub { display: flex; gap: 12px; }
+#page-cadastro .preview-sub span { font-size: 12px; color: var(--sc-muted); display: flex; align-items: center; gap: 4px; }
+#page-cadastro .preview-sub i { font-size: 13px; color: var(--sc-hint); }
+#page-cadastro .preview-label { font-size: 10px; font-weight: 600; letter-spacing: 1px; color: var(--sc-hint); text-transform: uppercase; margin-bottom: 6px; }
+
+#page-cadastro .sc-footer { background: var(--sc-bg-dark); border-top: 1px solid #2a2a2a; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
+#page-cadastro .sc-footer p, #page-cadastro .sc-footer a { font-size: 11px; color: #555; text-decoration: none; }
+#page-cadastro .sc-footer a:hover { color: var(--sc-yellow); }

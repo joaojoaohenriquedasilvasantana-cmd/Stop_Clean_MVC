@@ -1,0 +1,595 @@
+/* Reset Básico */
+*, *::before, *::after {
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    background: #1a1a1a;
+  }
+  
+  /* Estrutura Raiz */
+  .sc-root {
+    font-family: 'Barlow', sans-serif;
+    background: #1a1a1a;
+    color: #f0f0f0;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  
+  /* Header & Topbar */
+  .sc-topbar {
+    background: #111;
+    border-bottom: 3px solid #E53010;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    height: 56px;
+  }
+  
+  .sc-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+  
+  .sc-logo-circle {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #F5C400;
+    border: 2px solid #E53010;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1px;
+  }
+  
+  .sc-flag {
+    display: flex;
+    gap: 1px;
+  }
+  
+  .sc-flag span {
+    width: 6px;
+    height: 6px;
+    background: #111;
+  }
+  
+  .sc-flag span:nth-child(even) {
+    background: #F5C400;
+  }
+  
+  .sc-logo-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 1px;
+    color: #fff;
+    line-height: 1;
+  }
+  
+  .sc-logo-text small {
+    display: block;
+    font-family: 'Barlow', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    color: #E53010;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  
+  .sc-nav {
+    display: flex;
+    gap: 8px;
+  }
+  
+  /* Botões */
+  .sc-btn {
+    font-family: 'Barlow', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 18px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: none;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  
+  .sc-btn-outline {
+    background: transparent;
+    border: 1.5px solid #555;
+    color: #ccc;
+  }
+  
+  .sc-btn-outline:hover {
+    border-color: #F5C400;
+    color: #F5C400;
+  }
+  
+  .sc-btn-primary {
+    background: #E53010;
+    color: #fff;
+  }
+  
+  .sc-btn-primary:hover {
+    background: #c5260d;
+  }
+  
+  .sc-btn-yellow {
+    background: #F5C400;
+    color: #111;
+  }
+  
+  .sc-btn-yellow:hover {
+    background: #d4a800;
+  }
+  
+  /* Hero */
+  .sc-hero {
+    position: relative;
+    padding: 56px 24px 48px;
+    text-align: center;
+    background: linear-gradient(180deg, #1a1a1a 0%, #111 100%);
+    overflow: hidden;
+  }
+  
+  .sc-hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+  }
+  
+  .sc-hero-stripe {
+    position: absolute;
+    height: 6px;
+    background: #E53010;
+    opacity: 0.15;
+    transform: rotate(-15deg);
+  }
+  
+  .hero-stripe-1 { top: 30px; left: -20px; width: 300px; }
+  .hero-stripe-2 { top: 60px; right: -40px; width: 200px; background: #F5C400; opacity: 0.08; }
+  .hero-stripe-3 { bottom: 20px; left: 40px; width: 250px; opacity: 0.08; }
+  
+  .sc-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #E53010;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 2px;
+    margin-bottom: 20px;
+  }
+  
+  .sc-badge i { font-size: 14px; }
+  
+  .sc-hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 64px;
+    line-height: 0.95;
+    margin: 0 0 8px;
+    color: #fff;
+    letter-spacing: 2px;
+  }
+  
+  .sc-hero h1 span { color: #F5C400; }
+  
+  .sc-hero p {
+    font-size: 16px;
+    color: #aaa;
+    max-width: 420px;
+    margin: 0 auto 32px;
+    line-height: 1.6;
+  }
+  
+  .sc-hero-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .sc-hero-actions .sc-btn {
+    font-size: 14px;
+    padding: 12px 28px;
+  }
+  
+  /* Estatísticas */
+  .sc-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: #333;
+    margin: 0;
+  }
+  
+  .sc-stat {
+    background: #1e1e1e;
+    padding: 18px 12px;
+    text-align: center;
+  }
+  
+  .sc-stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    color: #F5C400;
+    line-height: 1;
+  }
+  
+  .sc-stat-label {
+    font-size: 11px;
+    color: #777;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+  
+  /* Seção de Acesso */
+  .sc-access {
+    padding: 32px 24px 0;
+  }
+  
+  .sc-section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    color: #fff;
+    letter-spacing: 1px;
+    margin: 0 0 6px;
+  }
+  
+  .sc-section-title span { color: #E53010; }
+  
+  .sc-section-sub {
+    font-size: 13px;
+    color: #666;
+    margin: 0 0 20px;
+  }
+  
+  .sc-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .sc-card {
+    background: #242424;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 20px 18px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .sc-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+  }
+  
+  .sc-card.yellow::before { background: #F5C400; }
+  .sc-card.red::before { background: #E53010; }
+  .sc-card.dark::before { background: #555; }
+  
+  .sc-card:hover {
+    background: #2c2c2c;
+    border-color: #555;
+    transform: translateY(-2px);
+  }
+  
+  .sc-card.card-cliente {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 24px 28px;
+  }
+  
+  .sc-card-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .sc-card-icon.yellow {
+    background: rgba(245,196,0,0.12);
+    color: #F5C400;
+  }
+  
+  .sc-card.card-cliente .sc-card-icon {
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+    border-radius: 12px;
+  }
+  
+  .sc-card.card-cliente .sc-card-icon i {
+    font-size: 26px;
+  }
+  
+  .sc-card-body {
+    flex: 1;
+  }
+  
+  .sc-card-body h3 {
+    font-size: 18px;
+    margin: 0 0 4px;
+    color: #f0f0f0;
+  }
+  
+  .sc-card-body p {
+    margin: 0;
+    font-size: 13px;
+    color: #666;
+  }
+  
+  .sc-card-link {
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+  
+  .sc-card-link.yellow { color: #F5C400; }
+  
+  /* Fidelidade */
+  .sc-fidelity {
+    margin: 28px 24px 32px;
+    background: linear-gradient(135deg, #242424 0%, #1e1e1e 100%);
+    border: 1px solid #3a3a3a;
+    border-radius: 12px;
+    padding: 32px;
+  }
+  
+  .sc-fidelity-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  
+  .sc-fidelity-header h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: #F5C400;
+    margin: 0 0 4px;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .sc-fidelity-sub {
+    font-size: 13px;
+    color: #777;
+    margin: 0;
+  }
+  
+  .sc-fidelity-user {
+    text-align: right;
+  }
+  
+  .sc-user-name {
+    font-size: 13px;
+    color: #aaa;
+  }
+  
+  .sc-user-score {
+    font-size: 22px;
+    font-family: 'Bebas Neue', sans-serif;
+    color: #F5C400;
+    margin-top: 2px;
+  }
+  
+  .sc-user-score span {
+    font-size: 13px;
+    color: #777;
+    font-family: 'Barlow', sans-serif;
+  }
+  
+  .sc-fidelity-progress-box {
+    background: #1a1a1a;
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+  }
+  
+  .sc-progress-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    font-size: 12px;
+  }
+  
+  .sc-progress-info span:first-child {
+    color: #777;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .sc-progress-info span:last-child {
+    color: #F5C400;
+    font-weight: 600;
+  }
+  
+  .sc-progress-bar {
+    height: 8px;
+    background: #2e2e2e;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  
+  .sc-progress-fill {
+    height: 100%;
+    width: 70%;
+    background: linear-gradient(90deg, #E53010, #F5C400);
+    border-radius: 4px;
+  }
+  
+  .sc-drops {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .sc-drop {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    border: 1.5px solid;
+  }
+  
+  .sc-drop.done {
+    background: #E53010;
+    border-color: #E53010;
+  }
+  
+  .sc-drop.done i { color: #fff; }
+  
+  .sc-drop.empty {
+    background: transparent;
+    border-color: #333;
+  }
+  
+  .sc-drop.empty i { color: #444; }
+  
+  .sc-drop.free {
+    background: #F5C400;
+    border-color: #F5C400;
+  }
+  
+  .sc-drop.free i { color: #111; }
+  
+  .sc-fidelity-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  
+  .sc-fstat-card {
+    background: #1a1a1a;
+    border-radius: 8px;
+    padding: 16px;
+    border: 1px solid #2e2e2e;
+    text-align: center;
+  }
+  
+  .sc-fstat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    line-height: 1;
+  }
+  
+  .sc-fstat-num.red { color: #E53010; }
+  .sc-fstat-num.yellow { color: #F5C400; }
+  
+  .sc-fstat-label {
+    font-size: 11px;
+    color: #777;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 2px;
+  }
+  
+  .sc-fidelity-note {
+    font-size: 13px;
+    color: #666;
+    margin-top: 16px;
+    text-align: center;
+    padding: 12px;
+    background: rgba(245,196,0,0.06);
+    border-radius: 6px;
+    border: 1px solid rgba(245,196,0,0.15);
+  }
+  
+  .sc-fidelity-note span {
+    color: #F5C400;
+    font-weight: 600;
+  }
+  
+  /* Footer */
+  .sc-footer {
+    background: #111;
+    border-top: 1px solid #2a2a2a;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .sc-footer p {
+    font-size: 11px;
+    color: #555;
+    margin: 0;
+  }
+  
+  .sc-footer-links {
+    display: flex;
+    gap: 16px;
+  }
+  
+  .sc-footer-links a {
+    font-size: 11px;
+    color: #555;
+    text-decoration: none;
+  }
+  
+  .sc-footer-links a:hover {
+    color: #F5C400;
+  }
+  
+  /* Botão WhatsApp */
+  .sc-whatsapp {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 48px;
+    height: 48px;
+    background: #25D366;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    z-index: 99;
+    text-decoration: none;
+  }
+  
+  .sc-whatsapp i {
+    font-size: 24px;
+    color: #fff;
+  }

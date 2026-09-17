@@ -1,0 +1,12 @@
+Instalação do Prisma ORM
+    npm install @prisma/adapter-pg pg
+    npm install prisma --save-dev
+    npm install @prisma/client
+    npx prisma init --datasource-provider postgresql
+    npm install -D @types/node
+    npm install pg @prisma/adapter-pg
+Após criar o schema.prisma
+    npx prisma db push
+
+A cada vez que alterar o schema.prisma
+    npx prisma generate

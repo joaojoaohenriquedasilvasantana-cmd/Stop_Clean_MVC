@@ -1,0 +1,187 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum StatusAgendamento {
+  AGENDADO
+  EM_ANDAMENTO
+  FINALIZADO
+  CANCELADO
+}
+
+model Cliente {
+  id             Int         @id @default(autoincrement())
+  nome           String      @db.VarChar(100)
+  email          String?      @db.VarChar(100)
+  telefone       String?     @db.VarChar(20)
+  senha          String?     @db.VarChar(255)
+  criacao        DateTime    @default(now())
+  cpf            String?     @unique @db.VarChar(14)
+  totalLavagens  Int         @default(0)
+  tokens         Int         @default(0)
+
+  veiculos       Veiculo[]
+  agendamentos   Agendamento[]
+
+  @@map("Cliente")
+}
+
+model TipoVeiculo {
+  id             Int            @id @default(autoincrement())
+  nome           String         @db.VarChar(50)
+  status         Boolean        @default(true)
+  icone          String?        @db.VarChar(100)
+
+  veiculos       Veiculo[]
+  tipoServicos   TipoServico[]
+
+  @@map("Tipo_Veiculo")
+}
+
+model Funcionario {
+  id                  Int                    @id @default(autoincrement())
+  telefone            String?                @db.VarChar(20)
+  status              Boolean                @default(true)
+  bairro              String?                @db.VarChar(100)
+  endereco            String?                @db.VarChar(100)
+  numero              String?                @db.VarChar(30)
+  cep                 String?                @db.VarChar(50)
+  cpf                 String?                @db.VarChar(14)
+  cargo               String?                @db.VarChar(50)
+  senha               String                 @db.VarChar(255)
+  email               String?                @db.VarChar(100)
+  nome                String?                @db.VarChar(100)
+  estado              String?                @db.VarChar(50)
+  criacao             DateTime               @default(now())
+  salario             Decimal?               @db.Decimal(10, 2)
+
+  agendamentos        Agendamento[]
+  servicosExecutados  ServicoAgendamento[]
+  FuncionarioPermissao  FunPermissao[]
+
+  @@map("Funcionario")
+}
+
+model Servico {
+  id                     Int                     @id @default(autoincrement())
+  status                 Boolean                 @default(true)
+  contaFidelidade        Boolean                 @default(false)
+  descricao              String?                 @db.VarChar(200)
+  nome                   String                  @db.VarChar(100)
+
+  tipoServicos           TipoServico[]
+  servicosAgendamento    ServicoAgendamento[]
+
+  @@map("Servico")
+}
+
+model Veiculo {
+  id              Int          @id @default(autoincrement())
+  idCliente       Int
+  idTipoVeiculo   Int
+
+  placa           String       @db.VarChar(7)
+  obs             String?      @db.VarChar(150)
+  criacao         DateTime     @default(now())
+  modelo          String?      @db.VarChar(50)
+  cor             String?      @db.VarChar(50)
+  ano             String?      @db.VarChar(10)
+  marca           String?      @db.VarChar(50)
+
+  cliente         Cliente      @relation(fields: [idCliente], references: [id])
+  tipoVeiculo     TipoVeiculo  @relation(fields: [idTipoVeiculo], references: [id])
+
+  agendamentos    Agendamento[]
+
+  @@map("Veiculo")
+}
+
+model TipoServico {
+  id               Int          @id @default(autoincrement())
+  idTipoVeiculo    Int
+  idServico        Int
+
+  preco            Decimal      @db.Decimal(10,2)
+
+  /// Prisma ainda não possui suporte nativo para INTERVAL.
+  /// Pode ser armazenado como String ou migrado para segundos (Int).
+  duracao          String       @db.VarChar(20)
+
+  tipoVeiculo      TipoVeiculo  @relation(fields: [idTipoVeiculo], references: [id])
+  servico          Servico      @relation(fields: [idServico], references: [id])
+
+  @@map("Tipo_Servico")
+}
+
+model Agendamento {
+  id                    Int                 @id @default(autoincrement())
+  idCliente             Int
+  idVeiculo             Int
+  idFuncionario         Int?
+
+  data                  DateTime           @db.Date
+  horario               DateTime           @db.Time(6)
+
+  statusAgendamento     StatusAgendamento
+
+  obs                   String?            @db.VarChar(200)
+  criacao               DateTime           @default(now())
+  tokenAplicado         Boolean            @default(false)
+  valorTotal            Decimal?           @db.Decimal(10,2)
+
+  cliente               Cliente            @relation(fields: [idCliente], references: [id])
+  veiculo               Veiculo            @relation(fields: [idVeiculo], references: [id])
+  funcionario           Funcionario?       @relation(fields: [idFuncionario], references: [id])
+
+  servicos              ServicoAgendamento[]
+
+  @@map("Agendamento")
+}
+
+model Permissao {
+  id                Int          @id @default(autoincrement())
+
+  tela              String?      @db.VarChar(100)
+  descricao         String?      @db.VarChar(255)
+
+ FuncionarioPermissao    FunPermissao[]
+
+
+  @@map("Permissao")
+}
+
+model FunPermissao {
+  id                Int          @id @default(autoincrement())
+  idFuncionario     Int          
+  idPermissao       Int          
+  data              DateTime           @default(now())
+
+  funcionario     Funcionario  @relation(fields: [idFuncionario], references: [id])
+  Permissao       Permissao    @relation(fields: [idPermissao], references: [id])
+
+  @@map("Funcionario_Permissao")
+}
+
+model ServicoAgendamento {
+  id                Int           @id @default(autoincrement())
+  idServico         Int
+  idAgendamento     Int
+  idFuncionario     Int?
+
+  precoAplicado     Decimal?      @db.Decimal(10,2)
+
+  iniciado          DateTime?
+  finalizado        DateTime?
+
+  obs               String?       @db.VarChar(200)
+
+  servico           Servico       @relation(fields: [idServico], references: [id])
+  agendamento       Agendamento   @relation(fields: [idAgendamento], references: [id])
+  funcionario       Funcionario?  @relation(fields: [idFuncionario], references: [id])
+
+  @@map("Servico_Agendamento")
+}

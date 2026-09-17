@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  
+  <!-- SEO Meta Tags -->
+  <title>Stop Clean Lava-Jato | Acesse sua Conta</title>
+  <meta name="title" content="Stop Clean Lava-Jato | Acesse sua Conta"/>
+  <meta name="description" content="Faça login na sua conta Stop Clean Lava-Jato para gerenciar seus agendamentos, acompanhar serviços e acessar ofertas exclusivas."/>
+  <meta name="keywords" content="login stop clean, entrar lava jato, agendamento de lavagem, conta estética automotiva"/>
+  <meta name="robots" content="index, follow"/>
+  <link rel="canonical" href="https://stopclean.com.br/login.html"/>
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://stopclean.com.br/login.html"/>
+  <meta property="og:title" content="Stop Clean Lava-Jato | Área do Cliente"/>
+  <meta property="og:description" content="Acesse sua conta para agendar e acompanhar seus serviços de lavagem."/>
+  <meta property="og:image" content="https://stopclean.com.br/assets/og-image.jpg"/>
+
+  <!-- Ícones e Fontes Externas -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600&display=swap"/>
+
+  <!-- Estilos CSS Externos -->
+  <link rel="stylesheet" href="./login.css"/>
+</head>
+<body>
+
+  <!-- Topbar Header -->
+  <header class="sc-topbar">
+    <a href="./apresentacao.html" class="sc-logo" title="Stop Clean Lava-Jato - Página Inicial">
+      <div class="sc-logo-circle">
+        <div class="sc-flag"><span></span><span></span><span></span><span></span></div>
+        <div class="sc-flag"><span></span><span></span><span></span><span></span></div>
+      </div>
+      <div class="sc-logo-text">Stop Clean<small>Lava-jato</small></div>
+    </a>
+    <div class="sc-topbar-actions">
+        <a href="./apresentacao.html" class="sc-btn sc-btn-outline">Voltar</a>
+      <a href="./cadastro.html" class="sc-btn sc-btn-yellow">Cadastrar</a>
+    </div>
+  </header>
+
+  <!-- Área Principal / Form de Login -->
+  <main class="login-body">
+    <section class="sc-card login-card">
+      <h1>Bem-vindo de volta</h1>
+      <p class="subtitle">Acesse sua conta para gerenciar seus agendamentos</p>
+      
+      <form id="formLogin" novalidate>
+        <div class="field-group">
+          <label for="email">E-mail</label>
+          <div class="field-wrap">
+            <input type="email" id="email" name="email" placeholder="seu@email.com" autocomplete="email" required/>
+            <i class="ti ti-mail field-icon" aria-hidden="true"></i>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="senha">Senha</label>
+          <div class="field-wrap">
+            <input type="password" id="senha" name="senha" placeholder="••••••••" autocomplete="current-password" required/>
+            <i class="ti ti-eye eye" id="toggleSenha" role="button" aria-label="Mostrar ou ocultar senha" tabindex="0"></i>
+          </div>
+        </div>
+
+        <button type="submit" class="sc-btn sc-btn-primary btn-full">Entrar</button>
+      </form>
+
+      <a href="#recuperar-senha" class="forgot">Esqueci minha senha</a>
+
+      <div class="card-footer-link">
+        Ainda não tenho conta &rarr; <a href="./cadastro.html">Cadastrar</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Rodapé -->
+  <footer class="sc-footer">
+    <p>&copy; 2026 Stop Clean Lava-Jato. Todos os direitos reservados.</p>
+    <div class="sc-footer-links">
+      <a href="#privacidade">Privacidade</a>
+      <a href="#termos">Termos</a>
+      <a href="#suporte">Suporte</a>
+    </div>
+  </footer>
+
+  <!-- Importação dos scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/login.js"></script>
+
+</body>
+</html>

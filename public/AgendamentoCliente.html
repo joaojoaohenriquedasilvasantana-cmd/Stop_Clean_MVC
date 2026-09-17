@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Configurações de SEO -->
+  <title>Agender Lavagem e Estética Automotiva | Stop Clean</title>
+  <meta name="description" content="Agende online lavagem simples, completa, polimento ou higienização para seu veículo no Lava Rápido Stop Clean.">
+  <link rel="canonical" href="https://stopclean.com.br/agendamento">
+
+  <!-- Dados Estruturados (Schema.org / SEO Avançado) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "AutoWash",
+    "name": "Stop Clean Lava Rápido",
+    "telephone": "+5511971245742",
+    "priceRange": "$$"
+  }
+  </script>
+
+  <!-- Fontes e Ícones Extermos -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+
+  <!-- Estilo CSS Externo -->
+  <link rel="stylesheet" href="AgendamentoCliente.css">
+</head>
+<body>
+
+  <!-- BARRA DE NAVEGAÇÃO -->
+  <nav class="sc-topbar">
+    <div class="sc-logo">
+      <div class="sc-logo-circle">
+        <div class="sc-flag"><span></span><span></span><span></span><span></span></div>
+        <div class="sc-flag"><span></span><span></span><span></span><span></span></div>
+      </div>
+      <div class="sc-logo-text">
+        STOP CLEAN
+        <small>Lava Rápido</small>
+      </div>
+    </div>
+    <div class="sc-user-menu">
+      <span class="sc-user-greeting">Olá, <strong class="sc-user-name">João Silva</strong></span>
+      <a href="./index.html" class="sc-btn sc-btn-outline" type="button">Voltar</a>
+    </div>
+  </nav>
+
+  <!-- CABEÇALHO DA PÁGINA -->
+  <header class="sc-page-header">
+    <h1>AGENDAR <span>SERVIÇO</span></h1>
+    <p>Preencha os dados abaixo para confirmar seu agendamento</p>
+  </header>
+
+  <!-- FORMULÁRIO E RESUMO -->
+  <main class="sc-form-grid">
+    
+    <!-- SEÇÃO DO FORMULÁRIO DE AGENDAMENTO -->
+    <section class="sc-form-card">
+      
+      <!-- Veículo -->
+      <div class="sc-form-group">
+        <label for="selectVeiculo" class="sc-label">
+          <i class="ti ti-car" aria-hidden="true"></i> Veículo cadastrado
+        </label>
+        <div class="sc-select-wrap">
+          <select id="selectVeiculo" class="sc-select">
+            <option value="1">HB20 Sedan – ABC-1D23</option>
+            <option value="2">Fiat Argo – XYZ-4E56</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Serviços (Carregados Dinamicamente pelo JS) -->
+      <div class="sc-form-group">
+        <label class="sc-label">
+          <i class="ti ti-droplet" aria-hidden="true"></i> Tipo de serviço 
+          <span class="sc-label-hint">— selecione um ou mais</span>
+        </label>
+        
+        <div class="svc-grid" id="svcGrid">
+          <!-- Os cards de serviços serão renderizados aqui pelo JS -->
+        </div>
+
+        <div id="svcEmpty" class="sc-error-msg">
+          <i class="ti ti-alert-circle" aria-hidden="true"></i> Selecione ao menos um serviço.
+        </div>
+      </div>
+
+      <!-- Data e Horário -->
+      <div class="sc-form-row">
+        <div class="sc-form-group">
+          <label for="inputData" class="sc-label">
+            <i class="ti ti-calendar" aria-hidden="true"></i> Data
+          </label>
+          <input id="inputData" class="sc-input" type="date">
+        </div>
+
+        <div class="sc-form-group">
+          <label for="selectHorario" class="sc-label">
+            <i class="ti ti-clock" aria-hidden="true"></i> Horário
+          </label>
+          <div class="sc-select-wrap">
+            <select id="selectHorario" class="sc-select">
+              <option value="09:00">09:00</option>
+              <option value="10:00">10:00</option>
+              <option value="11:00" selected>11:00</option>
+              <option value="12:00">12:00</option>
+              <option value="13:00">13:00</option>
+              <option value="14:00">14:00</option>
+              <option value="15:00">15:00</option>
+              <option value="16:00">16:00</option>
+              <option value="17:00">17:00</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Observações -->
+      <div class="sc-form-group">
+        <label for="textareaObs" class="sc-label">
+          <i class="ti ti-message" aria-hidden="true"></i> Observações (opcional)
+        </label>
+        <textarea id="textareaObs" class="sc-textarea" placeholder="Ex.: carro tem película, preferência de produto, etc."></textarea>
+      </div>
+
+    </section>
+
+    <!-- SEÇÃO DE RESUMO DO PEDIDO -->
+    <aside class="sc-summary-card">
+      <h2 class="sc-summary-title">📋 Resumo do Pedido</h2>
+
+      <div class="sc-summary-row">
+        <span class="sc-summary-key">Serviço</span>
+        <span class="sc-summary-val" id="summaryService">—</span>
+      </div>
+
+      <div class="sc-summary-row">
+        <span class="sc-summary-key">Veículo</span>
+        <span class="sc-summary-val" id="summaryVehicle">HB20 – ABC-1D23</span>
+      </div>
+
+      <div class="sc-summary-row">
+        <span class="sc-summary-key">Data</span>
+        <span class="sc-summary-val" id="summaryDate">—</span>
+      </div>
+
+      <div class="sc-summary-row">
+        <span class="sc-summary-key">Horário</span>
+        <span class="sc-summary-val" id="summaryTime">11:00</span>
+      </div>
+
+      <div class="sc-summary-row">
+        <span class="sc-summary-key">Duração estimada</span>
+        <span class="sc-summary-val" id="summaryDur">—</span>
+      </div>
+
+      <div class="sc-summary-price">
+        <div>
+          <div class="sc-summary-price-label">Valor estimado</div>
+          <div class="sc-summary-price-sub">Pagamento no local</div>
+        </div>
+        <div class="sc-summary-price-val" id="summaryPrice">R$ 0,00</div>
+      </div>
+
+      <div class="sc-fidelity-note">
+        <i class="ti ti-star" aria-hidden="true"></i> Você tem <span>0/10 lavagens</span> — faltam <span>10</span> para a lavagem grátis!
+      </div>
+
+      <button id="btnConfirmarAgendamento" type="button" class="sc-btn sc-btn-yellow sc-btn-block">
+        <i class="ti ti-calendar-check" aria-hidden="true"></i> Confirmar agendamento
+      </button>
+    </aside>
+
+  </main>
+
+  <!-- RODAPÉ -->
+  <footer class="sc-footer">
+    <p>© 2026 Stop Clean Lava Rápido · (11) 97124-5742</p>
+    <nav class="sc-footer-links">
+      <a href="/termos">Termos</a>
+      <a href="/privacidade">Privacidade</a>
+      <a href="/contato">Contato</a>
+    </nav>
+  </footer>
+
+  <!-- Script JS Externo -->
+  <script src="js/api.js"></script>
+  <script src="js/AgendamentoCliente.js"></script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cadastrar Veículo | Stop Clean Lava-Jato</title>
+
+  <!-- CSS do Projeto e CSS Específico do Cadastro -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="stylesheet" href="cadastro_veiculo.css"/>
+</head>
+<body id="page-cadastro">
+
+  <header class="sc-topbar">
+    <a href="index.html" class="sc-logo" title="Stop Clean Lava-Jato - Home">
+      <div class="sc-logo-circle">
+        <div class="sc-flag"><span></span><span></span><span></span><span></span></div>
+        <div class="sc-flag"><span></span><span></span><span></span><span></span></div>
+      </div>
+      <div class="sc-logo-text">Stop Clean<small>Lava-jato</small></div>
+    </a>
+    <button type="button" class="back-btn" onclick="history.back()" aria-label="Voltar para a página anterior">
+      <i class="ti ti-arrow-left" aria-hidden="true"></i> Voltar
+    </button>
+  </header>
+
+  <main class="page-body">
+    <header class="page-header">
+      <h1>CADASTRAR <span>VEÍCULO</span></h1>
+      <p>Preencha os dados do seu veículo para agilizar os agendamentos</p>
+    </header>
+
+    <form id="vehicleForm" onsubmit="salvarVeiculo(event)">
+      <section aria-labelledby="tipo-veiculo-title" style="margin-bottom: 20px;">
+        <h2 id="tipo-veiculo-title" class="card-title" style="margin-bottom:12px;">Tipo de veículo</h2>
+        <div class="type-grid">
+          <button type="button" class="type-card selected" data-type="Sedan" onclick="selectType(this,'Sedan','ti-car')">
+            <i class="ti ti-car" aria-hidden="true"></i>
+            <span>Sedan</span>
+          </button>
+          <button type="button" class="type-card" data-type="Hatch" onclick="selectType(this,'Hatch','ti-car')">
+            <i class="ti ti-car" aria-hidden="true"></i>
+            <span>Hatch</span>
+          </button>
+          <button type="button" class="type-card" data-type="SUV" onclick="selectType(this,'SUV','ti-car-suv')">
+            <i class="ti ti-car-suv" aria-hidden="true"></i>
+            <span>SUV</span>
+          </button>
+          <button type="button" class="type-card" data-type="Picape" onclick="selectType(this,'Picape','ti-truck')">
+            <i class="ti ti-truck" aria-hidden="true"></i>
+            <span>Picape</span>
+          </button>
+          <button type="button" class="type-card" data-type="Moto" onclick="selectType(this,'Moto','ti-motorbike')">
+            <i class="ti ti-motorbike" aria-hidden="true"></i>
+            <span>Moto</span>
+          </button>
+          <button type="button" class="type-card" data-type="Van" onclick="selectType(this,'Van','ti-van')">
+            <i class="ti ti-van" aria-hidden="true"></i>
+            <span>Van / Utilitário</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="sc-card" aria-labelledby="dados-veiculo-title">
+        <h2 id="dados-veiculo-title" class="card-title">Dados do veículo</h2>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="marca">Marca</label>
+            <select class="form-input form-select" id="marca" required onchange="updatePreview()">
+              <option value="">Selecione</option>
+              <option>Chevrolet</option>
+              <option>Fiat</option>
+              <option>Ford</option>
+              <option>Honda</option>
+              <option>Hyundai</option>
+              <option>Jeep</option>
+              <option>Nissan</option>
+              <option>Renault</option>
+              <option>Toyota</option>
+              <option>Volkswagen</option>
+              <option>Outro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="modelo">Modelo</label>
+            <input class="form-input" id="modelo" type="text" placeholder="Ex: Civic, HB20" required oninput="updatePreview()"/>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="ano">Ano</label>
+            <input class="form-input" id="ano" type="number" placeholder="2022" min="1990" max="2026" oninput="updatePreview()"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="placa">Placa</label>
+            <div class="placa-wrap">
+              <input class="form-input" id="placa" type="text" placeholder="ABC-1234" maxlength="8" required oninput="formatPlaca(this)"/>
+              <span class="placa-badge">BR</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Cor</label>
+          <div class="color-grid" id="colorGrid">
+            <button type="button" class="color-opt selected" style="background:#111;border-color:#555;" data-color="Preto" data-hex="#111" title="Preto" onclick="selectColor(this)" aria-label="Preto"></button>
+            <button type="button" class="color-opt" style="background:#f0f0f0;" data-color="Branco" data-hex="#f0f0f0" title="Branco" onclick="selectColor(this)" aria-label="Branco"></button>
+            <button type="button" class="color-opt" style="background:#C0C0C0;" data-color="Prata" data-hex="#C0C0C0" title="Prata" onclick="selectColor(this)" aria-label="Prata"></button>
+            <button type="button" class="color-opt" style="background:#6b6b6b;" data-color="Cinza" data-hex="#6b6b6b" title="Cinza" onclick="selectColor(this)" aria-label="Cinza"></button>
+            <button type="button" class="color-opt" style="background:#b22222;" data-color="Vermelho" data-hex="#b22222" title="Vermelho" onclick="selectColor(this)" aria-label="Vermelho"></button>
+            <button type="button" class="color-opt" style="background:#1a3a6b;" data-color="Azul" data-hex="#1a3a6b" title="Azul" onclick="selectColor(this)" aria-label="Azul"></button>
+            <button type="button" class="color-opt" style="background:#2e5c1e;" data-color="Verde" data-hex="#2e5c1e" title="Verde" onclick="selectColor(this)" aria-label="Verde"></button>
+            <button type="button" class="color-opt" style="background:#7c4a00;" data-color="Marrom" data-hex="#7c4a00" title="Marrom" onclick="selectColor(this)" aria-label="Marrom"></button>
+            <button type="button" class="color-opt" style="background:#F5C400;" data-color="Amarelo" data-hex="#F5C400" title="Amarelo" onclick="selectColor(this)" aria-label="Amarelo"></button>
+            <button type="button" class="color-opt" style="background:#e8a0c8;" data-color="Rosa" data-hex="#e8a0c8" title="Rosa" onclick="selectColor(this)" aria-label="Rosa"></button>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-top:4px;">
+          <label class="form-label" for="obs">Observações (opcional)</label>
+          <input class="form-input" id="obs" type="text" placeholder="Ex: vidro traseiro com película, spoiler..."/>
+        </div>
+      </section>
+
+      <section style="margin-top:20px;" aria-labelledby="preview-title">
+        <h2 id="preview-title" class="preview-label">Pré-visualização</h2>
+        <article class="vehicle-preview">
+          <div class="preview-icon" id="previewIcon">
+            <i class="ti ti-car" id="previewIconI" aria-hidden="true"></i>
+          </div>
+          <div class="preview-info">
+            <div class="preview-model empty" id="previewModel">Preencha os campos acima</div>
+            <div class="preview-sub" id="previewSub" style="display:none;">
+              <span><i class="ti ti-license" aria-hidden="true"></i> <span id="previewPlaca">—</span></span>
+              <span>
+                <span id="previewColorDot" style="width:10px;height:10px;border-radius:50%;background:#111;border:1px solid #555;display:inline-block;" aria-hidden="true"></span>
+                <span id="previewColorName">Preto</span>
+              </span>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <div class="form-actions" style="margin-top:20px;">
+        <button type="button" class="sc-btn sc-btn-outline" onclick="window.location.href='index.html#veiculo'">Cancelar</button>
+        <button type="submit" class="sc-btn sc-btn-yellow" id="saveBtn">
+          <i class="ti ti-check" style="margin-right:5px;" aria-hidden="true"></i> Salvar veículo
+        </button>
+      </div>
+    </form>
+  </main>
+
+  <footer class="sc-footer">
+    <p>© 2025 Stop Clean Lava-Jato. Todos os direitos reservados.</p>
+    <nav aria-label="Links úteis de rodapé" style="display:flex;gap:16px;">
+      <a href="#privacidade">Privacidade</a>
+      <a href="#termos">Termos</a>
+      <a href="#suporte">Suporte</a>
+    </nav>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/cadastro_veiculo.js"></script>
+</body>
+</html>

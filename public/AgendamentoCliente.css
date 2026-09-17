@@ -1,0 +1,541 @@
+/* -------------------------------------------------------------------------- */
+/*  VARIÁVEIS DE TEMA E RESET                                                */
+/* -------------------------------------------------------------------------- */
+:root {
+    --sc-bg:       #1a1a1a;
+    --sc-bg-dark:  #111111;
+    --sc-card:     #242424;
+    --sc-border:   #333333;
+    --sc-yellow:   #F5C400;
+    --sc-red:      #E53010;
+    --sc-text:     #f0f0f0;
+    --sc-muted:    #aaaaaa;
+    --sc-hint:     #666666;
+  }
+  
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--sc-bg);
+    color: var(--sc-text);
+    line-height: 1.5;
+  }
+  
+  /* -------------------------------------------------------------------------- */
+  /*  BARRA NAVEGAÇÃO E LOGO                                                    */
+  /* -------------------------------------------------------------------------- */
+  .sc-topbar {
+    background: var(--sc-bg-dark);
+    border-bottom: 3px solid var(--sc-red);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    height: 56px;
+  }
+  
+  .sc-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .sc-logo-circle {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--sc-yellow);
+    border: 2px solid var(--sc-red);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1px;
+  }
+  
+  .sc-flag {
+    display: flex;
+    gap: 1px;
+  }
+  
+  .sc-flag span {
+    width: 6px;
+    height: 6px;
+    background: #111111;
+  }
+  
+  .sc-flag span:nth-child(even) {
+    background: var(--sc-yellow);
+  }
+  
+  .sc-logo-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 1px;
+    color: #ffffff;
+    line-height: 1;
+  }
+  
+  .sc-logo-text small {
+    display: block;
+    font-family: 'Barlow', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--sc-red);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  
+  .sc-user-menu {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  
+  .sc-user-greeting {
+    font-size: 12px;
+    color: var(--sc-hint);
+  }
+  
+  .sc-user-name {
+    color: var(--sc-text);
+  }
+  
+  /* -------------------------------------------------------------------------- */
+  /*  BOTÕES                                                                    */
+  /* -------------------------------------------------------------------------- */
+  .sc-btn {
+    font-family: 'Barlow', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 18px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  
+  .sc-btn-outline {
+    background: transparent;
+    border: 1.5px solid #555555;
+    color: #cccccc;
+  }
+  
+  .sc-btn-outline:hover {
+    border-color: var(--sc-yellow);
+    color: var(--sc-yellow);
+  }
+  
+  .sc-btn-yellow {
+    background: var(--sc-yellow);
+    color: #111111;
+  }
+  
+  .sc-btn-yellow:hover {
+    background: #d4a800;
+  }
+  
+  .sc-btn-block {
+    width: 100%;
+    padding: 13px;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+  }
+  
+  /* -------------------------------------------------------------------------- */
+  /*  CABEÇALHO DA PÁGINA                                                       */
+  /* -------------------------------------------------------------------------- */
+  .sc-page-header {
+    padding: 28px 24px 0;
+  }
+  
+  .sc-page-header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 38px;
+    letter-spacing: 2px;
+    color: #ffffff;
+    line-height: 1;
+  }
+  
+  .sc-page-header h1 span {
+    color: var(--sc-yellow);
+  }
+  
+  .sc-page-header p {
+    font-size: 13px;
+    color: var(--sc-hint);
+    margin-top: 4px;
+  }
+  
+  /* -------------------------------------------------------------------------- */
+  /*  GRID DO FORMULÁRIO E RESUMO                                               */
+  /* -------------------------------------------------------------------------- */
+  .sc-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 16px;
+    padding: 20px 24px 32px;
+  }
+  
+  .sc-form-card {
+    background: var(--sc-card);
+    border: 1px solid var(--sc-border);
+    border-radius: 8px;
+    padding: 24px;
+  }
+  
+  .sc-form-group {
+    margin-bottom: 18px;
+  }
+  
+  .sc-form-group:last-child {
+    margin-bottom: 0;
+  }
+  
+  .sc-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--sc-hint);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: 8px;
+  }
+  
+  .sc-label-hint {
+    color: var(--sc-hint);
+    font-size: 10px;
+    letter-spacing: 0;
+    text-transform: none;
+    font-weight: 400;
+  }
+  
+  .sc-select, .sc-input, .sc-textarea {
+    width: 100%;
+    background: #1e1e1e;
+    border: 1.5px solid var(--sc-border);
+    border-radius: 5px;
+    color: var(--sc-text);
+    font-family: 'Barlow', sans-serif;
+    font-size: 14px;
+    padding: 10px 14px;
+    outline: none;
+    transition: border-color 0.15s;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  
+  .sc-select:focus, .sc-input:focus, .sc-textarea:focus {
+    border-color: var(--sc-yellow);
+  }
+  
+  .sc-select-wrap {
+    position: relative;
+  }
+  
+  .sc-select-wrap::after {
+    content: '▾';
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--sc-hint);
+    pointer-events: none;
+    font-size: 12px;
+  }
+  
+  .sc-textarea {
+    resize: vertical;
+    min-height: 90px;
+    line-height: 1.5;
+  }
+  
+  .sc-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  
+  .sc-error-msg {
+    font-size: 12px;
+    color: var(--sc-red);
+    margin-top: 6px;
+    display: none;
+  }
+  
+  /* -------------------------------------------------------------------------- */
+  /*  CARDS DE SERVIÇOS SELECIONÁVEIS                                           */
+  /* -------------------------------------------------------------------------- */
+  .svc-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .svc-card {
+    background: #1e1e1e;
+    border: 1.5px solid var(--sc-border);
+    border-radius: 7px;
+    padding: 14px 16px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.15s ease-in-out;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  
+  .svc-card:hover {
+    border-color: #555555;
+    background: #252525;
+  }
+  
+  .svc-card:focus-visible {
+    outline: 2px solid var(--sc-yellow);
+  }
+  
+  .svc-card.selected {
+    border-color: var(--sc-yellow);
+    background: rgba(245, 196, 0, 0.05);
+  }
+  
+  .svc-check {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: transparent;
+    border: 1.5px solid #444444;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease-in-out;
+  }
+  
+  .svc-check i {
+    font-size: 11px;
+    color: #111111;
+    opacity: 0;
+    transition: opacity 0.1s;
+  }
+  
+  .svc-card.selected .svc-check {
+    background: var(--sc-yellow);
+    border-color: var(--sc-yellow);
+  }
+  
+  .svc-card.selected .svc-check i {
+    opacity: 1;
+  }
+  
+  .svc-info {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .svc-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--sc-muted);
+    margin-bottom: 3px;
+    transition: color 0.15s;
+    line-height: 1.3;
+  }
+  
+  .svc-card.selected .svc-name {
+    color: var(--sc-text);
+  }
+  
+  .svc-desc {
+    font-size: 11px;
+    color: var(--sc-hint);
+    margin-bottom: 4px;
+    line-height: 1.4;
+  }
+  
+  .svc-dur {
+    font-size: 11px;
+    color: var(--sc-hint);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  
+  .svc-dur i {
+    font-size: 12px;
+  }
+  
+  .svc-card.selected .svc-dur {
+    color: var(--sc-muted);
+  }
+  
+  .svc-price {
+    flex-shrink: 0;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    color: var(--sc-hint);
+    letter-spacing: 0.5px;
+    transition: color 0.15s;
+    text-align: right;
+  }
+  
+  .svc-card.selected .svc-price {
+    color: var(--sc-yellow);
+  }
+  
+  /* -------------------------------------------------------------------------- */
+  /*  CARD DE RESUMO DO PEDIDO                                                  */
+  /* -------------------------------------------------------------------------- */
+  .sc-summary-card {
+    background: var(--sc-card);
+    border: 1px solid var(--sc-border);
+    border-radius: 8px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  
+  .sc-summary-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    color: #ffffff;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--sc-border);
+  }
+  
+  .sc-summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #2a2a2a;
+  }
+  
+  .sc-summary-row:last-of-type {
+    border-bottom: none;
+  }
+  
+  .sc-summary-key {
+    font-size: 12px;
+    color: var(--sc-hint);
+    font-weight: 500;
+  }
+  
+  .sc-summary-val {
+    font-size: 13px;
+    color: var(--sc-muted);
+    font-weight: 600;
+    text-align: right;
+  }
+  
+  .sc-summary-price {
+    margin-top: 18px;
+    background: rgba(245, 196, 0, 0.07);
+    border: 1.5px solid rgba(245, 196, 0, 0.2);
+    border-radius: 6px;
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  
+  .sc-summary-price-label {
+    font-size: 12px;
+    color: var(--sc-hint);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .sc-summary-price-sub {
+    font-size: 11px;
+    color: var(--sc-hint);
+  }
+  
+  .sc-summary-price-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    color: var(--sc-yellow);
+    letter-spacing: 1px;
+  }
+  
+  .sc-fidelity-note {
+    font-size: 12px;
+    color: var(--sc-hint);
+    margin-bottom: 20px;
+    padding: 10px 12px;
+    background: rgba(229, 48, 16, 0.07);
+    border-left: 3px solid var(--sc-red);
+    border-radius: 0 4px 4px 0;
+  }
+  
+  .sc-fidelity-note span {
+    color: var(--sc-yellow);
+    font-weight: 600;
+  }
+  
+  /* -------------------------------------------------------------------------- */
+  /*  RODAPÉ                                                                    */
+  /* -------------------------------------------------------------------------- */
+  .sc-footer {
+    background: var(--sc-bg-dark);
+    border-top: 1px solid #2a2a2a;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .sc-footer p {
+    font-size: 11px;
+    color: #555555;
+  }
+  
+  .sc-footer-links {
+    display: flex;
+    gap: 16px;
+  }
+  
+  .sc-footer-links a {
+    font-size: 11px;
+    color: #555555;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  
+  .sc-footer-links a:hover {
+    color: var(--sc-yellow);
+  }
+  
+  /* -------------------------------------------------------------------------- */
+  /*  RESPONSIVIDADE (MOBILE)                                                   */
+  /* -------------------------------------------------------------------------- */
+  @media (max-width: 768px) {
+    .sc-form-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .sc-form-row {
+      grid-template-columns: 1fr;
+    }
+  
+    .sc-footer {
+      flex-direction: column;
+      gap: 8px;
+      text-align: center;
+    }
+  }
