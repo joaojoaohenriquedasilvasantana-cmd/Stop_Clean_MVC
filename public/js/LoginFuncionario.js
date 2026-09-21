@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const baseUrl = API_BASE_URL.endsWith('/api') ? API_BASE_URL : `${API_BASE_URL}/api`;
 
     const form = document.getElementById('formLoginFuncionario');
-    const inputIdentifier = document.getElementById('identifier');
+    const inputEmail = document.getElementById('email');
     const inputSenha = document.getElementById('senha');
     const btnSubmit = document.getElementById('btnSubmit');
     const alertError = document.getElementById('alert-error');
@@ -32,10 +32,10 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             hideError();
 
-            const identifier = inputIdentifier ? inputIdentifier.value.trim() : '';
+            const email = inputEmail ? inputEmail.value.trim() : '';
             const senha = inputSenha ? inputSenha.value.trim() : '';
 
-            if (!identifier || !senha) {
+            if (!email || !senha) {
                 showError('Preencha todos os campos para continuar.');
                 return;
             }
@@ -43,10 +43,9 @@ document.addEventListener('DOMContentLoaded', () => {
             setLoading(true);
 
             try {
+                // Envia apenas o e-mail e a senha esperados pelo backend
                 const payload = {
-                    login: identifier,
-                    email: identifier,
-                    cpf: identifier,
+                    email: email,
                     senha: senha
                 };
 
@@ -56,7 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify(payload)
                 });
 
-                // Verifica se o servidor retornou JSON válido
                 const contentType = response.headers.get('content-type');
                 let data = {};
 
@@ -67,14 +65,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 if (!response.ok) {
-                    throw new Error(data.message || data.mensagem || data.error || 'Credenciais inválidas.');
+                    throw new Error(data.erro || data.message || data.mensagem || data.error || 'Credenciais inválidas.');
                 }
 
                 if (data.token) {
                     localStorage.setItem('token', data.token);
                 }
-                if (data.funcionario) {
-                    localStorage.setItem('funcionario', JSON.stringify(data.funcionario));
+
+                // Armazena os dados do funcionário enviados na chave 'usuario' ou 'funcionario'
+                const dadosUsuario = data.usuario || data.funcionario;
+                if (dadosUsuario) {
+                    localStorage.setItem('funcionario', JSON.stringify(dadosUsuario));
                 }
 
                 window.location.href = 'HomeFuncionario.html';
