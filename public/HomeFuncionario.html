@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Painel administrativo do Stop Clean Lava Rápido para gestão de agendamentos e serviços.">
+  <title>Stop Clean – Painel Administrativo</title>
+  
+  <!-- CONEXÃO COM O ARQUIVO CSS -->
+  <link rel="stylesheet" href="./HomeFuncionario.css">
+</head>
+<body>
+
+<!-- ── TOPBAR ── -->
+<header class="sc-topbar">
+  <a href="#dashboard" class="sc-logo tab-btn" data-target="dashboard">
+    <div class="sc-logo-circle">
+      <div class="sc-flag"><span></span><span></span><span></span><span></span></div>
+      <div class="sc-flag"><span></span><span></span><span></span><span></span></div>
+    </div>
+    <span class="sc-logo-text">Stop Clean<small>Lava Rápido</small></span>
+  </a>
+  <div class="sc-topbar-right">
+    <span class="sc-badge">&#9733; Administrador</span>
+    <div class="sc-topbar-user">
+      <div class="sc-topbar-avatar">AL</div>
+      <span class="sc-topbar-name">Ana Lima</span>
+    </div>
+  </div>
+</header>
+
+<div class="sc-layout">
+
+  <!-- ── SIDEBAR (Menu de Abas) ── -->
+  <aside class="sc-sidebar">
+    <nav class="sc-sidebar-section" aria-label="Menu Principal">
+      <p class="sc-sidebar-label">Menu</p>
+      <ul>
+        <li>
+          <button class="sc-nav-item tab-btn active" data-target="dashboard">
+            <span class="sc-nav-icon">⬛</span> Dashboard
+          </button>
+        </li>
+      </ul>
+
+      <hr class="sc-nav-divider">
+      <p class="sc-sidebar-label" style="margin-top:12px;">Operações</p>
+      <ul>
+        <li>
+          <button class="sc-nav-item tab-btn" data-target="agendamentos">
+            <span class="sc-nav-icon">📅</span> Agendamentos
+          </button>
+        </li>
+        <li>
+          <button class="sc-nav-item tab-btn" data-target="funcionarios">
+            <span class="sc-nav-icon">👥</span> Funcionários
+          </button>
+        </li>
+        <li>
+          <button class="sc-nav-item tab-btn" data-target="servicos">
+            <span class="sc-nav-icon">🔧</span> Tipos de Serviço
+          </button>
+        </li>
+      </ul>
+
+      <hr class="sc-nav-divider">
+      <p class="sc-sidebar-label" style="margin-top:12px;">Sistema</p>
+      <ul>
+        <li>
+          <button class="sc-nav-item tab-btn" data-target="configuracoes">
+            <span class="sc-nav-icon">⚙️</span> Configurações
+          </button>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="sc-sidebar-bottom">
+      <a class="sc-nav-item" href="#">
+        <span class="sc-nav-icon">🚪</span> Sair
+      </a>
+    </div>
+  </aside>
+
+  <!-- ── CONTEÚDO PRINCIPAL (Abas Dinâmicas) ── -->
+  <main class="sc-main">
+
+    <!-- PAGE HEADER GLOBAL -->
+    <header class="sc-page-header">
+      <div>
+        <h1 class="sc-page-title">BEM-VINDO, <span>ANA.</span></h1>
+        <p class="sc-page-sub">Quarta-feira, 21 de maio de 2025 &nbsp;·&nbsp; Painel Administrativo</p>
+      </div>
+    </header>
+
+    <!-- ABA 1: DASHBOARD -->
+    <section id="dashboard" class="tab-content active">
+      <section class="sc-section">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+          <h2 class="sc-section-label" style="margin-bottom: 0;">Acesso rápido</h2>
+        </div>
+        <ul class="sc-quick-grid">
+          <li class="sc-quick-card red tab-btn" data-target="agendamentos">
+            <div class="sc-quick-icon red">📅</div>
+            <div>
+              <h3>Agendamentos</h3>
+              <p>Veja e gerencie os agendamentos do dia</p>
+            </div>
+            <div class="sc-quick-arrow red">→ Acessar</div>
+          </li>
+          <li class="sc-quick-card gray tab-btn" data-target="funcionarios">
+            <div class="sc-quick-icon gray">👥</div>
+            <div>
+              <h3>Funcionários</h3>
+              <p>Cadastrar, editar e controlar permissões</p>
+            </div>
+            <div class="sc-quick-arrow gray">→ Acessar</div>
+          </li>
+          <li class="sc-quick-card green tab-btn" data-target="servicos">
+            <div class="sc-quick-icon green">🔧</div>
+            <div>
+              <h3>Tipos de Serviço</h3>
+              <p>Cadastrar e modificar serviços e preços</p>
+            </div>
+            <div class="sc-quick-arrow green">→ Acessar</div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- MÉTRICAS DO DIA -->
+      <section class="sc-section">
+        <h2 class="sc-section-label">Resumo de hoje</h2>
+        <ul class="sc-metrics">
+          <p style="font-size: 13px; color: var(--sc-muted);">Carregando métricas...</p>
+        </ul>
+      </section>
+    </section>
+
+    <!-- ABA 2: AGENDAMENTOS -->
+    <section id="agendamentos" class="tab-content">
+      <section class="sc-section">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+          <h2 class="sc-section-label" style="margin-bottom: 0;">Gerenciamento de Agendamentos</h2>
+          <div>
+            <button class="sc-btn sc-btn-yellow sc-btn-sm" id="btnAgendarCliente">Agendar Cliente</button>
+            <button class="sc-btn sc-btn-yellow sc-btn-sm" id="btnNovoCliente">Novo Cliente</button>
+          </div>
+        </div>
+        <ul class="sc-agenda-list">
+           <p style="font-size: 13px; color: var(--sc-muted);">Carregando agendamentos...</p>
+        </ul>
+      </section>
+    </section>
+
+    <!-- ABA 3: FUNCIONÁRIOS -->
+    <section id="funcionarios" class="tab-content">
+      <section class="sc-section">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+          <h2 class="sc-section-label" style="margin-bottom: 0;">Gestão de Funcionários</h2>
+          <div>
+            <a href="./GerenciamentoFuncionarios.html" class="sc-btn sc-btn-yellow sc-btn-sm" id="btnGerenciarFuncionario">Gerenciar Funcionários</a>
+          </div>
+        </div>
+        <div style="background: var(--sc-card); border: 1px solid var(--sc-border); border-radius: 8px; padding: 24px;">
+          <h3 style="font-size: 16px; margin-bottom: 8px; color: var(--sc-text);">Equipe Cadastrada</h3>
+          <p style="font-size: 13px; color: var(--sc-muted);">Lista de colaboradores e permissões do sistema.</p>
+        </div>
+      </section>
+    </section>
+
+    <!-- ABA 4: TIPOS DE SERVIÇO -->
+    <section id="servicos" class="tab-content">
+      <section class="sc-section">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+          <h2 class="sc-section-label" style="margin-bottom:0;">Tipos de serviço cadastrados</h2>
+          <button class="sc-btn sc-btn-yellow sc-btn-sm">+ Novo serviço</button>
+        </div>
+        <ul class="sc-service-list">
+           <p style="font-size: 13px; color: var(--sc-muted);">Carregando serviços...</p>
+        </ul>
+      </section>
+    </section>
+
+    <!-- ABA 5: CONFIGURAÇÕES -->
+    <section id="configuracoes" class="tab-content">
+      <section class="sc-section">
+        <h2 class="sc-section-label">Configurações do Sistema</h2>
+        <div style="background: var(--sc-card); border: 1px solid var(--sc-border); border-radius: 8px; padding: 24px;">
+          <p style="font-size: 13px; color: var(--sc-muted);">Preferências gerais da aplicação.</p>
+        </div>
+      </section>
+    </section>
+
+  </main>
+</div>
+
+<!-- ── MODAL 1: CADASTRAR NOVO CLIENTE E VEÍCULO (2 PASSOS) ── -->
+<div class="sc-modal-overlay" id="modalNovoCliente" aria-hidden="true">
+  <div class="sc-modal">
+    <div class="sc-modal-header">
+      <div>
+        <span class="sc-step-badge" id="modalStepBadge">PASSO 1 DE 2</span>
+        <h3 id="modalTitle">Cadastrar Novo Cliente</h3>
+      </div>
+      <button type="button" class="sc-modal-close" id="btnFecharModal">&times;</button>
+    </div>
+
+    <!-- ETAPA 1: DADOS DO CLIENTE -->
+    <form id="formStepCliente" class="sc-modal-step">
+      <div class="sc-field">
+        <label for="clienteNome">Nome Completo *</label>
+        <input type="text" id="clienteNome" placeholder="Ex: Carlos Eduardo Silva" required>
+      </div>
+      <div class="sc-field">
+        <label for="clienteCpf">CPF *</label>
+        <input type="text" id="clienteCpf" placeholder="000.000.000-00" maxlength="14" required>
+      </div>
+      <div class="sc-field">
+        <label for="clienteTelefone">Número de Telefone / WhatsApp *</label>
+        <input type="tel" id="clienteTelefone" placeholder="(11) 99999-9999" maxlength="15" required>
+      </div>
+      <div class="sc-modal-footer">
+        <button type="button" class="sc-btn sc-btn-outline" id="btnCancelarModal">Cancelar</button>
+        <button type="submit" class="sc-btn sc-btn-yellow">Avançar para Veículo →</button>
+      </div>
+    </form>
+
+    <!-- ETAPA 2: DADOS DO VEÍCULO -->
+    <form id="formStepVeiculo" class="sc-modal-step" style="display: none;">
+      <div class="sc-grid-2">
+        <div class="sc-field">
+          <label for="veiculoPlaca">Placa *</label>
+          <input type="text" id="veiculoPlaca" placeholder="ABC1D23" maxlength="7" style="text-transform: uppercase;" required>
+        </div>
+        <div class="sc-field">
+          <label for="veiculoTipo">Tipo de Veículo *</label>
+          <select id="veiculoTipo" required>
+            <option value="">Selecione...</option>
+            <option value="HATCH">Hatch</option>
+            <option value="SEDAN">Sedan</option>
+            <option value="SUV">SUV / Picape</option>
+            <option value="MOTO">Moto</option>
+            <option value="VAN">Van / Outro</option>
+          </select>
+        </div>
+      </div>
+      <div class="sc-grid-2">
+        <div class="sc-field">
+          <label for="veiculoMarca">Marca *</label>
+          <input type="text" id="veiculoMarca" placeholder="Ex: Chevrolet" required>
+        </div>
+        <div class="sc-field">
+          <label for="veiculoModelo">Modelo *</label>
+          <input type="text" id="veiculoModelo" placeholder="Ex: Onix 1.0" required>
+        </div>
+      </div>
+      <div class="sc-grid-2">
+        <div class="sc-field">
+          <label for="veiculoAno">Ano</label>
+          <input type="number" id="veiculoAno" placeholder="Ex: 2023" min="1950" max="2030">
+        </div>
+        <div class="sc-field">
+          <label for="veiculoCor">Cor *</label>
+          <input type="text" id="veiculoCor" placeholder="Ex: Preto" required>
+        </div>
+      </div>
+      <div class="sc-field">
+        <label for="veiculoObservacao">Observações / Detalhes</label>
+        <textarea id="veiculoObservacao" rows="2" placeholder="Ex: Arranhão na porta esquerda..."></textarea>
+      </div>
+      <div class="sc-modal-footer">
+        <button type="button" class="sc-btn sc-btn-outline" id="btnVoltarPasso1">← Voltar</button>
+        <button type="submit" class="sc-btn sc-btn-yellow">Finalizar Cadastro</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ── MODAL 2: AGENDAR SERVIÇO PARA CLIENTE ── -->
+<div class="sc-modal-overlay" id="modalAgendarServico" aria-hidden="true">
+  <div class="sc-modal sc-modal-lg">
+    <div class="sc-modal-header">
+      <div>
+        <span class="sc-step-badge">NOVO AGENDAMENTO</span>
+        <h3>Agendar Serviço para Cliente</h3>
+      </div>
+      <button type="button" class="sc-modal-close" id="btnFecharModalAgendamento">&times;</button>
+    </div>
+
+    <form id="formAgendarServico">
+      
+      <!-- Seleção de Cliente -->
+      <div class="sc-field">
+        <label for="selectCliente">Cliente *</label>
+        <select id="selectCliente" class="sc-select-large" required>
+          <option value="">Carregando lista de clientes...</option>
+        </select>
+      </div>
+
+      <!-- Seleção de Veículo (Desabilitado até selecionar o cliente) -->
+      <div class="sc-field">
+        <label for="selectVeiculo">Veículo *</label>
+        <select id="selectVeiculo" class="sc-select-large" required disabled>
+          <option value="">Selecione primeiro um cliente...</option>
+        </select>
+      </div>
+
+      <!-- Grid de Seleção de Serviços -->
+      <div class="sc-field" style="margin-top: 18px;">
+        <label>Tipos de Serviço * <span style="font-weight:400; text-transform:none; color:var(--sc-hint);">(selecione um ou mais)</span></label>
+        <div class="sc-svc-grid" id="modalSvcGrid">
+          <p style="font-size:12px; color:var(--sc-hint);">Carregando catálogo de serviços...</p>
+        </div>
+      </div>
+
+      <!-- Data e Horário -->
+      <div class="sc-grid-2">
+        <div class="sc-field">
+          <label for="agendamentoData">Data *</label>
+          <input type="date" id="agendamentoData" required>
+        </div>
+        <div class="sc-field">
+          <label for="agendamentoHorario">Horário *</label>
+          <select id="agendamentoHorario" required>
+            <option value="08:00">08:00</option>
+            <option value="09:00">09:00</option>
+            <option value="10:00">10:00</option>
+            <option value="11:00" selected>11:00</option>
+            <option value="12:00">12:00</option>
+            <option value="13:00">13:00</option>
+            <option value="14:00">14:00</option>
+            <option value="15:00">15:00</option>
+            <option value="16:00">16:00</option>
+            <option value="17:00">17:00</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Observações -->
+      <div class="sc-field">
+        <label for="agendamentoObs">Observações (opcional)</label>
+        <textarea id="agendamentoObs" rows="2" placeholder="Ex: Preferência por cera líquida, cuidado com banco de couro..."></textarea>
+      </div>
+
+      <!-- Caixas de Resumo do Valor -->
+      <div class="sc-summary-box">
+        <div>
+          <span class="sc-summary-box-label">Valor Estimado Total</span>
+          <span class="sc-summary-box-sub">Pagamento a ser realizado na recepção</span>
+        </div>
+        <div class="sc-summary-box-val" id="modalAgendamentoTotal">R$ 0,00</div>
+      </div>
+
+      <div class="sc-modal-footer">
+        <button type="button" class="sc-btn sc-btn-outline" id="btnCancelarAgendamento">Cancelar</button>
+        <button type="submit" class="sc-btn sc-btn-yellow">Confirmar Agendamento</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer class="sc-footer">
+  <p>© 2026 Stop Clean Lava Rápido &middot; (11) 97124-5742</p>
+  <a href="#">Configurações</a>
+</footer>
+
+<!-- CONEXÃO COM O ARQUIVO JS -->
+<script src="./js/HomeFuncionario.js"></script>
+</body>
+</html>

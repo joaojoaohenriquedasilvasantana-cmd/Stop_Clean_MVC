@@ -1,0 +1,153 @@
+:root {
+  --sc-bg:       #f4f5f7;
+  --sc-bg-dark:  #ffffff;
+  --sc-card:     #ffffff;
+  --sc-border:   #e2e8f0;
+  --sc-yellow:   #d97706; /* Amarelo/Dourado ajustado para alto contraste no claro */
+  --sc-red:      #dc2626;
+  --sc-text:     #1e293b;
+  --sc-muted:    #64748b;
+  --sc-hint:     #94a3b8;
+  --sc-green:    #16a34a;
+}
+
+* { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+}
+
+body { 
+  font-family: 'Barlow', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+  background: var(--sc-bg); 
+  color: var(--sc-text); 
+  min-height: 100vh; 
+  display: flex; 
+  flex-direction: column; 
+  line-height: 1.5;
+}
+
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible {
+  outline: 2px solid var(--sc-yellow);
+  outline-offset: 2px;
+}
+
+/* HEADER / TOPBAR */
+.sc-topbar { 
+  background: var(--sc-bg-dark); 
+  border-bottom: 3px solid var(--sc-red); 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  padding: 0 24px; 
+  height: 56px; 
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.sc-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.sc-logo-circle { width: 38px; height: 38px; border-radius: 50%; background: #fbbf24; border: 2px solid var(--sc-red); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 1px; }
+.sc-flag { display: flex; gap: 1px; }
+.sc-flag span { width: 6px; height: 6px; background: #111; }
+.sc-flag span:nth-child(even) { background: #fbbf24; }
+
+.sc-logo-text { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 1px; color: var(--sc-text); line-height: 1; }
+.sc-logo-text small { display: block; font-family: 'Barlow', sans-serif; font-size: 10px; font-weight: 600; color: var(--sc-red); letter-spacing: 2px; text-transform: uppercase; }
+
+.sc-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--sc-red); color: #fff; font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; padding: 5px 14px; border-radius: 4px; }
+
+/* BUTTONS */
+.sc-btn { font-family: 'Barlow', sans-serif; font-size: 13px; font-weight: 600; padding: 8px 18px; border-radius: 6px; cursor: pointer; transition: all 0.15s ease-in-out; border: none; display: inline-flex; align-items: center; gap: 6px; }
+.sc-btn-outline { background: #fff; border: 1.5px solid var(--sc-border); color: var(--sc-muted); }
+.sc-btn-outline:hover { border-color: var(--sc-yellow); color: var(--sc-yellow); background: #fffbe2; }
+.sc-btn-primary { background: var(--sc-red); color: #fff; }
+.sc-btn-primary:hover { background: #b91c1c; }
+.sc-btn-yellow { background: #f59e0b; color: #fff; }
+.sc-btn-yellow:hover { background: #d97706; }
+.sc-btn-sm { font-size: 11px; padding: 6px 14px; }
+
+/* LAYOUT MAIN */
+.sc-main { flex: 1; padding: 32px 24px; max-width: 860px; margin: 0 auto; width: 100%; }
+.sc-page-header { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
+.sc-page-title { font-family: 'Bebas Neue', sans-serif; font-size: 32px; letter-spacing: 2px; color: var(--sc-text); line-height: 1.1; }
+.sc-page-sub { font-size: 13px; color: var(--sc-muted); margin-top: 4px; }
+
+/* STATS */
+.sc-stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 28px; }
+.sc-stat-card { background: var(--sc-card); border: 1px solid var(--sc-border); border-radius: 8px; padding: 16px; display: flex; align-items: center; gap: 14px; box-shadow: 0 1px 2px rgba(0,0,0,0.03); }
+.sc-stat-icon { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+.sc-stat-icon.yellow { background: #fef3c7; }
+.sc-stat-icon.green  { background: #dcfce7; }
+.sc-stat-icon.gray   { background: #f1f5f9; }
+.sc-stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--sc-yellow); line-height: 1; }
+.sc-stat-label { font-size: 11px; color: var(--sc-muted); text-transform: uppercase; font-weight: 600; letter-spacing: 0.8px; margin-top: 2px; }
+
+/* FILTROS */
+.sc-filters-section { margin-bottom: 32px; }
+.sc-filters { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+.sc-filter-btn { font-family: 'Barlow', sans-serif; font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 6px; cursor: pointer; transition: all 0.15s; border: 1.5px solid var(--sc-border); background: #fff; color: var(--sc-muted); }
+.sc-filter-btn:hover { border-color: #cbd5e1; color: var(--sc-text); }
+.sc-filter-btn.active { border-color: var(--sc-yellow); color: var(--sc-yellow); background: #fffbe2; }
+.sc-search-group { flex: 1; min-width: 200px; }
+.sc-search { width: 100%; background: var(--sc-card); border: 1px solid var(--sc-border); border-radius: 6px; padding: 8px 12px; font-family: 'Barlow', sans-serif; font-size: 12px; color: var(--sc-text); outline: none; }
+.sc-search::placeholder { color: var(--sc-hint); }
+.sc-search:focus { border-color: var(--sc-yellow); }
+
+/* LISTA */
+.sc-team-list { display: flex; flex-direction: column; gap: 10px; }
+.sc-team-item { background: var(--sc-card); border: 1px solid var(--sc-border); border-radius: 8px; padding: 16px 18px; display: flex; align-items: center; gap: 14px; box-shadow: 0 1px 2px rgba(0,0,0,0.03); }
+.sc-avatar { width: 40px; height: 40px; border-radius: 50%; background: #fef3c7; border: 1.5px solid #fde68a; display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue', sans-serif; font-size: 15px; color: var(--sc-yellow); flex-shrink: 0; }
+.sc-team-info { flex: 1; }
+.sc-team-name { font-size: 15px; font-weight: 600; color: var(--sc-text); margin: 0; }
+.sc-team-role { font-size: 12px; color: var(--sc-muted); margin-top: 1px; }
+.sc-team-meta { font-size: 11px; color: var(--sc-hint); margin-top: 3px; }
+
+.sc-perms { display: flex; gap: 6px; flex-wrap: wrap; }
+.sc-perm-tag { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.8px; background: #f1f5f9; color: var(--sc-muted); border: 1px solid var(--sc-border); }
+.sc-perm-tag.fin   { background: #fef3c7; color: #b45309; border-color: #fde68a; }
+.sc-perm-tag.os    { background: #dcfce7; color: #15803d; border-color: #bbf7d0; }
+
+.sc-status { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; }
+.sc-status-dot { width: 7px; height: 7px; border-radius: 50%; }
+.sc-status.ativo .sc-status-dot { background: var(--sc-green); }
+.sc-status.ativo { color: var(--sc-green); }
+
+.sc-team-actions { display: flex; gap: 8px; }
+
+/* FOOTER */
+.sc-footer { background: var(--sc-bg-dark); border-top: 1px solid var(--sc-border); padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+.sc-footer p { font-size: 11px; color: var(--sc-muted); margin: 0; }
+.sc-footer nav a { font-size: 11px; color: var(--sc-muted); text-decoration: none; margin-left: 12px; }
+.sc-footer nav a:hover { color: var(--sc-text); }
+
+/* MODAL OVERLAY */
+.sc-modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(2px); display: flex; align-items: center; justify-content: center; z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.2s; padding: 20px; }
+.sc-modal-overlay.open { opacity: 1; pointer-events: all; }
+
+.sc-modal { background: var(--sc-card); border: 1px solid var(--sc-border); border-radius: 12px; padding: 28px 24px; width: 100%; max-width: 520px; position: relative; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); }
+.sc-modal-title { font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--sc-text); letter-spacing: 1px; margin-bottom: 2px; }
+.sc-modal-title span { color: var(--sc-yellow); }
+.sc-step-subtitle { font-size: 12px; color: var(--sc-muted); margin-bottom: 20px; }
+.sc-modal-close { position: absolute; top: 16px; right: 16px; background: transparent; border: none; color: var(--sc-muted); font-size: 20px; cursor: pointer; }
+.sc-modal-close:hover { color: var(--sc-text); }
+
+/* ETAPAS DA MODAL */
+.sc-step { display: none; }
+.sc-step.active { display: block; }
+
+/* CAMPOS */
+.sc-field { margin-bottom: 14px; }
+.sc-field label { display: block; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--sc-muted); margin-bottom: 6px; }
+.sc-field input, .sc-field select { width: 100%; background: #f8fafc; border: 1px solid var(--sc-border); border-radius: 6px; padding: 9px 12px; font-family: 'Barlow', sans-serif; font-size: 13px; color: var(--sc-text); outline: none; }
+.sc-field input:focus, .sc-field select:focus { border-color: var(--sc-yellow); background: #fff; }
+.sc-field-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* PERMISSÕES (CHECKBOX CARDS) */
+.sc-permissions-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.sc-checkbox-card { display: flex; align-items: flex-start; gap: 12px; background: #f8fafc; border: 1px solid var(--sc-border); border-radius: 8px; padding: 12px; cursor: pointer; transition: border-color 0.15s; }
+.sc-checkbox-card:hover { border-color: #cbd5e1; background: #f1f5f9; }
+.sc-checkbox-card input[type="checkbox"] { margin-top: 3px; accent-color: var(--sc-yellow); width: 16px; height: 16px; }
+.sc-checkbox-card strong { font-size: 13px; color: var(--sc-text); display: block; }
+.sc-checkbox-card p { font-size: 11px; color: var(--sc-muted); margin-top: 2px; }
+
+.sc-modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+.sc-modal-actions .sc-btn { flex: 1; justify-content: center; padding: 10px; }

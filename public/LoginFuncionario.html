@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  
+  <title>Stop Clean Lava-Jato | Acesso Operacional</title>
+  <meta name="title" content="Stop Clean Lava-Jato | Acesso Operacional"/>
+  <meta name="description" content="Painel de acesso exclusivo para funcionários e administradores do Stop Clean Lava-Jato."/>
+  <meta name="robots" content="noindex, nofollow"/>
+
+  <!-- Ícones e Fontes Externas -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700&display=swap"/>
+
+  <!-- Estilos CSS Externos -->
+  <link rel="stylesheet" href="./LoginFuncionario.css"/>
+</head>
+<body>
+
+  <!-- Topbar Header -->
+  <header class="sc-topbar">
+    <a href="./apresentacao.html" class="sc-logo" title="Stop Clean Lava-Jato - Página Inicial">
+      <div class="sc-logo-circle">
+        <div class="sc-flag"><span></span><span></span><span></span><span></span></div>
+        <div class="sc-flag"><span></span><span></span><span></span><span></span></div>
+      </div>
+      <div class="sc-logo-text">Stop Clean<small>Lava-jato</small></div>
+    </a>
+    <div class="sc-topbar-actions">
+      <span class="badge-op"><i class="ti ti-shield-lock"></i> Área Restrita</span>
+      <a href="./login.html" class="sc-btn sc-btn-outline">Área do Cliente</a>
+    </div>
+  </header>
+
+  <!-- Área Principal / Form de Login Operacional -->
+  <main class="login-body">
+    <section class="sc-card login-card">
+      <div class="card-tag">Acesso Administrativo</div>
+      <h1>Painel de Controle</h1>
+      <p class="subtitle">Autentique-se para gerenciar o pátio e agendamentos</p>
+      
+      <!-- Alerta de Erro -->
+      <div id="alert-error" class="sc-alert hidden" role="alert">
+        <i class="ti ti-alert-circle"></i>
+        <span id="alert-message">E-mail/CPF ou senha incorretos.</span>
+      </div>
+
+      <form id="formLoginFuncionario" method="POST" novalidate autocomplete="off">
+        <div class="field-group">
+          <label for="identifier">E-mail ou CPF</label>
+          <div class="field-wrap">
+            <input 
+              type="text" 
+              id="identifier" 
+              name="identifier" 
+              placeholder="seu.email@stopclean.com ou CPF" 
+              required
+            />
+            <i class="ti ti-user field-icon" aria-hidden="true"></i>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="senha">Senha</label>
+          <div class="field-wrap">
+            <input 
+              type="password" 
+              id="senha" 
+              name="senha" 
+              placeholder="••••••••" 
+              required
+            />
+            <i class="ti ti-eye eye" id="toggleSenha" role="button" aria-label="Mostrar ou ocultar senha" tabindex="0"></i>
+          </div>
+        </div>
+
+        <button type="submit" id="btnSubmit" class="sc-btn sc-btn-primary btn-full">
+          <span>Entrar no Painel</span>
+          <i class="ti ti-arrow-right"></i>
+        </button>
+      </form>
+
+      <div class="card-footer-info">
+        <i class="ti ti-info-circle"></i> Problemas no acesso? Contate o gerente da unidade.
+      </div>
+    </section>
+  </main>
+
+  <!-- Rodapé -->
+  <footer class="sc-footer">
+    <p>&copy; 2026 Stop Clean Lava-Jato. Sistema de Gestão Operacional.</p>
+    <div class="sc-footer-links">
+      <a href="#suporte">Suporte Técnico</a>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script type="module" src="./js/LoginFuncionario.js"></script>
+
+</body>
+</html>

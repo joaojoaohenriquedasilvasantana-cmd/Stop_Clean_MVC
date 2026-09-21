@@ -1,0 +1,259 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600&display=swap');
+
+:root {
+  --sc-bg:      #f4f6f8;
+  --sc-bg-dark: #ffffff;
+  --sc-card:    #ffffff;
+  --sc-border:  #e2e8f0;
+  --sc-yellow:  #F5C400;
+  --sc-red:     #E53010;
+  --sc-text:    #1e293b;
+  --sc-muted:   #475569;
+  --sc-hint:    #64748b;
+  --sidebar-w:  220px;
+}
+
+html {
+  scroll-padding-top: 80px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Barlow', sans-serif; background: var(--sc-bg); color: var(--sc-text); min-height: 100vh; display: flex; flex-direction: column; }
+ul, ol { list-style: none; }
+a { text-decoration: none; }
+
+/* ── CONTROLE DE ABAS (SPA) ── */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* ── TOPBAR ── */
+.sc-topbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: var(--sc-bg-dark); border-bottom: 3px solid var(--sc-red);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px; height: 56px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.sc-logo {
+  cursor: pointer; display: flex; align-items: center; gap: 10px;
+  transition: opacity 0.15s ease; text-decoration: none;
+}
+.sc-logo:hover { opacity: 0.85; }
+
+.sc-logo-circle {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--sc-yellow); border: 2px solid var(--sc-red);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 1px;
+}
+.sc-flag { display: flex; gap: 1px; }
+.sc-flag span { width: 6px; height: 6px; background: #fff; }
+.sc-flag span:nth-child(even) { background: var(--sc-text); }
+.sc-logo-text { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 1px; color: var(--sc-text); line-height: 1; }
+.sc-logo-text small { display: block; font-family: 'Barlow', sans-serif; font-size: 10px; font-weight: 500; color: var(--sc-red); letter-spacing: 2px; text-transform: uppercase; }
+.sc-topbar-right { display: flex; align-items: center; gap: 14px; }
+.sc-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--sc-red); color: #fff; font-size: 11px;
+  font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 5px 14px; border-radius: 2px;
+}
+.sc-topbar-user { display: flex; align-items: center; gap: 8px; }
+.sc-topbar-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: #f1f5f9; border: 1.5px solid var(--sc-border);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Bebas Neue', sans-serif; font-size: 13px; color: #d4a800;
+}
+.sc-topbar-name { font-size: 12px; font-weight: 600; color: var(--sc-text); }
+
+/* ── LAYOUT BODY ── */
+.sc-layout { display: flex; margin-top: 56px; min-height: calc(100vh - 56px); }
+
+/* ── SIDEBAR ── */
+.sc-sidebar {
+  width: var(--sidebar-w); flex-shrink: 0;
+  background: var(--sc-bg-dark); border-right: 1px solid var(--sc-border);
+  display: flex; flex-direction: column;
+  position: fixed; top: 56px; left: 0; bottom: 0;
+  overflow-y: auto;
+}
+.sc-sidebar-section { padding: 20px 0 8px; }
+.sc-sidebar-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--sc-hint);
+  padding: 0 18px; margin-bottom: 6px;
+}
+.sc-nav-item {
+  width: 100%; background: none; border: none; text-align: left;
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 18px; cursor: pointer;
+  font-family: 'Barlow', sans-serif;
+  font-size: 13px; font-weight: 500; color: var(--sc-muted);
+  transition: all 0.15s; border-left: 3px solid transparent;
+}
+.sc-nav-item:hover { background: rgba(0,0,0,0.03); color: var(--sc-text); border-left-color: var(--sc-border); }
+.sc-nav-item.active { background: rgba(245,196,0,0.1); color: #b89300; border-left-color: var(--sc-yellow); }
+.sc-nav-item.active .sc-nav-icon { color: #b89300; }
+.sc-nav-icon { font-size: 17px; flex-shrink: 0; color: var(--sc-hint); }
+.sc-nav-item:hover .sc-nav-icon { color: var(--sc-text); }
+.sc-nav-divider { border: none; border-top: 1px solid var(--sc-border); margin: 8px 18px; }
+.sc-sidebar-bottom { margin-top: auto; padding: 16px 0; border-top: 1px solid var(--sc-border); }
+
+/* ── MAIN CONTENT ── */
+.sc-main { margin-left: var(--sidebar-w); flex: 1; padding: 32px 28px 48px; }
+
+/* ── BUTTONS ── */
+.sc-btn { font-family: 'Barlow', sans-serif; font-size: 13px; font-weight: 600; padding: 8px 18px; border-radius: 4px; cursor: pointer; transition: all 0.15s; border: none; display: inline-flex; align-items: center; gap: 6px; }
+.sc-btn-outline { background: transparent; border: 1.5px solid #cbd5e1; color: var(--sc-muted); }
+.sc-btn-outline:hover { border-color: var(--sc-yellow); color: #b89300; background: rgba(245,196,0,0.05); }
+.sc-btn-primary { background: var(--sc-red); color: #fff; }
+.sc-btn-primary:hover { background: #c5260d; }
+.sc-btn-yellow { background: var(--sc-yellow); color: #111; }
+.sc-btn-yellow:hover { background: #d4a800; }
+.sc-btn-sm { font-size: 11px; padding: 6px 14px; }
+
+/* ── PAGE HEADER ── */
+.sc-page-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 28px; flex-wrap: wrap; gap: 12px; }
+.sc-page-title { font-family: 'Bebas Neue', sans-serif; font-size: 30px; letter-spacing: 2px; color: var(--sc-text); line-height: 1; }
+.sc-page-title span { color: #d4a800; }
+.sc-page-sub { font-size: 13px; color: var(--sc-hint); margin-top: 4px; }
+
+/* ── SECTION ── */
+.sc-section { margin-bottom: 32px; }
+.sc-section-label { font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--sc-hint); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+.sc-section-label::after { content: ''; flex: 1; height: 1px; background: var(--sc-border); }
+
+/* ── QUICK ACCESS CARDS ── */
+.sc-quick-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+.sc-quick-card {
+  background: var(--sc-card); border: 1px solid var(--sc-border);
+  border-radius: 8px; padding: 22px 18px; cursor: pointer; transition: all 0.2s;
+  position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 12px;
+}
+.sc-quick-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+.sc-quick-card.red::before   { background: var(--sc-red); }
+.sc-quick-card.gray::before  { background: #94a3b8; }
+.sc-quick-card.green::before { background: #22c55e; }
+.sc-quick-card:hover { background: #f8fafc; border-color: #cbd5e1; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+.sc-quick-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+.sc-quick-icon.red    { background: rgba(229,48,16,0.1);  color: var(--sc-red); }
+.sc-quick-icon.gray   { background: rgba(148, 163, 184, 0.15); color: #64748b; }
+.sc-quick-icon.green  { background: rgba(34, 197, 94, 0.15); color: #16a34a; }
+.sc-quick-card h3 { font-size: 15px; font-weight: 600; color: var(--sc-text); margin: 0; }
+.sc-quick-card p  { font-size: 12px; color: var(--sc-hint); margin: 0; line-height: 1.5; }
+.sc-quick-arrow   { font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 4px; margin-top: auto; }
+.sc-quick-arrow.red    { color: var(--sc-red); }
+.sc-quick-arrow.gray   { color: #64748b; }
+.sc-quick-arrow.green  { color: #16a34a; }
+
+/* ── METRICS ── */
+.sc-metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+.sc-metric-card { background: var(--sc-card); border: 1px solid var(--sc-border); border-radius: 8px; padding: 18px 16px; }
+.sc-metric-label { font-size: 11px; color: var(--sc-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
+.sc-metric-value { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 1px; color: #b89300; line-height: 1; }
+.sc-metric-sub { font-size: 11px; color: var(--sc-hint); margin-top: 6px; }
+.sc-metric-sub.up   { color: #16a34a; }
+
+/* ── AGENDA PREVIEW ── */
+.sc-agenda-list { display: flex; flex-direction: column; gap: 8px; }
+.sc-agenda-item {
+  background: var(--sc-card); border: 1px solid var(--sc-border);
+  border-radius: 8px; padding: 12px 16px; display: flex; align-items: center; gap: 14px;
+}
+.sc-agenda-time { font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: #b89300; min-width: 52px; line-height: 1; }
+.sc-agenda-info { flex: 1; }
+.sc-agenda-name { font-size: 13px; font-weight: 600; color: var(--sc-text); }
+.sc-agenda-detail { font-size: 11px; color: var(--sc-hint); margin-top: 2px; }
+.sc-agenda-status { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 2px; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; }
+.sc-agenda-status.aguardando { background: rgba(245,196,0,0.15); color: #b89300; border: 1px solid rgba(245,196,0,0.3); }
+.sc-agenda-status.andamento  { background: rgba(229,48,16,0.1);  color: var(--sc-red); border: 1px solid rgba(229,48,16,0.25); }
+.sc-agenda-status.concluido  { background: rgba(34, 197, 94, 0.15); color: #16a34a; border: 1px solid rgba(34, 197, 94, 0.3); }
+
+/* ── SERVIÇOS PREVIEW ── */
+.sc-service-list { display: flex; flex-direction: column; gap: 8px; }
+.sc-service-item {
+  background: var(--sc-card); border: 1px solid var(--sc-border);
+  border-radius: 8px; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+}
+.sc-service-name { font-size: 14px; font-weight: 600; color: var(--sc-text); }
+.sc-service-desc { font-size: 11px; color: var(--sc-hint); margin-top: 2px; }
+.sc-service-price { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: #b89300; }
+.sc-service-actions { display: flex; gap: 8px; }
+
+/* ── MODAIS DA APLICAÇÃO ── */
+.sc-modal-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(15, 23, 42, 0.55); backdrop-filter: blur(3px);
+  z-index: 999; display: flex; align-items: center; justify-content: center;
+  padding: 16px; opacity: 0; visibility: hidden; transition: all 0.2s ease-in-out;
+}
+.sc-modal-overlay.active { opacity: 1; visibility: visible; }
+
+.sc-modal {
+  background: var(--sc-card); border: 1px solid var(--sc-border);
+  border-radius: 12px; width: 100%; max-width: 480px; padding: 28px;
+  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+  transform: translateY(-12px) scale(0.98); transition: transform 0.2s ease-in-out;
+  max-height: 90vh; overflow-y: auto;
+}
+.sc-modal.sc-modal-lg { max-width: 720px; padding: 32px; }
+.sc-modal-overlay.active .sc-modal { transform: translateY(0) scale(1); }
+
+.sc-modal-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--sc-border);
+}
+.sc-step-badge {
+  font-size: 10px; font-weight: 700; letter-spacing: 1px; color: #b89300;
+  background: rgba(245, 196, 0, 0.15); padding: 3px 10px; border-radius: 4px; display: inline-block; margin-bottom: 6px;
+}
+.sc-modal-header h3 { font-family: 'Bebas Neue', sans-serif; font-size: 24px; letter-spacing: 1px; color: var(--sc-text); margin: 0; }
+.sc-modal-close { background: transparent; border: none; font-size: 26px; color: var(--sc-hint); cursor: pointer; line-height: 1; }
+.sc-modal-close:hover { color: var(--sc-red); }
+
+.sc-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.sc-field { margin-bottom: 16px; display: flex; flex-direction: column; gap: 6px; }
+.sc-field label { font-size: 11px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: var(--sc-muted); }
+.sc-field input, .sc-field select, .sc-field textarea {
+  width: 100%; background: var(--sc-bg); border: 1px solid var(--sc-border);
+  border-radius: 8px; color: var(--sc-text); font-family: 'Barlow', sans-serif;
+  font-size: 14px; padding: 0 14px; outline: none; transition: border-color 0.15s;
+}
+.sc-field input, .sc-field select { height: 44px; }
+.sc-field select.sc-select-large { height: 48px; font-size: 15px; font-weight: 500; }
+.sc-field select:disabled { opacity: 0.6; cursor: not-allowed; background: #e2e8f0; }
+.sc-field textarea { padding: 12px 14px; resize: vertical; }
+.sc-field input:focus, .sc-field select:focus, .sc-field textarea:focus { border-color: #d4a800; box-shadow: 0 0 0 3px rgba(245, 196, 0, 0.2); }
+
+/* ── GRID DE SERVIÇOS SELECIONÁVEIS DENTRO DO MODAL ── */
+.sc-svc-grid { display: flex; flex-direction: column; gap: 10px; max-height: 240px; overflow-y: auto; padding-right: 4px; }
+.sc-svc-card {
+  background: var(--sc-bg); border: 1.5px solid var(--sc-border);
+  border-radius: 8px; padding: 12px 16px; cursor: pointer;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; transition: all 0.15s;
+}
+.sc-svc-card:hover { border-color: #cbd5e1; background: #fff; }
+.sc-svc-card.selected { border-color: #d4a800; background: rgba(245, 196, 0, 0.08); }
+.sc-svc-info h4 { font-size: 14px; font-weight: 600; color: var(--sc-text); margin: 0; }
+.sc-svc-info p { font-size: 12px; color: var(--sc-hint); margin: 2px 0 0 0; }
+.sc-svc-price { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: #b89300; white-space: nowrap; }
+
+/* ── RESUMO DO VALOR NO MODAL ── */
+.sc-summary-box {
+  background: rgba(245, 196, 0, 0.08); border: 1px solid rgba(245, 196, 0, 0.3);
+  border-radius: 8px; padding: 14px 18px; margin-top: 16px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.sc-summary-box-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--sc-muted); display: block; }
+.sc-summary-box-sub { font-size: 11px; color: var(--sc-hint); }
+.sc-summary-box-val { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: #b89300; }
+
+.sc-modal-footer { display: flex; justify-content: flex-end; gap: 12px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--sc-border); }
+
+/* ── FOOTER ── */
+.sc-footer { background: var(--sc-bg-dark); border-top: 1px solid var(--sc-border); padding: 16px 24px 16px calc(var(--sidebar-w) + 24px); display: flex; align-items: center; justify-content: space-between; }
+.sc-footer p { font-size: 11px; color: var(--sc-muted); }
+.sc-footer a { font-size: 11px; color: var(--sc-muted); text-decoration: none; }
+.sc-footer a:hover { color: #b89300; }

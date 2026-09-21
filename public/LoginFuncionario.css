@@ -1,0 +1,303 @@
+:root {
+    --sc-bg:       #1a1a1a;
+    --sc-bg-dark:  #111;
+    --sc-card:     #242424;
+    --sc-border:   #333;
+    --sc-yellow:   #F5C400;
+    --sc-red:      #E53010;
+    --sc-text:     #f0f0f0;
+    --sc-muted:    #aaa;
+    --sc-hint:     #666;
+  }
+  
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--sc-bg);
+    color: var(--sc-text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Header & Topbar */
+  .sc-topbar {
+    background: var(--sc-bg-dark);
+    border-bottom: 3px solid var(--sc-red);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    height: 56px;
+  }
+  
+  .sc-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+  
+  .sc-logo-circle {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--sc-yellow);
+    border: 2px solid var(--sc-red);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1px;
+  }
+  
+  .sc-flag { display: flex; gap: 1px; }
+  .sc-flag span { width: 6px; height: 6px; background: #111; }
+  .sc-flag span:nth-child(even) { background: var(--sc-yellow); }
+  
+  .sc-logo-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 1px;
+    color: #fff;
+    line-height: 1;
+  }
+  
+  .sc-logo-text small {
+    display: block;
+    font-family: 'Barlow', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--sc-red);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  
+  .sc-topbar-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  
+  .badge-op {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--sc-yellow);
+    background: rgba(245, 196, 0, 0.1);
+    border: 1px solid rgba(245, 196, 0, 0.3);
+    padding: 4px 10px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  
+  /* Botões Globais */
+  .sc-btn {
+    font-family: 'Barlow', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 18px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: none;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  
+  .sc-btn-outline {
+    background: transparent;
+    border: 1.5px solid #555;
+    color: #ccc;
+  }
+  
+  .sc-btn-outline:hover {
+    border-color: var(--sc-yellow);
+    color: var(--sc-yellow);
+  }
+  
+  .sc-btn-primary {
+    background: var(--sc-red);
+    color: #fff;
+  }
+  
+  .sc-btn-primary:hover {
+    background: #c5260d;
+  }
+  
+  .sc-btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  /* Card de Login Operacional */
+  .sc-card {
+    background: var(--sc-card);
+    border: 1px solid var(--sc-border);
+    border-radius: 8px;
+    padding: 24px 20px;
+  }
+  
+  .login-body {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+  }
+  
+  .login-card {
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+  }
+  
+  .card-tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--sc-yellow);
+    margin-bottom: 6px;
+  }
+  
+  .login-card h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    letter-spacing: 2px;
+    color: #fff;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  
+  .login-card .subtitle {
+    font-size: 13px;
+    color: var(--sc-muted);
+    margin-bottom: 20px;
+  }
+  
+  /* Alertas */
+  .sc-alert {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(229, 48, 16, 0.15);
+    border: 1px solid var(--sc-red);
+    color: #ff6b6b;
+    padding: 10px 14px;
+    border-radius: 4px;
+    font-size: 13px;
+    margin-bottom: 18px;
+  }
+  
+  .sc-alert.hidden {
+    display: none;
+  }
+  
+  /* Campos do Form */
+  .field-group {
+    margin-bottom: 16px;
+  }
+  
+  .field-group label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--sc-muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  
+  .field-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .field-wrap input {
+    width: 100%;
+    background: #1e1e1e;
+    border: 1.5px solid var(--sc-border);
+    border-radius: 4px;
+    padding: 10px 40px 10px 12px;
+    font-family: 'Barlow', sans-serif;
+    font-size: 14px;
+    color: var(--sc-text);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  
+  .field-wrap input:focus {
+    border-color: var(--sc-yellow);
+  }
+  
+  .field-wrap .field-icon,
+  .field-wrap .eye {
+    position: absolute;
+    right: 12px;
+    color: var(--sc-hint);
+    font-size: 18px;
+  }
+  
+  .field-wrap .eye {
+    cursor: pointer;
+    transition: color 0.15s;
+  }
+  
+  .field-wrap .eye:hover {
+    color: var(--sc-yellow);
+  }
+  
+  .btn-full {
+    width: 100%;
+    padding: 12px;
+    font-size: 15px;
+    border-radius: 4px;
+    margin-top: 8px;
+  }
+  
+  .card-footer-info {
+    border-top: 1px solid var(--sc-border);
+    margin-top: 20px;
+    padding-top: 14px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--sc-hint);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  
+  /* Rodapé */
+  .sc-footer {
+    background: var(--sc-bg-dark);
+    border-top: 1px solid #2a2a2a;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+  }
+  
+  .sc-footer p, .sc-footer a {
+    font-size: 11px;
+    color: #555;
+    text-decoration: none;
+  }
+  
+  .sc-footer a:hover {
+    color: var(--sc-yellow);
+  }

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Gerenciamento de Funcionários e Equipe | Stop Clean Lava Rápido</title>
+  <meta name="description" content="Painel de controle interno e gerenciamento de equipe para o Lava Rápido Stop Clean.">
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" href="./GerenciamentoFuncionarios.css">
+</head>
+<body>
+
+  <!-- CABEÇALHO DA PÁGINA -->
+  <header class="sc-topbar" role="banner">
+    <a href="/" class="sc-logo" title="Ir para Página Inicial Stop Clean">
+      <div class="sc-logo-circle" aria-hidden="true">
+        <div class="sc-flag"><span></span><span></span><span></span><span></span></div>
+        <div class="sc-flag"><span></span><span></span><span></span><span></span></div>
+      </div>
+      <div class="sc-logo-text">Stop Clean<small>Lava Rápido</small></div>
+    </a>
+    <span class="sc-badge" aria-label="Nível de acesso: Administrador">&#9733; Administrador</span>
+  </header>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="sc-main" id="main-content" role="main">
+
+    <header class="sc-page-header">
+      <div>
+        <h1 class="sc-page-title">Gerenciamento de Funcionários</h1>
+        <p class="sc-page-sub">Gerencie a equipe e controle os cadastros de funcionários no sistema interno.</p>
+      </div>
+      <button class="sc-btn sc-btn-yellow" onclick="abrirModalNovo()" aria-controls="modalNovo" aria-expanded="false">
+        + Novo Funcionário
+      </button>
+    </header>
+
+    <!-- RESUMO DE ESTATÍSTICAS DA EQUIPE (DINÂMICOS) -->
+    <section class="sc-stats-row" aria-label="Estatísticas da Equipe">
+      <article class="sc-stat-card">
+        <div class="sc-stat-icon yellow" aria-hidden="true">👥</div>
+        <div>
+          <div class="sc-stat-num" id="stat-total">0</div>
+          <div class="sc-stat-label">Total de funcionários</div>
+        </div>
+      </article>
+
+      <article class="sc-stat-card">
+        <div class="sc-stat-icon green" aria-hidden="true">✅</div>
+        <div>
+          <div class="sc-stat-num" id="stat-ativos" style="color: var(--sc-green);">0</div>
+          <div class="sc-stat-label">Ativos</div>
+        </div>
+      </article>
+
+      <article class="sc-stat-card">
+        <div class="sc-stat-icon gray" aria-hidden="true">⏸</div>
+        <div>
+          <div class="sc-stat-num" id="stat-inativos" style="color: var(--sc-muted);">0</div>
+          <div class="sc-stat-label">Inativos</div>
+        </div>
+      </article>
+    </section>
+
+    <!-- LISTAGEM E FILTROS DE FUNCIONÁRIOS -->
+    <section class="sc-filters-section" aria-label="Lista de Funcionários">
+      <div class="sc-filters" role="toolbar" aria-label="Filtros de funcionários">
+        <div class="sc-search-group">
+          <input id="sc-search-input" class="sc-search" type="search" placeholder="Buscar funcionário por nome ou e-mail...">
+        </div>
+        <button class="sc-filter-btn active" onclick="setFilter(this)" aria-pressed="true">Todos</button>
+        <button class="sc-filter-btn" onclick="setFilter(this)" aria-pressed="false">Ativos</button>
+        <button class="sc-filter-btn" onclick="setFilter(this)" aria-pressed="false">Inativos</button>
+      </div>
+
+      <div class="sc-team-list" role="feed" aria-busy="false">
+
+        <!-- ITEM FUNCIONÁRIO 1 -->
+        <article class="sc-team-item">
+          <div class="sc-avatar" aria-hidden="true">RM</div>
+          <div class="sc-team-info">
+            <h2 class="sc-team-name">Rafael Mendes</h2>
+            <p class="sc-team-role">Lavador Sênior</p>
+            <p class="sc-team-meta">Desde jan/2023 &nbsp;·&nbsp; rafael.m@stopclean.com</p>
+          </div>
+          <div class="sc-perms">
+            <span class="sc-perm-tag os">Ordens de Serviço</span>
+            <span class="sc-perm-tag">Agendamentos</span>
+          </div>
+          <span class="sc-status ativo"><span class="sc-status-dot" aria-hidden="true"></span>Ativo</span>
+          <div class="sc-team-actions">
+            <button class="sc-btn sc-btn-outline sc-btn-sm" onclick="abrirModalEditar(1)">✏ Editar</button>
+            <button class="sc-btn sc-btn-primary sc-btn-sm" onclick="abrirModalPermissoes(1)">Permissões</button>
+          </div>
+        </article>
+
+        <!-- ITEM FUNCIONÁRIO 2 -->
+        <article class="sc-team-item">
+          <div class="sc-avatar" aria-hidden="true">JS</div>
+          <div class="sc-team-info">
+            <h2 class="sc-team-name">Juliana Santos</h2>
+            <p class="sc-team-role">Atendente / Caixa</p>
+            <p class="sc-team-meta">Desde mar/2023 &nbsp;·&nbsp; juliana.s@stopclean.com</p>
+          </div>
+          <div class="sc-perms">
+            <span class="sc-perm-tag fin">Financeiro</span>
+            <span class="sc-perm-tag os">Ordens de Serviço</span>
+            <span class="sc-perm-tag">Agendamentos</span>
+          </div>
+          <span class="sc-status ativo"><span class="sc-status-dot" aria-hidden="true"></span>Ativo</span>
+          <div class="sc-team-actions">
+            <button class="sc-btn sc-btn-outline sc-btn-sm" onclick="abrirModalEditar(2)">✏ Editar</button>
+            <button class="sc-btn sc-btn-primary sc-btn-sm" onclick="abrirModalPermissoes(2)">Permissões</button>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- RODAPÉ DA PÁGINA -->
+  <footer class="sc-footer" role="contentinfo">
+    <p>Stop Clean Lava Rápido &middot; Contato: (11) 97124-5742 &middot; Todos os direitos reservados.</p>
+    <nav aria-label="Links úteis do rodapé">
+      <a href="/configuracoes">Configurações</a>
+      <a href="/privacidade">Política de Privacidade</a>
+    </nav>
+  </footer>
+
+  <!-- MODAL MULTIUSO -->
+  <div class="sc-modal-overlay" id="modalNovo" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="sc-modal">
+      <button class="sc-modal-close" onclick="closeModal()" aria-label="Fechar janela modal">✕</button>
+
+      <form id="formNovoFuncionario" onsubmit="salvarFuncionario(event)">
+        <input type="hidden" id="fId" name="id" value="">
+
+        <!-- ETAPA 1: DADOS CADASTRAIS -->
+        <div id="step-dados" class="sc-step active">
+          <h2 class="sc-modal-title" id="titulo-dados">NOVO <span>FUNCIONÁRIO</span></h2>
+          <p class="sc-step-subtitle" id="subtitulo-dados">Etapa 1 de 2: Informações de Cadastro</p>
+
+          <div class="sc-field-row-2">
+            <div class="sc-field">
+              <label for="fNome">Nome Completo *</label>
+              <input type="text" id="fNome" name="nome" placeholder="Ex.: Carlos Silva" required>
+            </div>
+            <div class="sc-field">
+              <label for="fCpf">CPF</label>
+              <input type="text" id="fCpf" name="cpf" placeholder="000.000.000-00">
+            </div>
+          </div>
+
+          <div class="sc-field-row-2">
+            <div class="sc-field">
+              <label for="fEmail">E-mail</label>
+              <input type="email" id="fEmail" name="email" placeholder="nome@stopclean.com">
+            </div>
+            <div class="sc-field">
+              <label for="fTelefone">Telefone</label>
+              <input type="text" id="fTelefone" name="telefone" placeholder="(11) 99999-9999">
+            </div>
+          </div>
+
+          <div class="sc-field-row-2">
+            <div class="sc-field">
+              <label for="fCargo">Cargo</label>
+              <input type="text" id="fCargo" name="cargo" placeholder="Ex.: Lavador Sênior">
+            </div>
+            <div class="sc-field">
+              <label for="fSalario">Salário (R$)</label>
+              <input type="number" step="0.01" id="fSalario" name="salario" placeholder="0.00">
+            </div>
+          </div>
+
+          <div class="sc-field-row-2">
+            <div class="sc-field">
+              <label for="fSenha">Senha *</label>
+              <input type="password" id="fSenha" name="senha" placeholder="••••••••" required minlength="6">
+            </div>
+            <div class="sc-field">
+              <label for="fStatus">Status Inicial</label>
+              <select id="fStatus" name="status">
+                <option value="true">Ativo</option>
+                <option value="false">Inativo</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="sc-field-row-2">
+            <div class="sc-field">
+              <label for="fCep">CEP</label>
+              <input type="text" id="fCep" name="cep" placeholder="00000-000">
+            </div>
+            <div class="sc-field">
+              <label for="fEndereco">Endereço</label>
+              <input type="text" id="fEndereco" name="endereco" placeholder="Rua, Av...">
+            </div>
+          </div>
+
+          <div class="sc-field-row-2">
+            <div class="sc-field">
+              <label for="fNumero">Número</label>
+              <input type="text" id="fNumero" name="numero" placeholder="123">
+            </div>
+            <div class="sc-field">
+              <label for="fBairro">Bairro</label>
+              <input type="text" id="fBairro" name="bairro" placeholder="Centro">
+            </div>
+          </div>
+
+          <div class="sc-field">
+            <label for="fEstado">Estado (UF)</label>
+            <input type="text" id="fEstado" name="estado" placeholder="Ex.: SP" maxlength="50">
+          </div>
+
+          <div class="sc-modal-actions">
+            <button type="button" class="sc-btn sc-btn-outline" onclick="closeModal()">Cancelar</button>
+            <button type="button" id="btn-avancar" class="sc-btn sc-btn-yellow" onclick="irParaPermissoes()">Adicionar Permissões →</button>
+            <button type="submit" id="btn-salvar-dados" class="sc-btn sc-btn-yellow" style="display: none;">Salvar Alterações</button>
+          </div>
+        </div>
+
+        <!-- ETAPA 2: CONFIGURAÇÃO DE PERMISSÕES -->
+        <div id="step-permissoes" class="sc-step">
+          <h2 class="sc-modal-title">PERMISSÕES DO <span>FUNCIONÁRIO</span></h2>
+          <p class="sc-step-subtitle" id="subtitulo-permissoes">Selecione as telas e acessos permitidos</p>
+
+          <div class="sc-permissions-list">
+            <label class="sc-checkbox-card">
+              <input type="checkbox" name="permissoes" value="1">
+              <div>
+                <strong>Ordens de Serviço</strong>
+                <p>Permite criar, editar e atualizar status das ordens de serviço.</p>
+              </div>
+            </label>
+
+            <label class="sc-checkbox-card">
+              <input type="checkbox" name="permissoes" value="2">
+              <div>
+                <strong>Agendamentos</strong>
+                <p>Permite gerenciar horários e agenda dos clientes.</p>
+              </div>
+            </label>
+
+            <label class="sc-checkbox-card">
+              <input type="checkbox" name="permissoes" value="3">
+              <div>
+                <strong>Caixa & Financeiro</strong>
+                <p>Permite registrar pagamentos, faturamento e lançamentos.</p>
+              </div>
+            </label>
+
+            <label class="sc-checkbox-card">
+              <input type="checkbox" name="permissoes" value="4">
+              <div>
+                <strong>Acesso Administrativo</strong>
+                <p>Acesso total para gerenciar usuários, preços e configurações.</p>
+              </div>
+            </label>
+          </div>
+
+          <div class="sc-modal-actions">
+            <button type="button" id="btn-voltar-perm" class="sc-btn sc-btn-outline" onclick="irParaDados()">← Voltar</button>
+            <button type="button" id="btn-cancelar-perm" class="sc-btn sc-btn-outline" onclick="closeModal()" style="display: none;">Cancelar</button>
+            <button type="submit" class="sc-btn sc-btn-yellow">Finalizar e Salvar</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <script src="./js/GerenciamentoFuncionarios.js"></script>
+</body>
+</html>
