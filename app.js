@@ -21,7 +21,8 @@ const origensPermitidas = [
   'http://localhost:5173', // Vite (React), se usado no futuro
   'http://localhost:5500', // VS Code Live Server
   'http://127.0.0.1:5500',
-  `http://localhost:${process.env.PORT || 3200}` // o próprio Express
+  `http://localhost:${process.env.PORT || 3200}`,
+  'https://stop-clean-mvc.onrender.com' // o próprio Express
 ]
 
 app.use(cors({
