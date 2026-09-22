@@ -1,6 +1,9 @@
 import { Router } from 'express'
 import * as controller from '../controllers/generic.controller.js'
-import { autenticar } from '../middlewares/auth.middleware.js'
+import {
+    autenticar,
+    autorizarTabela
+} from '../middlewares/auth.middleware.js'
 
 const router = Router()
 
@@ -16,10 +19,39 @@ const router = Router()
 // valor fica em agendamentoCompleto.routes.js), permissoes,
 // funcionarioPermissoes e servicoAgendamentos.
 
-router.post('/:tabela', autenticar, controller.criar)
-router.get('/:tabela', autenticar, controller.listar)
-router.get('/:tabela/:id', autenticar, controller.listar)
-router.put('/:tabela/:id', autenticar, controller.atualizar)
-router.delete('/:tabela/:id', autenticar, controller.remover)
+router.post(
+    '/:tabela',
+    autenticar,
+    autorizarTabela,
+    controller.criar
+)
+
+router.get(
+    '/:tabela',
+    autenticar,
+    autorizarTabela,
+    controller.listar
+)
+
+router.get(
+    '/:tabela/:id',
+    autenticar,
+    autorizarTabela,
+    controller.listar
+)
+
+router.put(
+    '/:tabela/:id',
+    autenticar,
+    autorizarTabela,
+    controller.atualizar
+)
+
+router.delete(
+    '/:tabela/:id',
+    autenticar,
+    autorizarTabela,
+    controller.remover
+)
 
 export default router

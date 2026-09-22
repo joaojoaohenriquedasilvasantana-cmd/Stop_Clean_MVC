@@ -4,6 +4,41 @@ const SECRET = process.env.JWT_SECRET || 'chave_secreta_padrao'
 
 // Middleware de autenticação: valida o token JWT enviado no header Authorization
 // e injeta o usuário autenticado (id e tipo) na requisição.
+export const autorizarTabela = (req, res, next) => {
+  const tabelas = {
+      cliente: [
+          'veiculos',
+          'tipoVeiculos',
+          'servicos',
+          'agendamentos'
+      ],
+
+      funcionario: [
+          'veiculos',
+          'servicos',
+          'tipoVeiculos',
+          'tipoServicos',
+          'agendamentos',
+          'permissoes',
+          'funcionarioPermissoes',
+          'servicoAgendamentos'
+      ]
+  }
+
+  const tabela = req.params.tabela
+  const tipoUsuario = req.usuarioTipo
+
+  const permitidas = tabelas[tipoUsuario] || []
+
+  if (!permitidas.includes(tabela)) {
+      return res.status(403).json({
+          erro: 'Você não possui permissão para acessar este recurso.'
+      })
+  }
+
+  next()
+}
+
 export const autenticar = (req, res, next) => {
   try {
     const authHeader = req.headers.authorization
