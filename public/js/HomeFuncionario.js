@@ -152,10 +152,12 @@
             <p class="sc-agenda-detail">${escapeHtml(veiculo)} · ${escapeHtml(placa)} · ${escapeHtml(nomesServicos || 'Serviço')}</p>
           </div>
           <span class="sc-agenda-status ${statusClasse(a.statusAgendamento)}">${escapeHtml(statusTexto(a.statusAgendamento))}</span>
-          <button class="sc-btn sc-btn-outline sc-btn-sm" onclick="alterarStatusAgendamento(${a.id}, 'EM_ANDAMENTO')">Iniciar</button>
-          <button class="sc-btn sc-btn-outline sc-btn-sm" onclick="alterarStatusAgendamento(${a.id}, 'FINALIZADO')" ${a.statusAgendamento !== 'EM_ANDAMENTO' ? 'disabled' : ''}>Finalizar</button>
-          ${a.statusAgendamento === 'AGENDADO' ? `<button class="sc-btn sc-btn-danger sc-btn-sm" onclick="alterarStatusAgendamento(${a.id}, 'CANCELADO')">Cancelar</button>` : ''}
-          <button class="sc-btn sc-btn-outline sc-btn-sm" onclick="mostrarDetalhesAgendamento(${a.id})">Detalhes</button>
+          <div class="sc-agenda-actions">
+            <button class="sc-btn sc-btn-outline sc-btn-sm" onclick="alterarStatusAgendamento(${a.id}, 'EM_ANDAMENTO')">Iniciar</button>
+            <button class="sc-btn sc-btn-outline sc-btn-sm" onclick="alterarStatusAgendamento(${a.id}, 'FINALIZADO')" ${a.statusAgendamento !== 'EM_ANDAMENTO' ? 'disabled' : ''}>Finalizar</button>
+            ${a.statusAgendamento === 'AGENDADO' ? `<button class="sc-btn sc-btn-danger sc-btn-sm" onclick="alterarStatusAgendamento(${a.id}, 'CANCELADO')">Cancelar</button>` : ''}
+            <button class="sc-btn sc-btn-outline sc-btn-sm" onclick="mostrarDetalhesAgendamento(${a.id})">Detalhes</button>
+          </div>
         </li>
       `
     }).join('')

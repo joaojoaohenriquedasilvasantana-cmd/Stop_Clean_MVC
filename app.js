@@ -41,7 +41,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 // Disponibiliza o front-end (HTML/CSS/JS do cliente) como arquivos estáticos
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'public'), { index: false }))
 
 // Página inicial pública (landing page do site)
 app.get('/', (req, res) => {

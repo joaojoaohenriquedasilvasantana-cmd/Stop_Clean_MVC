@@ -295,3 +295,91 @@
 #page-atualizar-cliente .sc-footer a:hover {
   color: var(--sc-yellow);
 }
+
+/* ===== Stop Clean: ajustes responsivos globais ===== */
+*, *::before, *::after { box-sizing: border-box; }
+html { width: 100%; max-width: 100%; -webkit-text-size-adjust: 100%; }
+body { max-width: 100%; min-width: 0; }
+img, video, canvas, svg { max-width: 100%; height: auto; }
+input, select, textarea, button { max-width: 100%; font: inherit; }
+input, select, textarea { min-width: 0; }
+pre, code { overflow-wrap: anywhere; }
+
+@media (max-width: 1024px) {
+  .container, .container-fluid, .main-content, .content, .page-content,
+  .dashboard-content, .form-container, .auth-container, .wrapper, main {
+    max-width: 100%;
+  }
+  .container, .main-content, .content, .page-content, .dashboard-content,
+  main { padding-left: clamp(12px, 3vw, 24px); padding-right: clamp(12px, 3vw, 24px); }
+  .row { flex-wrap: wrap; }
+  .grid, .cards-grid, .services-grid, .vehicles-grid, .stats-grid,
+  .form-grid, .dashboard-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  table { max-width: 100%; }
+}
+
+@media (max-width: 768px) {
+  body { overflow-x: hidden; }
+  .container, .container-fluid, .main-content, .content, .page-content,
+  .dashboard-content, .form-container, .auth-container, .wrapper, main {
+    width: 100%; max-width: 100%; margin-left: auto; margin-right: auto;
+    padding-left: 14px; padding-right: 14px;
+  }
+  header, .header, .topbar, .navbar, .nav-bar, .header-content {
+    flex-wrap: wrap; gap: 10px; height: auto; min-height: 0;
+  }
+  nav, .navbar-nav, .nav-links { flex-wrap: wrap; max-width: 100%; }
+  .sidebar { width: 100%; max-width: 100%; height: auto; position: static; }
+  .layout, .app-layout, .dashboard-layout, .main-layout {
+    display: flex; flex-direction: column; width: 100%; min-width: 0;
+  }
+  .main, .main-content, .content-area { width: 100%; min-width: 0; margin-left: 0; }
+  .grid, .cards-grid, .services-grid, .vehicles-grid, .stats-grid,
+  .form-grid, .dashboard-grid, .row-cols-2, .row-cols-3, .row-cols-4 {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  .card, .panel, .form-card, .section, .stat-card, .service-card,
+  .vehicle-card { min-width: 0; max-width: 100%; }
+  form, .form, .form-row, .form-group, .input-group { min-width: 0; max-width: 100%; }
+  .form-row, .form-inline { display: flex; flex-direction: column; }
+  .form-group, .form-field, .input-group { width: 100%; }
+  input, select, textarea { width: 100%; min-height: 42px; }
+  textarea { min-height: 100px; }
+  button, .btn, input[type="submit"], input[type="button"] {
+    min-height: 42px; white-space: normal; overflow-wrap: anywhere;
+  }
+  .actions, .form-actions, .button-group, .btn-group {
+    display: flex; flex-wrap: wrap; gap: 10px; width: 100%;
+  }
+  .actions > *, .form-actions > *, .button-group > *, .btn-group > * {
+    flex: 1 1 140px; min-width: 0;
+  }
+  .table-responsive, .table-container, .table-wrapper, .overflow-x-auto {
+    display: block; width: 100%; max-width: 100%; overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  table { width: 100%; min-width: 600px; }
+  .modal, .modal-dialog, .dialog, .popup {
+    width: calc(100% - 24px) !important; max-width: 560px; max-height: 90vh;
+    overflow-y: auto; margin: 12px auto;
+  }
+  .modal-content { max-width: 100%; }
+  h1 { font-size: clamp(1.5rem, 6vw, 2.2rem); overflow-wrap: anywhere; }
+  h2 { font-size: clamp(1.25rem, 5vw, 1.8rem); }
+  .hero, .hero-content, .hero-section { min-height: 0; padding-top: 36px; padding-bottom: 36px; }
+  .hero-content, .hero-inner { flex-direction: column; align-items: stretch; }
+  footer, .footer { flex-wrap: wrap; gap: 10px; height: auto; padding: 16px; }
+}
+
+@media (max-width: 480px) {
+  .container, .container-fluid, .main-content, .content, .page-content,
+  .dashboard-content, .form-container, .auth-container, .wrapper, main {
+    padding-left: 10px; padding-right: 10px;
+  }
+  .card, .panel, .form-card, .section, .stat-card { padding: 14px !important; }
+  .actions, .form-actions, .button-group, .btn-group { flex-direction: column; }
+  .actions > *, .form-actions > *, .button-group > *, .btn-group > * { width: 100%; flex-basis: auto; }
+  .modal, .modal-dialog, .dialog, .popup { width: calc(100% - 16px) !important; }
+  th, td { padding: 8px; }
+  .logo, .brand img { max-width: min(170px, 55vw); }
+}
