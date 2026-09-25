@@ -50,10 +50,13 @@
     // sobreposição com logo, saudação, sair e demais botões da página.
     const header = document.querySelector('.sc-topbar, .sc-header, header, .topbar, .navbar');
     if (header && header.parentElement) {
+      // Mantém os controles como irmão do cabeçalho, nunca sobre o conteúdo.
       header.insertAdjacentElement('afterend', controls);
     } else {
       document.body.insertBefore(controls, document.body.firstChild);
     }
+    controls.style.position = 'relative';
+    controls.style.inset = 'auto';
     aplicarTema(localStorage.getItem(THEME_KEY) || 'light')
 
     // Logout dos painéis Home.

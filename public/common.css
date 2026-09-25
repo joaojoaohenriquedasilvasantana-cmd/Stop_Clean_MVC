@@ -317,3 +317,79 @@ pre, code { overflow-wrap: anywhere; }
   th, td { padding: 8px; }
   .logo, .brand img { max-width: min(170px, 55vw); }
 }
+
+
+/* =========================================================
+   CONTROLES GLOBAIS — CORREÇÃO DEFINITIVA PARA CELULAR
+   ========================================================= */
+.sc-global-controls {
+  position: relative !important;
+  inset: auto !important;
+  float: none !important;
+  clear: both !important;
+  z-index: 100 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  align-self: stretch !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 54px !important;
+  max-height: none !important;
+  margin: 0 !important;
+  padding: 8px 16px !important;
+  gap: 8px !important;
+  overflow: visible !important;
+  transform: none !important;
+}
+
+.sc-global-controls .sc-global-btn {
+  position: static !important;
+  float: none !important;
+  flex: 0 1 auto !important;
+  width: auto !important;
+  min-width: 100px !important;
+  max-width: 100% !important;
+  min-height: 38px !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 8px 12px !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+  word-break: normal !important;
+  text-align: center !important;
+  line-height: 1.15 !important;
+}
+
+@media (max-width: 600px) {
+  .sc-global-controls {
+    justify-content: stretch !important;
+    align-items: stretch !important;
+    min-height: 0 !important;
+    padding: 8px 10px !important;
+    gap: 8px !important;
+  }
+
+  .sc-global-controls .sc-global-btn {
+    flex: 1 1 0 !important;
+    width: 0 !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    min-height: 42px !important;
+    padding: 9px 8px !important;
+    font-size: 12px !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .sc-global-controls {
+    flex-direction: column !important;
+  }
+
+  .sc-global-controls .sc-global-btn {
+    width: 100% !important;
+    flex: 0 0 auto !important;
+  }
+}
