@@ -1,0 +1,222 @@
+/* Controles globais e tema persistente */
+html {
+  --sc-bg: #f4f6f8;
+  --sc-bg-dark: #ffffff;
+  --sc-card: #ffffff;
+  --sc-card-bg: #ffffff;
+  --sc-card-bg-hover: #f8fafc;
+  --sc-border: #e2e8f0;
+  --sc-text: #1e293b;
+  --sc-text-muted: #475569;
+  --sc-muted: #475569;
+  --sc-hint: #64748b;
+  --sc-green: #15803d;
+}
+
+html.sc-dark {
+  --sc-bg: #111111;
+  --sc-bg-dark: #181818;
+  --sc-card: #242424;
+  --sc-card-bg: #242424;
+  --sc-card-bg-hover: #2d2d2d;
+  --sc-border: #3b3b3b;
+  --sc-text: #f5f5f5;
+  --sc-text-muted: #b8b8b8;
+  --sc-muted: #b8b8b8;
+  --sc-hint: #8c8c8c;
+  --sc-green: #4ade80;
+}
+
+body {
+  transition: background-color .2s ease, color .2s ease;
+}
+
+.sc-global-controls {
+  position: fixed;
+  top: 10px;
+  right: 14px;
+  z-index: 10000;
+  display: flex;
+  gap: 6px;
+}
+
+.sc-global-btn {
+  border: 1px solid var(--sc-border);
+  background: var(--sc-card);
+  color: var(--sc-text);
+  border-radius: 6px;
+  padding: 7px 11px;
+  font: 600 12px Barlow, Arial, sans-serif;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+}
+
+.sc-global-btn:hover {
+  border-color: #f5c400;
+}
+
+html.sc-dark body,
+html.sc-dark .sc-main,
+html.sc-dark .app-container,
+html.sc-dark .sc-layout,
+html.sc-dark .sc-main-content {
+  background-color: var(--sc-bg) !important;
+  color: var(--sc-text) !important;
+}
+
+html.sc-dark input,
+html.sc-dark select,
+html.sc-dark textarea,
+html.sc-dark button.sc-btn-outline,
+html.sc-dark .sc-card,
+html.sc-dark .sc-section,
+html.sc-dark .sc-stat-card,
+html.sc-dark .sc-history-card,
+html.sc-dark .sc-card-form,
+html.sc-dark .sc-card-table,
+html.sc-dark .sc-modal,
+html.sc-dark .sc-quick-card,
+html.sc-dark .sc-agenda-item {
+  background-color: var(--sc-card) !important;
+  color: var(--sc-text) !important;
+  border-color: var(--sc-border) !important;
+}
+
+html.sc-dark .sc-topbar,
+html.sc-dark .sc-sidebar,
+html.sc-dark .sc-header,
+html.sc-dark .sc-footer {
+  background-color: var(--sc-bg-dark) !important;
+  color: var(--sc-text) !important;
+  border-color: var(--sc-border) !important;
+}
+
+html.sc-dark .sc-nav-item,
+html.sc-dark a,
+html.sc-dark label,
+html.sc-dark p,
+html.sc-dark h1,
+html.sc-dark h2,
+html.sc-dark h3,
+html.sc-dark h4,
+html.sc-dark .sc-text-muted,
+html.sc-dark .sc-muted {
+  color: var(--sc-text);
+}
+
+html.sc-dark .sc-hint,
+html.sc-dark .sc-page-sub,
+html.sc-dark .sc-section-sub,
+html.sc-dark .sc-service-desc,
+html.sc-dark .sc-agenda-detail {
+  color: var(--sc-muted) !important;
+}
+
+@media (max-width: 700px) {
+  .sc-global-controls { top: 7px; right: 7px; }
+  .sc-global-btn { padding: 6px 8px; font-size: 11px; }
+}
+
+html:not(.sc-dark) .sc-root,
+html:not(.sc-dark) .sc-root main,
+html:not(.sc-dark) body {
+  background: var(--sc-bg) !important;
+  color: var(--sc-text) !important;
+}
+
+html:not(.sc-dark) .sc-root .sc-topbar,
+html:not(.sc-dark) .sc-header,
+html:not(.sc-dark) .sc-topbar {
+  background: var(--sc-bg-dark) !important;
+  color: var(--sc-text) !important;
+}
+
+html.sc-dark .sc-root,
+html.sc-dark .sc-root main {
+  background: var(--sc-bg) !important;
+  color: var(--sc-text) !important;
+}
+
+html.sc-dark .sc-root .sc-topbar,
+html.sc-dark .sc-header,
+html.sc-dark .sc-topbar {
+  background: var(--sc-bg-dark) !important;
+}
+
+@media (min-width: 701px) {
+  .sc-topbar, .sc-header { padding-right: 190px !important; }
+}
+
+/* Padronização global dos temas: aplica também às páginas com CSS próprio. */
+html:not(.sc-dark) {
+  color-scheme: light;
+  --sc-bg: #f5f7fa;
+  --sc-bg-dark: #ffffff;
+  --sc-card: #ffffff;
+  --sc-card-bg: #ffffff;
+  --sc-card-bg-hover: #f1f5f9;
+  --sc-border: #dbe2ea;
+  --sc-text: #172033;
+  --sc-text-muted: #475569;
+  --sc-muted: #64748b;
+  --sc-hint: #64748b;
+}
+html.sc-dark { color-scheme: dark; }
+html:not(.sc-dark) body {
+  background-color: var(--sc-bg) !important;
+  color: var(--sc-text) !important;
+}
+html:not(.sc-dark) main,
+html:not(.sc-dark) .sc-root,
+html:not(.sc-dark) .sc-main,
+html:not(.sc-dark) .app-container,
+html:not(.sc-dark) .sc-layout,
+html:not(.sc-dark) .sc-main-content,
+html:not(.sc-dark) .container,
+html:not(.sc-dark) .main-content {
+  background-color: var(--sc-bg) !important;
+  color: var(--sc-text) !important;
+}
+html:not(.sc-dark) .sc-card,
+html:not(.sc-dark) .sc-section,
+html:not(.sc-dark) .sc-stat-card,
+html:not(.sc-dark) .sc-history-card,
+html:not(.sc-dark) .sc-card-form,
+html:not(.sc-dark) .sc-card-table,
+html:not(.sc-dark) .sc-modal,
+html:not(.sc-dark) .sc-quick-card,
+html:not(.sc-dark) .sc-agenda-item,
+html:not(.sc-dark) .card,
+html:not(.sc-dark) .modal-content,
+html:not(.sc-dark) .form-container,
+html:not(.sc-dark) .table-container {
+  background-color: var(--sc-card) !important;
+  color: var(--sc-text) !important;
+  border-color: var(--sc-border) !important;
+}
+html:not(.sc-dark) .sc-topbar,
+html:not(.sc-dark) .sc-sidebar,
+html:not(.sc-dark) .sc-header,
+html:not(.sc-dark) .sc-footer,
+html:not(.sc-dark) header,
+html:not(.sc-dark) nav {
+  background-color: #fff !important;
+  color: var(--sc-text) !important;
+  border-color: var(--sc-border) !important;
+}
+html:not(.sc-dark) input:not([type=checkbox]):not([type=radio]),
+html:not(.sc-dark) select,
+html:not(.sc-dark) textarea {
+  background-color: #fff !important;
+  color: #172033 !important;
+  border-color: #cbd5e1 !important;
+}
+html:not(.sc-dark) input::placeholder,
+html:not(.sc-dark) textarea::placeholder { color: #64748b !important; }
+html:not(.sc-dark) table th { background: #edf2f7 !important; color: #172033 !important; }
+html:not(.sc-dark) table td { color: #334155; border-color: #e2e8f0 !important; }
+html:not(.sc-dark) .sc-page-sub,
+html:not(.sc-dark) .sc-section-sub,
+html:not(.sc-dark) .sc-text-muted,
+html:not(.sc-dark) .sc-muted,
+html:not(.sc-dark) .sc-hint { color: #64748b !important; }

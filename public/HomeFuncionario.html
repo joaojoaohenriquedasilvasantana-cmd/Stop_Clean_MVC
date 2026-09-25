@@ -8,6 +8,7 @@
   
   <!-- CONEXÃO COM O ARQUIVO CSS -->
   <link rel="stylesheet" href="./HomeFuncionario.css">
+  <link rel="stylesheet" href="common.css">
 </head>
 <body>
 
@@ -75,7 +76,7 @@
     </nav>
 
     <div class="sc-sidebar-bottom">
-      <a class="sc-nav-item" href="#">
+      <a class="sc-nav-item" href="apresentacao.html" data-logout-funcionario>
         <span class="sc-nav-icon">🚪</span> Sair
       </a>
     </div>
@@ -123,6 +124,14 @@
             </div>
             <div class="sc-quick-arrow green">→ Acessar</div>
           </li>
+          <li class="sc-quick-card gray" onclick="window.location.href='historico.html'">
+            <div class="sc-quick-icon gray">📜</div>
+            <div>
+              <h3>Histórico</h3>
+              <p>Consulte os agendamentos e serviços realizados</p>
+            </div>
+            <div class="sc-quick-arrow gray">→ Acessar</div>
+          </li>
         </ul>
       </section>
 
@@ -143,6 +152,7 @@
           <div>
             <button class="sc-btn sc-btn-yellow sc-btn-sm" id="btnAgendarCliente">Agendar Cliente</button>
             <button class="sc-btn sc-btn-yellow sc-btn-sm" id="btnNovoCliente">Novo Cliente</button>
+            <button class="sc-btn sc-btn-outline sc-btn-sm" id="btnHistoricoFuncionario">Histórico</button>
           </div>
         </div>
         <ul class="sc-agenda-list">
@@ -172,7 +182,7 @@
       <section class="sc-section">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
           <h2 class="sc-section-label" style="margin-bottom:0;">Tipos de serviço cadastrados</h2>
-          <button class="sc-btn sc-btn-yellow sc-btn-sm">+ Novo serviço</button>
+          <button class="sc-btn sc-btn-yellow sc-btn-sm" id="btnNovoServico">+ Novo serviço</button>
         </div>
         <ul class="sc-service-list">
            <p style="font-size: 13px; color: var(--sc-muted);">Carregando serviços...</p>
@@ -184,9 +194,27 @@
     <section id="configuracoes" class="tab-content">
       <section class="sc-section">
         <h2 class="sc-section-label">Configurações do Sistema</h2>
-        <div style="background: var(--sc-card); border: 1px solid var(--sc-border); border-radius: 8px; padding: 24px;">
-          <p style="font-size: 13px; color: var(--sc-muted);">Preferências gerais da aplicação.</p>
+        <div class="sc-settings-grid">
+          <button type="button" class="sc-quick-card gray" id="btnInformacoesPessoais" style="cursor:pointer;text-align:left;">
+            <div class="sc-quick-icon gray">👤</div><div><h3>Informações pessoais</h3><p>Consultar e atualizar seus dados de perfil, contato e endereço.</p></div><div class="sc-quick-arrow gray">Abrir →</div>
+          </button>
         </div>
+        <section id="painelInformacoesPessoais" class="sc-section" hidden style="margin-top:20px;">
+          <div class="sc-section-header"><h2 class="sc-section-label">Informações pessoais</h2><button type="button" class="sc-btn sc-btn-outline" id="btnVoltarConfiguracoes">Voltar</button></div>
+          <form id="formPerfilFuncionario" class="sc-card" style="padding:24px;display:grid;gap:14px;">
+            <div class="sc-field"><label for="perfilNome">Nome completo</label><input id="perfilNome" name="nome" required maxlength="120"></div>
+            <div class="sc-form-row"><div class="sc-field"><label for="perfilCpf">CPF</label><input id="perfilCpf" name="cpf" maxlength="14"></div><div class="sc-field"><label for="perfilTelefone">Telefone</label><input id="perfilTelefone" name="telefone" maxlength="20"></div></div>
+            <div class="sc-field"><label for="perfilEmail">E-mail</label><input id="perfilEmail" name="email" type="email" required></div>
+            <hr class="sc-divider"><h3 class="sc-section-label">Endereço</h3>
+            <div class="sc-form-row"><div class="sc-field"><label for="perfilCep">CEP</label><input id="perfilCep" name="cep" maxlength="9"></div><div class="sc-field"><label for="perfilEstado">Estado (UF)</label><input id="perfilEstado" name="estado" maxlength="50"></div></div>
+            <div class="sc-form-row"><div class="sc-field"><label for="perfilEndereco">Rua / Logradouro</label><input id="perfilEndereco" name="endereco"></div><div class="sc-field"><label for="perfilNumero">Número</label><input id="perfilNumero" name="numero"></div></div>
+            <div class="sc-field"><label for="perfilBairro">Bairro</label><input id="perfilBairro" name="bairro"></div>
+            <hr class="sc-divider"><h3 class="sc-section-label">Alterar senha (opcional)</h3>
+            <div class="sc-field"><label for="perfilSenha">Nova senha</label><input id="perfilSenha" name="senha" type="password" minlength="8" autocomplete="new-password" placeholder="Deixe em branco para manter"></div>
+            <p id="perfilMensagem" role="status" aria-live="polite"></p>
+            <div class="sc-form-actions"><button type="submit" class="sc-btn sc-btn-yellow" id="btnSalvarPerfil">Salvar alterações</button></div>
+          </form>
+        </section>
       </section>
     </section>
 
@@ -234,12 +262,7 @@
         <div class="sc-field">
           <label for="veiculoTipo">Tipo de Veículo *</label>
           <select id="veiculoTipo" required>
-            <option value="">Selecione...</option>
-            <option value="HATCH">Hatch</option>
-            <option value="SEDAN">Sedan</option>
-            <option value="SUV">SUV / Picape</option>
-            <option value="MOTO">Moto</option>
-            <option value="VAN">Van / Outro</option>
+            <option value="">Carregando tipos cadastrados...</option>
           </select>
         </div>
       </div>
@@ -365,6 +388,32 @@
 </footer>
 
 <!-- CONEXÃO COM O ARQUIVO JS -->
+<script src="./js/api.js"></script>
 <script src="./js/HomeFuncionario.js"></script>
+
+<div class="sc-modal-overlay" id="modalDetalhesAgendamento" aria-hidden="true">
+  <div class="sc-modal" style="max-width:520px;">
+    <div class="sc-modal-header">
+      <div>
+        <span class="sc-step-badge">DETALHES</span>
+        <h3>Detalhes do Agendamento</h3>
+      </div>
+      <button type="button" class="sc-modal-close" id="btnFecharDetalhesAgendamento">&times;</button>
+    </div>
+    <div class="sc-modal-body" style="display:grid;gap:12px;">
+      <div><strong>Cliente:</strong> <span id="detalheClienteNome">-</span></div>
+      <div><strong>Telefone:</strong> <span id="detalheClienteTelefone">-</span></div>
+      <div><strong>Veículo:</strong> <span id="detalheVeiculo">-</span></div>
+      <div><strong>Placa:</strong> <span id="detalhePlaca">-</span></div>
+      <div><strong>Data:</strong> <span id="detalheData">-</span></div>
+      <div><strong>Horário:</strong> <span id="detalheHorario">-</span></div>
+      <div><strong>Serviço(s):</strong> <span id="detalheServico">-</span></div>
+      <div><strong>Status:</strong> <span id="detalheStatus">-</span></div>
+    </div>
+  </div>
+</div>
+
+<script src="js/common.js"></script>
+  <script src="js/input-masks.js"></script>
 </body>
 </html>

@@ -4,7 +4,7 @@
 const TOTAL_LAVAGENS_FIDELIDADE = 10
 
 document.addEventListener('DOMContentLoaded', async () => {
-  if (!StopCleanAPI.exigirLogin()) return
+  if (!StopCleanAPI.exigirLogin('cliente')) return
 
   const usuarioSessao = StopCleanAPI.getUsuario()
   document.getElementById('user-greeting').textContent = usuarioSessao

@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const toggleSenha = document.getElementById('toggleSenha');
 
     // Se já existe sessão, vai direto para o painel
-    if (API.getToken()) {
+    if (API.getToken() && API.getUsuario()?.tipo === 'funcionario') {
         window.location.href = 'HomeFuncionario.html';
         return;
     }

@@ -22,30 +22,36 @@
   const USUARIO_KEY = 'sc_usuario'
 
   function getToken () {
-    return localStorage.getItem(TOKEN_KEY)
+    return sessionStorage.getItem(TOKEN_KEY)
   }
 
   function getUsuario () {
-    const bruto = localStorage.getItem(USUARIO_KEY)
+    const bruto = sessionStorage.getItem(USUARIO_KEY)
     return bruto ? JSON.parse(bruto) : null
   }
 
   function salvarSessao (token, usuario) {
-    localStorage.setItem(TOKEN_KEY, token)
-    localStorage.setItem(USUARIO_KEY, JSON.stringify(usuario))
+    sessionStorage.setItem(TOKEN_KEY, token)
+    sessionStorage.setItem(USUARIO_KEY, JSON.stringify(usuario))
   }
 
-  function logout () {
-    localStorage.removeItem(TOKEN_KEY)
-    localStorage.removeItem(USUARIO_KEY)
-    window.location.href = 'login.html'
+  function logout (destino = 'apresentacao.html') {
+    sessionStorage.removeItem(TOKEN_KEY)
+    sessionStorage.removeItem(USUARIO_KEY)
+    window.location.href = destino
   }
 
   // Usada no topo de páginas protegidas (dashboard, agendamento, etc.)
   // Retorna false e já redireciona para o login se não houver sessão.
-  function exigirLogin () {
-    if (!getToken()) {
-      window.location.href = 'login.html'
+  function exigirLogin (tipoEsperado = null) {
+    const token = getToken()
+    const usuario = getUsuario()
+    if (!token) {
+      window.location.href = tipoEsperado === 'funcionario' ? 'LoginFuncionario.html' : 'login.html'
+      return false
+    }
+    if (tipoEsperado && usuario?.tipo !== tipoEsperado) {
+      window.location.href = tipoEsperado === 'funcionario' ? 'LoginFuncionario.html' : 'login.html'
       return false
     }
     return true

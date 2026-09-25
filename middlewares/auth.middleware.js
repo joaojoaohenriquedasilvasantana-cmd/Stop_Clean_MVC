@@ -1,6 +1,9 @@
 import jwt from 'jsonwebtoken'
 
-const SECRET = process.env.JWT_SECRET || 'chave_secreta_padrao'
+const SECRET = process.env.JWT_SECRET
+if (!SECRET || SECRET.length < 32) {
+  throw new Error('JWT_SECRET é obrigatório e deve ter pelo menos 32 caracteres.')
+}
 
 // Middleware de autenticação: valida o token JWT enviado no header Authorization
 // e injeta o usuário autenticado (id e tipo) na requisição.
@@ -49,6 +52,7 @@ export const autenticar = (req, res, next) => {
 
     req.usuarioId = payload.id
     req.usuarioTipo = payload.tipo
+    req.usuarioCargo = payload.cargo
 
     next()
   } catch (error) {
@@ -71,5 +75,17 @@ export const apenasCliente = (req, res, next) => {
   if (req.usuarioTipo !== 'cliente') {
     return res.status(403).json({ erro: 'Acesso restrito a clientes.' })
   }
+  next()
+}
+
+// Autoriza o próprio funcionário ou administrador explicitamente identificado no token.
+export const proprioOuAdminFuncionario = (req, res, next) => {
+  const id = Number(req.params.id)
+  if (req.usuarioTipo === 'funcionario' && (Number(req.usuarioId) === id || req.usuarioCargo === 'ADMIN')) return next()
+  return res.status(403).json({ erro: 'Você só pode acessar ou alterar seu próprio cadastro.' })
+}
+
+export const apenasAdmin = (req, res, next) => {
+  if (req.usuarioTipo !== 'funcionario' || req.usuarioCargo !== 'ADMIN') return res.status(403).json({ erro: 'Acesso restrito ao administrador.' })
   next()
 }

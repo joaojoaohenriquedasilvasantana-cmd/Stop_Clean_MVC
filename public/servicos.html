@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>Gerenciamento do Catálogo | Stop Clean Lava-Jato</title>
+  <meta name="description" content="Gerenciamento de serviços, categorias de veículos e tabela de preços dinâmica da Stop Clean Lava-Jato."/>
+  <meta name="robots" content="index, follow"/>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+  <link rel="stylesheet" href="servicos.css"/>
+  <link rel="stylesheet" href="common.css">
+</head>
+<body>
+
+  <header class="sc-topbar">
+    <a href="servicos.html" class="sc-logo" title="Stop Clean Lava-Jato - Serviços e Preços">
+      <div class="sc-logo-circle">
+        <div class="sc-flag"><span></span><span></span><span></span><span></span></div>
+        <div class="sc-flag"><span></span><span></span><span></span><span></span></div>
+      </div>
+      <div class="sc-logo-text">Stop Clean<small>Lava-jato</small></div>
+    </a>
+    <div class="topbar-right">
+      <span class="user-greeting" id="user-greeting">Administrador</span>
+      <button class="notif-btn" aria-label="Notificações do usuário" title="Ver notificações">
+        <i class="ti ti-bell" aria-hidden="true"></i>
+        <span class="notif-dot"></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="app-container">
+
+    <main class="sc-main-content">
+      <div class="dash-body">
+
+        <header class="sc-page-header">
+          <h1 class="sc-page-title">Gerenciamento do Catálogo</h1>
+          <p class="sc-page-subtitle">Cadastre e configure os serviços, categorias de veículos e a tabela de preços dinâmica.</p>
+        </header>
+
+        <div class="sc-tabs-container" role="tablist">
+          <button class="sc-tab-btn active" id="btn-tab-servicos" role="tab" aria-selected="true" aria-controls="tab-servicos">
+            <i class="ti ti-wash-machine"></i> Serviços (Servico)
+          </button>
+          <button class="sc-tab-btn" id="btn-tab-veiculos" role="tab" aria-selected="false" aria-controls="tab-veiculos">
+            <i class="ti ti-car-suv"></i> Tipos de Veículo (TipoVeiculo)
+          </button>
+          <button class="sc-tab-btn" id="btn-tab-precos" role="tab" aria-selected="false" aria-controls="tab-precos">
+            <i class="ti ti-currency-dollar"></i> Tabela de Preços (TipoServico)
+          </button>
+        </div>
+
+        <section id="tab-servicos" class="sc-tab-panel active" role="tabpanel" aria-labelledby="btn-tab-servicos">
+          <div class="sc-grid-layout">
+            
+            <article class="sc-card-form">
+              <h2 class="sc-card-title">Novo Serviço</h2>
+              <form id="formServico" class="sc-form">
+                <div class="sc-form-group">
+                  <label for="servicoNome">Nome do Serviço <span class="req">*</span></label>
+                  <input type="text" id="servicoNome" class="sc-input" placeholder="Ex: Lavagem Ecológica" required>
+                </div>
+
+                <div class="sc-form-group">
+                  <label for="servicoDescricao">Descrição</label>
+                  <textarea id="servicoDescricao" class="sc-textarea" rows="3" placeholder="Descrição detalhada do serviço..."></textarea>
+                </div>
+
+                <div class="sc-checkbox-group">
+                  <label class="sc-checkbox-label">
+                    <input type="checkbox" id="servicoStatus" checked>
+                    Serviço Ativo
+                  </label>
+                </div>
+
+                <div class="sc-checkbox-group">
+                  <label class="sc-checkbox-label">
+                    <input type="checkbox" id="servicoFidelidade">
+                    Gera Pontos de Fidelidade
+                  </label>
+                </div>
+
+                <button type="submit" class="sc-btn sc-btn-yellow sc-btn-full">Salvar Serviço</button>
+              </form>
+            </article>
+
+            <article class="sc-card-table">
+              <h2 class="sc-card-title">Serviços Cadastrados</h2>
+              <div class="sc-table-responsive">
+                <table class="sc-table">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Nome</th>
+                      <th>Descrição</th>
+                      <th>Fidelidade</th>
+                      <th>Status</th>
+                      <th>Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbodyServicos">
+                    <tr>
+                      <td>1</td>
+                      <td style="font-weight: 600; color: #fff;">Lavagem Completa</td>
+                      <td style="color: var(--sc-muted);">Lavagem externa, aspiração interna e pretinho nos pneus.</td>
+                      <td><span class="sc-badge sc-badge-info">Sim</span></td>
+                      <td><span class="sc-badge sc-badge-active">Ativo</span></td>
+                      <td>
+                        <div class="sc-actions-cell">
+                          <button class="sc-btn-icon" title="Editar"><i class="ti ti-edit"></i></button>
+                          <button class="sc-btn-icon delete" title="Excluir"><i class="ti ti-trash"></i></button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </article>
+
+          </div>
+        </section>
+
+        <section id="tab-veiculos" class="sc-tab-panel" role="tabpanel" aria-labelledby="btn-tab-veiculos">
+          <div class="sc-grid-layout">
+            
+            <article class="sc-card-form">
+              <h2 class="sc-card-title">Novo Tipo de Veículo</h2>
+              <form id="formTipoVeiculo" class="sc-form">
+                <div class="sc-form-group">
+                  <label for="tipoNome">Nome do Tipo <span class="req">*</span></label>
+                  <input type="text" id="tipoNome" class="sc-input" placeholder="Ex: SUV / Picape" required>
+                </div>
+
+                <div class="sc-form-group">
+                  <label for="tipoIcone">Ícone (Tabler Icon / Emoji)</label>
+                  <input type="text" id="tipoIcone" class="sc-input" placeholder="Ex: ti-car-suv ou 🚗">
+                </div>
+
+                <div class="sc-checkbox-group">
+                  <label class="sc-checkbox-label">
+                    <input type="checkbox" id="tipoStatus" checked>
+                    Tipo Ativo
+                  </label>
+                </div>
+
+                <button type="submit" class="sc-btn sc-btn-yellow sc-btn-full">Salvar Tipo de Veículo</button>
+              </form>
+            </article>
+
+            <article class="sc-card-table">
+              <h2 class="sc-card-title">Tipos Registrados</h2>
+              <div class="sc-table-responsive">
+                <table class="sc-table">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Ícone</th>
+                      <th>Nome</th>
+                      <th>Status</th>
+                      <th>Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbodyTiposVeiculo">
+                    <tr>
+                      <td>1</td>
+                      <td><i class="ti ti-car" style="font-size: 18px; color: var(--sc-yellow);"></i></td>
+                      <td style="font-weight: 600; color: #fff;">Passeio / Sedan</td>
+                      <td><span class="sc-badge sc-badge-active">Ativo</span></td>
+                      <td>
+                        <div class="sc-actions-cell">
+                          <button class="sc-btn-icon" title="Editar"><i class="ti ti-edit"></i></button>
+                          <button class="sc-btn-icon delete" title="Excluir"><i class="ti ti-trash"></i></button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </article>
+
+          </div>
+        </section>
+
+        <section id="tab-precos" class="sc-tab-panel" role="tabpanel" aria-labelledby="btn-tab-precos">
+          <div class="sc-grid-layout">
+            
+            <article class="sc-card-form">
+              <h2 class="sc-card-title">Vincular Preço / Duração</h2>
+              <form id="formTipoServico" class="sc-form">
+                <div class="sc-form-group">
+                  <label for="selectServico">Serviço <span class="req">*</span></label>
+                  <select id="selectServico" class="sc-select" required>
+                    <option value="">Selecione um serviço...</option>
+                    <option value="1">Lavagem Completa</option>
+                  </select>
+                </div>
+
+                <div class="sc-form-group">
+                  <label for="selectTipoVeiculo">Tipo de Veículo <span class="req">*</span></label>
+                  <select id="selectTipoVeiculo" class="sc-select" required>
+                    <option value="">Selecione o tipo...</option>
+                    <option value="1">Passeio / Sedan</option>
+                  </select>
+                </div>
+
+                <div class="sc-form-group">
+                  <label for="precoValor">Preço (R$) <span class="req">*</span></label>
+                  <input type="number" id="precoValor" class="sc-input" step="0.01" placeholder="50.00" required>
+                </div>
+
+                <div class="sc-form-group">
+                  <label for="duracaoServico">Duração Estimada <span class="req">*</span></label>
+                  <input type="text" id="duracaoServico" class="sc-input" placeholder="Ex: 00:45:00" required>
+                </div>
+
+                <button type="submit" class="sc-btn sc-btn-yellow sc-btn-full">Atribuir Preço</button>
+              </form>
+            </article>
+
+            <article class="sc-card-table">
+              <h2 class="sc-card-title">Tabela de Preços Vigente</h2>
+              <div class="sc-table-responsive">
+                <table class="sc-table">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Serviço</th>
+                      <th>Tipo Veículo</th>
+                      <th>Preço</th>
+                      <th>Duração</th>
+                      <th>Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbodyPrecos">
+                    <tr>
+                      <td>1</td>
+                      <td style="font-weight: 600; color: #fff;">Lavagem Completa</td>
+                      <td style="color: var(--sc-muted);">Passeio / Sedan</td>
+                      <td class="sc-price-tag">R$ 50,00</td>
+                      <td style="color: var(--sc-muted);"><i class="ti ti-clock"></i> 00:45:00</td>
+                      <td>
+                        <div class="sc-actions-cell">
+                          <button class="sc-btn-icon" title="Editar"><i class="ti ti-edit"></i></button>
+                          <button class="sc-btn-icon delete" title="Excluir"><i class="ti ti-trash"></i></button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </article>
+
+          </div>
+        </section>
+
+      </div>
+
+      <footer class="sc-footer">
+        <p>© 2025 Stop Clean Lava-Jato. Todos os direitos reservados.</p>
+        <nav aria-label="Links de rodapé">
+          <a href="#privacidade">Privacidade</a>
+          <a href="#termos">Termos</a>
+          <a href="#suporte">Suporte</a>
+        </nav>
+      </footer>
+    </main>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/servicos.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/input-masks.js"></script>
+</body>
+</html>

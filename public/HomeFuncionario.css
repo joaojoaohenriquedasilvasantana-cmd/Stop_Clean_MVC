@@ -257,3 +257,20 @@ a { text-decoration: none; }
 .sc-footer p { font-size: 11px; color: var(--sc-muted); }
 .sc-footer a { font-size: 11px; color: var(--sc-muted); text-decoration: none; }
 .sc-footer a:hover { color: #b89300; }
+/* Configurações / perfil SPA */
+.sc-settings-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+#painelInformacoesPessoais[hidden]{display:none!important}
+#formPerfilFuncionario{max-width:900px;margin:0 auto;background:var(--sc-card);border:1px solid var(--sc-border);border-radius:10px;color:var(--sc-text)}
+#formPerfilFuncionario .sc-field{display:flex;flex-direction:column;gap:7px;min-width:0}
+#formPerfilFuncionario label{font-size:12px;color:var(--sc-muted);font-weight:600}
+#formPerfilFuncionario input{width:100%;min-width:0;box-sizing:border-box;background:#181818;color:#f4f4f4;border:1px solid #3a3a3a;border-radius:6px;padding:12px;font:inherit}
+#formPerfilFuncionario input:focus{outline:2px solid var(--sc-yellow);outline-offset:1px}
+#formPerfilFuncionario .sc-form-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+#formPerfilFuncionario .sc-form-actions{display:flex;justify-content:flex-end}
+#perfilMensagem{color:var(--sc-yellow);font-size:14px;min-height:1.2em}
+@media(max-width:600px){#formPerfilFuncionario{padding:16px!important}.sc-form-row{grid-template-columns:1fr!important}.sc-section-header{gap:10px;flex-wrap:wrap}}
+
+/* Ação de cancelar agendamento pendente */
+.sc-btn-danger { background: #b91c1c; color: #fff; border: 1px solid #b91c1c; }
+.sc-btn-danger:hover { background: #991b1b; border-color: #991b1b; }
+.sc-btn:disabled { opacity: .45; cursor: not-allowed; }

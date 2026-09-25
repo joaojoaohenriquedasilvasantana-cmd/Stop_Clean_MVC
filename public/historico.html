@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="index, follow">
+  <title>Histórico de Serviços & Agendamentos | Stop Clean Lava-Rápido</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Acompanhe o histórico completo de lavagens, higienizações e agendamentos do seu veículo no Stop Clean Lava-Rápido.">
+  <meta name="keywords" content="Stop Clean, lava-rápido, lavagem automotiva, histórico de lavagem, agendamentos, detalhamento automotivo">
+  <meta name="author" content="Stop Clean Lava-Jato">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Histórico de Serviços | Stop Clean Lava-Rápido">
+  <meta property="og:description" content="Consulte o histórico detalhado dos serviços realizados no seu veículo com a Stop Clean.">
+  <meta property="og:locale" content="pt_BR">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Histórico de Serviços | Stop Clean Lava-Rápido">
+
+  <!-- Fonts Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+
+  <!-- CSS Local -->
+  <link rel="stylesheet" href="historico.css">
+  <link rel="stylesheet" href="common.css">
+</head>
+<body>
+
+  <!-- Cabeçalho Simplificado com Nova Logo e Botão Voltar -->
+  <header class="sc-header">
+    <div class="sc-header-container">
+      
+      <!-- Nova Logo Padronizada -->
+      <a href="index.html" class="sc-brand" title="Página Inicial - Stop Clean Lava-Rápido">
+        <!-- Ícone Vetorial SVG (Círculo, borda vermelha e quadriculado) -->
+        <svg class="sc-brand-icon" viewBox="0 0 100 100" width="46" height="46" aria-hidden="true">
+          <circle cx="50" cy="50" r="44" fill="#F5C400" stroke="#E53010" stroke-width="8" />
+          <g transform="translate(18, 34)">
+            <!-- Linha 1 -->
+            <rect x="0"  y="0"  width="14" height="14" fill="#FFFFFF" />
+            <rect x="16" y="0"  width="14" height="14" fill="#1C2733" />
+            <rect x="32" y="0"  width="14" height="14" fill="#FFFFFF" />
+            <rect x="48" y="0"  width="14" height="14" fill="#1C2733" />
+            <!-- Linha 2 -->
+            <rect x="0"  y="16" width="14" height="14" fill="#1C2733" />
+            <rect x="16" y="16" width="14" height="14" fill="#FFFFFF" />
+            <rect x="32" y="16" width="14" height="14" fill="#1C2733" />
+            <rect x="48" y="16" width="14" height="14" fill="#FFFFFF" />
+          </g>
+        </svg>
+
+        <!-- Texto da Logo -->
+        <div class="sc-brand-text">
+          <span class="sc-brand-title">STOP CLEAN</span>
+          <span class="sc-brand-subtitle">LAVA RÁPIDO</span>
+        </div>
+
+        <!-- Se preferir usar o arquivo de imagem diretamente, descomente a linha abaixo: -->
+        <!-- <img src="logo.png" alt="Stop Clean Lava Rápido" class="sc-brand-img"> -->
+      </a>
+
+      <!-- Botão Voltar -->
+     
+    </div>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="sc-main">
+    <div class="sc-container">
+      
+      <!-- Título da Página -->
+      <section class="sc-page-header">
+        <div>
+          <h1 class="sc-title">HISTÓRICO DE SERVIÇOS</h1>
+          <p class="sc-subtitle" id="historico-subtitulo">Acompanhe seus agendamentos, serviços e histórico.</p>
+        </div>
+        
+      </section>
+
+      <!-- Cards de Resumo Métrico -->
+      <section class="sc-stats-grid" aria-label="Resumo de Serviços">
+        <article class="sc-stat-card">
+          <span class="sc-stat-label">Total de Lavagens</span>
+          <strong class="sc-stat-value" id="stat-total-lavagens">0</strong>
+          <small class="sc-stat-sub">Serviços executados</small>
+        </article>
+
+        <article class="sc-stat-card">
+          <span class="sc-stat-label">Investimento Total</span>
+          <strong class="sc-stat-value" id="stat-total-gasto">R$ 0,00</strong>
+          <small class="sc-stat-sub">Valor acumulado</small>
+        </article>
+
+        <article class="sc-stat-card highlight">
+          <span class="sc-stat-label">Tokens de Fidelidade</span>
+          <strong class="sc-stat-value" id="stat-tokens">0</strong>
+          <small class="sc-stat-sub">Tokens disponíveis</small>
+        </article>
+      </section>
+
+      <!-- Barra de Filtros -->
+      <section class="sc-filter-section">
+        <form id="filter-form" class="sc-filter-form" onsubmit="return false;">
+          
+          <div class="sc-form-group search-group">
+            <label for="filter-search">Buscar Veículo ou Serviço</label>
+            <input type="text" id="filter-search" placeholder="Ex: Corolla, ABC1D23, Ducha..." class="sc-input">
+          </div>
+
+          <div class="sc-form-group">
+            <label for="filter-status">Status</label>
+            <select id="filter-status" class="sc-select">
+              <option value="TODOS">Todos os Status</option>
+              <option value="FINALIZADO">Finalizados</option>
+              <option value="EM_ANDAMENTO">Em Andamento</option>
+              <option value="AGENDADO">Agendados</option>
+              <option value="CANCELADO">Cancelados</option>
+            </select>
+          </div>
+
+          <div class="sc-form-group">
+            <label for="filter-data-inicio">Data Inicial</label>
+            <input type="date" id="filter-data-inicio" class="sc-input">
+          </div>
+
+          <div class="sc-form-group">
+            <label for="filter-data-fim">Data Final</label>
+            <input type="date" id="filter-data-fim" class="sc-input">
+          </div>
+
+          <div class="sc-form-actions">
+            <button type="button" id="btn-limpar-filtros" class="sc-btn sc-btn-outline">LIMPAR</button>
+            <button type="button" id="btn-pesquisar-filtros" class="sc-btn sc-btn-yellow">PESQUISAR</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Lista do Histórico -->
+      <section class="sc-history-section">
+        <header class="sc-section-header">
+          <h2>REGISTROS DE AGENDAMENTOS</h2>
+          <span id="results-count" class="sc-count-badge">0 registros encontrados</span>
+        </header>
+
+        <div id="historico-container" class="sc-history-list" aria-live="polite"></div>
+
+        <div id="empty-state" class="sc-empty-state hidden">
+          <p>Nenhum histórico encontrado com os filtros selecionados.</p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Modal de Detalhes -->
+  <div id="sc-modal-detalhes" class="sc-modal" aria-hidden="true" role="dialog" aria-labelledby="modal-title">
+    <div class="sc-modal-overlay" tabindex="-1" data-close-modal></div>
+    <div class="sc-modal-content">
+      <button class="sc-modal-close" data-close-modal aria-label="Fechar Modal">&times;</button>
+      
+      <header class="sc-modal-header">
+        <h3 id="modal-title" class="sc-modal-title">DETALHES DO AGENDAMENTO #<span id="modal-id">--</span></h3>
+        <span id="modal-status" class="sc-badge">--</span>
+      </header>
+
+      <div class="sc-modal-body">
+        <div class="sc-detail-grid">
+          <div>
+            <small class="sc-label">Veículo:</small>
+            <strong id="modal-veiculo" class="sc-value">--</strong>
+          </div>
+          <div>
+            <small class="sc-label">Placa:</small>
+            <strong id="modal-placa" class="sc-value">--</strong>
+          </div>
+          <div>
+            <small class="sc-label">Data e Hora:</small>
+            <strong id="modal-data-hora" class="sc-value">--</strong>
+          </div>
+          <div>
+            <small class="sc-label">Uso de Token Fidelidade:</small>
+            <strong id="modal-token" class="sc-value">--</strong>
+          </div>
+        </div>
+
+        <div class="sc-divider"></div>
+
+        <h4 class="sc-subheading">Serviços Contratados:</h4>
+        <ul id="modal-servicos-list" class="sc-servicos-list"></ul>
+
+        <div class="sc-divider"></div>
+
+        <div id="modal-obs-box" class="sc-obs-box hidden">
+          <small class="sc-label">Observações:</small>
+          <p id="modal-obs">--</p>
+        </div>
+
+        <div class="sc-total-box">
+          <span>VALOR TOTAL:</span>
+          <strong id="modal-valor-total">R$ 0,00</strong>
+        </div>
+      </div>
+
+      <footer class="sc-modal-footer">
+        <button type="button" class="sc-btn sc-btn-outline" data-close-modal>FECHAR</button>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Rodapé -->
+  <footer class="sc-footer">
+    <div class="sc-container">
+      <p>&copy; 2026 Stop Clean Lava-Jato. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- JS Local -->
+  <script src="js/api.js"></script>
+  <script src="js/historico.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/input-masks.js"></script>
+</body>
+</html>

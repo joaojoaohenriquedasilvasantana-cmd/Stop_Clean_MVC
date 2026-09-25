@@ -1,318 +1,255 @@
-/**
- * Stop Clean - Gerenciamento de Funcionários (Light Mode)
- */
-import API_BASE_URL from './api.js';
+/* Stop Clean - Gerenciamento de Funcionários */
 
-const baseUrl = API_BASE_URL.endsWith('/api') ? API_BASE_URL : `${API_BASE_URL}/api`;
-const token = localStorage.getItem('token');
-const headersPadrao = {
-  'Content-Type': 'application/json',
-  'Authorization': `Bearer ${token}`
-};
+(() => {
+  const API = window.StopCleanAPI
+  if (!API || !API.exigirLogin()) return
 
-let modoModal = 'NOVO';
-let filtroStatusAtual = 'Todos';
+  let modoModal = 'NOVO'
+  let filtroStatusAtual = 'Todos'
 
-document.addEventListener('DOMContentLoaded', () => {
-  const searchInput = document.getElementById('sc-search-input');
-  if (searchInput) {
-    searchInput.addEventListener('input', aplicarFiltros);
+  const $ = id => document.getElementById(id)
+  const escapeHtml = value => String(value ?? '')
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#039;')
+
+  async function carregarFuncionarios() {
+    const container = document.querySelector('.sc-team-list')
+    if (!container) return
+
+    try {
+      const funcionarios = await API.get('/funcionarios')
+      container.innerHTML = ''
+
+      if (!funcionarios.length) {
+        container.innerHTML = '<p style="padding:20px;color:var(--sc-muted);">Nenhum funcionário cadastrado.</p>'
+      } else {
+        funcionarios.forEach(f => {
+          const ativo = f.status !== false
+          const iniciais = String(f.nome || 'F').split(/\s+/).map(p => p[0]).slice(0, 2).join('').toUpperCase()
+          container.insertAdjacentHTML('beforeend', `
+            <article class="sc-team-item" data-id="${f.id}">
+              <div class="sc-avatar" aria-hidden="true">${escapeHtml(iniciais)}</div>
+              <div class="sc-team-info">
+                <h2 class="sc-team-name">${escapeHtml(f.nome || 'Sem nome')}</h2>
+                <p class="sc-team-role">${escapeHtml(f.cargo || 'Funcionário')}</p>
+                <p class="sc-team-meta">${escapeHtml(f.email || f.telefone || '')}</p>
+              </div>
+              <span class="sc-status ${ativo ? 'ativo' : 'inativo'}"><span class="sc-status-dot"></span>${ativo ? 'Ativo' : 'Inativo'}</span>
+              <div class="sc-team-actions">
+                <button class="sc-btn sc-btn-outline sc-btn-sm" onclick="abrirModalEditar(${f.id})">✏ Editar</button>
+                <button class="sc-btn sc-btn-primary sc-btn-sm" onclick="abrirModalPermissoes(${f.id})">Permissões</button>
+                <button class="sc-btn sc-btn-danger sc-btn-sm" onclick="deletarFuncionario(${f.id})">Excluir</button>
+              </div>
+            </article>
+          `)
+        })
+      }
+    } catch (error) {
+      container.innerHTML = `<p style="padding:20px;color:var(--sc-muted);">${escapeHtml(error.message)}</p>`
+    }
+
+    atualizarEstatisticas()
+    aplicarFiltros()
   }
 
-  carregarFuncionarios();
-});
-
-async function carregarFuncionarios() {
-  const container = document.getElementById('sc-team-list') || document.querySelector('.sc-team-list');
-  
-  try {
-    const response = await fetch(`${baseUrl}/funcionarios`, { headers: headersPadrao });
-    if (!response.ok) throw new Error('Erro ao buscar funcionários.');
-    
-    const funcionarios = await response.json();
-
-    if (container && Array.isArray(funcionarios) && funcionarios.length > 0) {
-      container.innerHTML = '';
-      funcionarios.forEach(f => {
-        const isAtivo = f.status === true || f.status === 'ativo' || f.status === 1;
-        const statusClass = isAtivo ? 'ativo' : 'inativo';
-        const statusText = isAtivo ? 'Ativo' : 'Inativo';
-
-        container.innerHTML += `
-          <div class="sc-team-item" data-id="${f.id}">
-            <div class="sc-team-info">
-              <h3 class="sc-team-name">${f.nome}</h3>
-              <p class="sc-team-meta">${f.cargo || 'Funcionário'} · ${f.email || f.telefone || ''}</p>
-            </div>
-            <span class="sc-status ${statusClass}">${statusText}</span>
-            <div class="sc-team-actions">
-              <button class="sc-btn sc-btn-outline sc-btn-sm" onclick="abrirModalEditar('${f.id}')">Editar</button>
-              <button class="sc-btn sc-btn-outline sc-btn-sm" onclick="abrirModalPermissoes('${f.id}')">Permissões</button>
-              <button class="sc-btn sc-btn-danger sc-btn-sm" onclick="deletarFuncionario('${f.id}')">Excluir</button>
-            </div>
-          </div>
-        `;
-      });
-    }
-  } catch (error) {
-    console.error('Erro ao carregar lista de funcionários:', error);
-  } finally {
-    atualizarEstatisticas();
-    aplicarFiltros();
-  }
-}
-
-function atualizarEstatisticas() {
-  const itens = document.querySelectorAll('.sc-team-item');
-  let total = itens.length;
-  let ativos = 0;
-  let inativos = 0;
-
-  itens.forEach(item => {
-    const statusElement = item.querySelector('.sc-status');
-    if (statusElement && statusElement.classList.contains('ativo')) {
-      ativos++;
-    } else {
-      inativos++;
-    }
-  });
-
-  const elTotal = document.getElementById('stat-total');
-  const elAtivos = document.getElementById('stat-ativos');
-  const elInativos = document.getElementById('stat-inativos');
-
-  if (elTotal) elTotal.textContent = total;
-  if (elAtivos) elAtivos.textContent = ativos;
-  if (elInativos) elInativos.textContent = inativos;
-}
-
-function aplicarFiltros() {
-  const termoBusca = document.getElementById('sc-search-input')?.value.toLowerCase().trim() || '';
-  const itens = document.querySelectorAll('.sc-team-item');
-
-  itens.forEach(item => {
-    const nome = item.querySelector('.sc-team-name')?.textContent.toLowerCase() || '';
-    const meta = item.querySelector('.sc-team-meta')?.textContent.toLowerCase() || '';
-    const statusElement = item.querySelector('.sc-status');
-    const isAtivo = statusElement ? statusElement.classList.contains('ativo') : false;
-
-    let passaStatus = false;
-    if (filtroStatusAtual === 'Todos') {
-      passaStatus = true;
-    } else if (filtroStatusAtual === 'Ativos' && isAtivo) {
-      passaStatus = true;
-    } else if (filtroStatusAtual === 'Inativos' && !isAtivo) {
-      passaStatus = true;
-    }
-
-    const passaTexto = nome.includes(termoBusca) || meta.includes(termoBusca);
-
-    if (passaStatus && passaTexto) {
-      item.style.display = 'flex';
-    } else {
-      item.style.display = 'none';
-    }
-  });
-}
-
-function setFilter(btn) {
-  document.querySelectorAll('.sc-filter-btn').forEach(b => {
-    b.classList.remove('active');
-    b.setAttribute('aria-pressed', 'false');
-  });
-
-  btn.classList.add('active');
-  btn.setAttribute('aria-pressed', 'true');
-
-  filtroStatusAtual = btn.textContent.trim();
-  aplicarFiltros();
-}
-
-function abrirModalNovo() {
-  modoModal = 'NOVO';
-  document.getElementById('formNovoFuncionario')?.reset();
-  if (document.getElementById('fId')) document.getElementById('fId').value = '';
-
-  document.getElementById('titulo-dados').innerHTML = 'NOVO <span>FUNCIONÁRIO</span>';
-  document.getElementById('subtitulo-dados').innerText = 'Etapa 1 de 2: Informações de Cadastro';
-  
-  document.getElementById('btn-avancar').style.display = 'inline-flex';
-  document.getElementById('btn-salvar-dados').style.display = 'none';
-
-  document.getElementById('subtitulo-permissoes').innerText = 'Etapa 2 de 2: Selecione as telas e acessos permitidos';
-  document.getElementById('btn-voltar-perm').style.display = 'inline-flex';
-  document.getElementById('btn-cancelar-perm').style.display = 'none';
-
-  irParaDados();
-  openModal();
-}
-
-async function abrirModalEditar(idFuncionario) {
-  modoModal = 'EDITAR_DADOS';
-  document.getElementById('fId').value = idFuncionario;
-
-  document.getElementById('titulo-dados').innerHTML = 'EDITAR <span>FUNCIONÁRIO</span>';
-  document.getElementById('subtitulo-dados').innerText = 'Altere as informações de cadastro do funcionário';
-
-  document.getElementById('btn-avancar').style.display = 'none';
-  document.getElementById('btn-salvar-dados').style.display = 'inline-flex';
-
-  try {
-    const res = await fetch(`${baseUrl}/funcionarios/${idFuncionario}`, { headers: headersPadrao });
-    if (res.ok) {
-      const f = await res.json();
-      if (document.getElementById('fNome')) document.getElementById('fNome').value = f.nome || '';
-      if (document.getElementById('fCpf')) document.getElementById('fCpf').value = f.cpf || '';
-      if (document.getElementById('fEmail')) document.getElementById('fEmail').value = f.email || '';
-      if (document.getElementById('fTelefone')) document.getElementById('fTelefone').value = f.telefone || '';
-      if (document.getElementById('fCargo')) document.getElementById('fCargo').value = f.cargo || '';
-      if (document.getElementById('fSalario')) document.getElementById('fSalario').value = f.salario || '';
-      if (document.getElementById('fStatus')) document.getElementById('fStatus').value = f.status ? 'true' : 'false';
-    }
-  } catch (err) {
-    console.error('Erro ao buscar dados do funcionário:', err);
+  function atualizarEstatisticas() {
+    const itens = document.querySelectorAll('.sc-team-item')
+    let ativos = 0
+    itens.forEach(item => item.querySelector('.sc-status')?.classList.contains('ativo') && ativos++)
+    $('stat-total').textContent = itens.length
+    $('stat-ativos').textContent = ativos
+    $('stat-inativos').textContent = itens.length - ativos
   }
 
-  irParaDados();
-  openModal();
-}
-
-async function abrirModalPermissoes(idFuncionario) {
-  modoModal = 'EDITAR_PERMISSOES';
-  document.getElementById('fId').value = idFuncionario;
-
-  document.getElementById('subtitulo-permissoes').innerText = 'Gerencie as permissões de acesso deste funcionário';
-  document.getElementById('btn-voltar-perm').style.display = 'none';
-  document.getElementById('btn-cancelar-perm').style.display = 'inline-flex';
-
-  irParaPermissoesDirectly();
-  openModal();
-}
-
-function irParaDados() {
-  document.getElementById('step-permissoes')?.classList.remove('active');
-  document.getElementById('step-dados')?.classList.add('active');
-}
-
-function irParaPermissoes() {
-  const nome = document.getElementById('fNome')?.value;
-  const senha = document.getElementById('fSenha')?.value;
-
-  if (modoModal === 'NOVO' && (!nome || !senha)) {
-    alert('Por favor, preencha os campos obrigatórios (*): Nome e Senha.');
-    return;
+  function aplicarFiltros() {
+    const termo = ($('sc-search-input')?.value || '').toLowerCase().trim()
+    document.querySelectorAll('.sc-team-item').forEach(item => {
+      const texto = item.textContent.toLowerCase()
+      const ativo = item.querySelector('.sc-status')?.classList.contains('ativo')
+      const statusOk = filtroStatusAtual === 'Todos' || (filtroStatusAtual === 'Ativos' && ativo) || (filtroStatusAtual === 'Inativos' && !ativo)
+      item.style.display = statusOk && texto.includes(termo) ? 'flex' : 'none'
+    })
   }
-  irParaPermissoesDirectly();
-}
 
-function irParaPermissoesDirectly() {
-  document.getElementById('step-dados')?.classList.remove('active');
-  document.getElementById('step-permissoes')?.classList.add('active');
-}
+  function setFilter(btn) {
+    document.querySelectorAll('.sc-filter-btn').forEach(b => {
+      b.classList.remove('active')
+      b.setAttribute('aria-pressed', 'false')
+    })
+    btn.classList.add('active')
+    btn.setAttribute('aria-pressed', 'true')
+    filtroStatusAtual = btn.textContent.trim()
+    aplicarFiltros()
+  }
 
-function openModal() {
-  const modal = document.getElementById('modalNovo');
-  if (modal) modal.classList.add('open');
-}
+  function limparPermissoes() {
+    document.querySelectorAll('input[name="permissoes"]').forEach(cb => { cb.checked = false })
+  }
 
-function closeModal() {
-  const modal = document.getElementById('modalNovo');
-  if (modal) modal.classList.remove('open');
-}
+  async function carregarPermissoesDoFuncionario(id) {
+    limparPermissoes()
+    const registros = await API.get('/funcionarioPermissoes')
+    const ids = registros.filter(p => Number(p.idFuncionario) === Number(id)).map(p => Number(p.idPermissao))
+    document.querySelectorAll('input[name="permissoes"]').forEach(cb => { cb.checked = ids.includes(Number(cb.value)) })
+  }
 
-document.addEventListener('keydown', function(event) {
-  if (event.key === 'Escape') closeModal();
-});
+  async function abrirModalNovo() {
+    modoModal = 'NOVO'
+    $('formNovoFuncionario')?.reset()
+    $('fId').value = ''
+    $('fSenha').required = true
+    $('titulo-dados').innerHTML = 'NOVO <span>FUNCIONÁRIO</span>'
+    $('subtitulo-dados').textContent = 'Etapa 1 de 2: Informações de Cadastro'
+    $('btn-avancar').style.display = 'inline-flex'
+    $('btn-salvar-dados').style.display = 'none'
+    $('btn-voltar-perm').style.display = 'inline-flex'
+    $('btn-cancelar-perm').style.display = 'none'
+    limparPermissoes()
+    irParaDados()
+    openModal()
+  }
 
-async function salvarFuncionario(event) {
-  event.preventDefault();
+  async function abrirModalEditar(id) {
+    modoModal = 'EDITAR_DADOS'
+    $('fId').value = id
+    $('fSenha').required = false
+    $('titulo-dados').innerHTML = 'EDITAR <span>FUNCIONÁRIO</span>'
+    $('subtitulo-dados').textContent = 'Altere as informações de cadastro do funcionário'
+    $('btn-avancar').style.display = 'none'
+    $('btn-salvar-dados').style.display = 'inline-flex'
 
-  const id = document.getElementById('fId').value;
-
-  const dadosFuncionario = {
-    nome: document.getElementById('fNome')?.value || '',
-    cpf: document.getElementById('fCpf')?.value || null,
-    email: document.getElementById('fEmail')?.value || null,
-    telefone: document.getElementById('fTelefone')?.value || null,
-    cargo: document.getElementById('fCargo')?.value || null,
-    salario: document.getElementById('fSalario')?.value ? parseFloat(document.getElementById('fSalario').value) : null,
-    senha: document.getElementById('fSenha')?.value || undefined,
-    status: document.getElementById('fStatus')?.value === 'true',
-    cep: document.getElementById('fCep')?.value || null,
-    endereco: document.getElementById('fEndereco')?.value || null,
-    numero: document.getElementById('fNumero')?.value || null,
-    bairro: document.getElementById('fBairro')?.value || null,
-    estado: document.getElementById('fEstado')?.value || null
-  };
-
-  const permissoesSelecionadas = Array.from(
-    document.querySelectorAll('input[name="permissoes"]:checked')
-  ).map(cb => parseInt(cb.value));
-
-  try {
-    let response;
-    if (modoModal === 'EDITAR_DADOS') {
-      response = await fetch(`${baseUrl}/funcionarios/${id}`, {
-        method: 'PUT',
-        headers: headersPadrao,
-        body: JSON.stringify(dadosFuncionario)
-      });
-    } else if (modoModal === 'EDITAR_PERMISSOES') {
-      response = await fetch(`${baseUrl}/funcionarios/${id}`, {
-        method: 'PUT',
-        headers: headersPadrao,
-        body: JSON.stringify({ permissoes: permissoesSelecionadas })
-      });
-    } else {
-      response = await fetch(`${baseUrl}/funcionarios`, {
-        method: 'POST',
-        headers: headersPadrao,
-        body: JSON.stringify({ ...dadosFuncionario, permissoes: permissoesSelecionadas })
-      });
+    try {
+      const f = await API.get(`/funcionarios/${id}`)
+      ;['Nome','Cpf','Email','Telefone','Cargo','Salario','Cep','Endereco','Numero','Bairro','Estado'].forEach(campo => {
+        const el = $(`f${campo}`)
+        if (el) el.value = f[campo.charAt(0).toLowerCase() + campo.slice(1)] ?? ''
+      })
+      $('fStatus').value = f.status === false ? 'false' : 'true'
+    } catch (error) {
+      alert(error.message)
+      return
     }
 
-    if (!response.ok) {
-      const errData = await response.json().catch(() => ({}));
-      throw new Error(errData.message || errData.mensagem || 'Erro ao salvar funcionário.');
+    irParaDados()
+    openModal()
+  }
+
+  async function abrirModalPermissoes(id) {
+    modoModal = 'EDITAR_PERMISSOES'
+    $('fId').value = id
+    $('subtitulo-permissoes').textContent = 'Gerencie as permissões de acesso deste funcionário'
+    $('btn-voltar-perm').style.display = 'none'
+    $('btn-cancelar-perm').style.display = 'inline-flex'
+    try {
+      await carregarPermissoesDoFuncionario(id)
+      irParaPermissoesDirectly()
+      openModal()
+    } catch (error) {
+      alert(error.message)
+    }
+  }
+
+  function irParaDados() {
+    $('step-permissoes')?.classList.remove('active')
+    $('step-dados')?.classList.add('active')
+  }
+
+  function irParaPermissoes() {
+    if (!$('fNome').value.trim() || !$('fEmail').value.trim() || (modoModal === 'NOVO' && !$('fSenha').value)) {
+      alert('Preencha nome, e-mail e senha para continuar.')
+      return
+    }
+    irParaPermissoesDirectly()
+  }
+
+  function irParaPermissoesDirectly() {
+    $('step-dados')?.classList.remove('active')
+    $('step-permissoes')?.classList.add('active')
+  }
+
+  function openModal() { $('modalNovo')?.classList.add('open') }
+  function closeModal() { $('modalNovo')?.classList.remove('open') }
+
+  async function salvarPermissoes(id) {
+    const selecionadas = [...document.querySelectorAll('input[name="permissoes"]:checked')].map(cb => Number(cb.value))
+    const atuais = await API.get('/funcionarioPermissoes')
+    const doFuncionario = atuais.filter(p => Number(p.idFuncionario) === Number(id))
+
+    for (const registro of doFuncionario) {
+      await API.del(`/funcionarioPermissoes/${registro.id}`)
+    }
+    for (const idPermissao of selecionadas) {
+      await API.post('/funcionarioPermissoes', { idFuncionario: Number(id), idPermissao })
+    }
+  }
+
+  async function salvarFuncionario(event) {
+    event.preventDefault()
+    const id = $('fId').value
+    const dados = {
+      nome: $('fNome').value.trim(),
+      cpf: $('fCpf').value.trim() || null,
+      email: $('fEmail').value.trim() || null,
+      telefone: $('fTelefone').value.trim() || null,
+      cargo: $('fCargo').value.trim() || null,
+      salario: $('fSalario').value ? Number($('fSalario').value) : null,
+      status: $('fStatus').value === 'true',
+      cep: $('fCep').value.trim() || null,
+      endereco: $('fEndereco').value.trim() || null,
+      numero: $('fNumero').value.trim() || null,
+      bairro: $('fBairro').value.trim() || null,
+      estado: $('fEstado').value.trim() || null
     }
 
-    alert('Operação realizada com sucesso!');
-    closeModal();
-    carregarFuncionarios();
-  } catch (error) {
-    alert(error.message);
-  }
-}
+    if ($('fSenha').value) dados.senha = $('fSenha').value
 
-async function deletarFuncionario(idFuncionario) {
-  if (!confirm('Deseja realmente excluir este funcionário?')) return;
+    try {
+      let funcionario
+      if (modoModal === 'EDITAR_PERMISSOES') {
+        await salvarPermissoes(id)
+      } else if (modoModal === 'EDITAR_DADOS') {
+        funcionario = await API.put(`/funcionarios/${id}`, dados)
+      } else {
+        if (!dados.senha) throw new Error('A senha é obrigatória.')
+        funcionario = await API.post('/funcionarios', dados)
+        await salvarPermissoes(funcionario.id)
+      }
 
-  try {
-    const response = await fetch(`${baseUrl}/funcionarios/${idFuncionario}`, {
-      method: 'DELETE',
-      headers: headersPadrao
-    });
-
-    if (!response.ok) {
-      const errData = await response.json().catch(() => ({}));
-      throw new Error(errData.message || errData.mensagem || 'Erro ao excluir funcionário.');
+      alert('Operação realizada com sucesso!')
+      closeModal()
+      await carregarFuncionarios()
+    } catch (error) {
+      alert(error.message)
     }
-
-    alert('Funcionário excluído com sucesso!');
-    carregarFuncionarios();
-  } catch (error) {
-    alert(error.message);
   }
-}
 
-// Expõe funções no escopo global para eventos inline de botões HTML
-window.setFilter = setFilter;
-window.abrirModalNovo = abrirModalNovo;
-window.abrirModalEditar = abrirModalEditar;
-window.abrirModalPermissoes = abrirModalPermissoes;
-window.irParaDados = irParaDados;
-window.irParaPermissoes = irParaPermissoes;
-window.openModal = openModal;
-window.closeModal = closeModal;
-window.salvarFuncionario = salvarFuncionario;
-window.deletarFuncionario = deletarFuncionario;
+  async function deletarFuncionario(id) {
+    if (!confirm('Deseja realmente excluir este funcionário?')) return
+    try {
+      await API.del(`/funcionarios/${id}`)
+      alert('Funcionário excluído com sucesso!')
+      await carregarFuncionarios()
+    } catch (error) {
+      alert(error.message)
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    $('sc-search-input')?.addEventListener('input', aplicarFiltros)
+    carregarFuncionarios()
+    document.querySelector('.sc-badge')?.replaceChildren(document.createTextNode('★ Funcionário'))
+  })
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal() })
+
+  window.setFilter = setFilter
+  window.abrirModalNovo = abrirModalNovo
+  window.abrirModalEditar = abrirModalEditar
+  window.abrirModalPermissoes = abrirModalPermissoes
+  window.irParaDados = irParaDados
+  window.irParaPermissoes = irParaPermissoes
+  window.openModal = openModal
+  window.closeModal = closeModal
+  window.salvarFuncionario = salvarFuncionario
+  window.deletarFuncionario = deletarFuncionario
+})()

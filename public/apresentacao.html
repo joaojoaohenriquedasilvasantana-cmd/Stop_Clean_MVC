@@ -48,6 +48,7 @@
   
   <!-- CSS Externo -->
   <link rel="stylesheet" href="./apresentacao.css"/>
+  <link rel="stylesheet" href="./common.css">
 </head>
 <body>
 
@@ -68,7 +69,10 @@
 
       <!-- Navegação sem o botão 'Área do Cliente' no header -->
       <nav class="sc-nav" aria-label="Navegação Principal">
-        <a href="./login.html" class="sc-btn sc-btn-yellow" data-action="login">Entrar</a>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end;">
+          <a href="./LoginFuncionario.html" class="sc-btn sc-btn-outline">Área do Funcionário</a>
+          <a href="./login.html" class="sc-btn sc-btn-yellow" data-action="login">Área do Cliente</a>
+        </div>
         
       </nav>
     </header>
@@ -198,5 +202,6 @@
   </div>
 
 
+<script src="./js/common.js"></script>
 </body>
 </html>

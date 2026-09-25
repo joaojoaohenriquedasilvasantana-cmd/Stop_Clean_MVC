@@ -2,20 +2,29 @@ import prisma from '../config/database.js'
 import * as agendamentoModel from '../models/agendamento.model.js'
 
 // =====================================================
-// HORÁRIOS FIXOS DE FUNCIONAMENTO
+// HORÁRIOS DE FUNCIONAMENTO
 // =====================================================
 
 const HORARIOS_BASE = [
-  "08:00", "08:30",
-  "09:00", "09:30",
-  "10:00", "10:30",
-  "11:00", "11:30",
+  "08:00",
+  "08:30",
+  "09:00",
+  "09:30",
+  "10:00",
+  "10:30",
+  "11:00",
+  "11:30",
 
-  "13:00", "13:30",
-  "14:00", "14:30",
-  "15:00", "15:30",
-  "16:00", "16:30",
-  "17:00", "17:30"
+  "13:00",
+  "13:30",
+  "14:00",
+  "14:30",
+  "15:00",
+  "15:30",
+  "16:00",
+  "16:30",
+  "17:00",
+  "17:30"
 ]
 
 
@@ -23,10 +32,12 @@ const HORARIOS_BASE = [
 // CONVERTE HH:mm PARA MINUTOS
 // =====================================================
 
-function paraMinutos(hhmm) {
-  const [h, m] = hhmm.split(':').map(Number)
+function paraMinutos(horario) {
 
-  return (h * 60) + m
+  const [horas, minutos] =
+    horario.split(':').map(Number)
+
+  return (horas * 60) + minutos
 }
 
 
@@ -35,8 +46,12 @@ function paraMinutos(hhmm) {
 // =====================================================
 
 function minutosParaHora(minutos) {
-  const horas = Math.floor(minutos / 60)
-  const mins = minutos % 60
+
+  const horas =
+    Math.floor(minutos / 60)
+
+  const mins =
+    minutos % 60
 
   return `${String(horas).padStart(2, '0')}:${String(mins).padStart(2, '0')}`
 }
@@ -46,47 +61,135 @@ function minutosParaHora(minutos) {
 // CONVERTE DURAÇÃO PARA MINUTOS
 // =====================================================
 
-function duracaoParaMinutos(duracaoStr) {
+function duracaoParaMinutos(duracao) {
 
-  if (!duracaoStr) {
+  if (duracao === null || duracao === undefined) {
     return 30
   }
 
-  if (typeof duracaoStr === 'number') {
-    return duracaoStr || 30
+
+  // Se já for número
+  if (typeof duracao === 'number') {
+    return duracao || 30
   }
 
-  if (duracaoStr.includes(':')) {
 
-    const partes = duracaoStr
-      .split(':')
-      .map(Number)
+  // Se for Date
+  if (duracao instanceof Date) {
 
-    const horas = partes[0] || 0
-    const minutos = partes[1] || 0
+    return (
+      duracao.getUTCHours() * 60 +
+      duracao.getUTCMinutes()
+    )
 
-    return (horas * 60) + minutos
   }
 
-  return Number(duracaoStr) || 30
+
+  const valor =
+    String(duracao)
+
+
+  // HH:mm:ss ou HH:mm
+  if (valor.includes(':')) {
+
+    const partes =
+      valor.split(':').map(Number)
+
+    const horas =
+      partes[0] || 0
+
+    const minutos =
+      partes[1] || 0
+
+    return (
+      (horas * 60) +
+      minutos
+    )
+  }
+
+
+  return Number(valor) || 30
 }
 
 
 // =====================================================
-// OBTÉM HORA E MINUTOS DE UM DATE
+// OBTÉM O HORÁRIO DO BANCO EM MINUTOS
+//
+// IMPORTANTE:
+// usamos UTC porque o horário do agendamento é salvo
+// como um horário "neutro", sem conversão de fuso.
 // =====================================================
 
-function obterHoraMinutos(data) {
+function horarioBancoParaMinutos(horario) {
 
-  return (
-    data.getUTCHours() * 60 +
-    data.getUTCMinutes()
+  if (!horario) {
+    return 0
+  }
+
+
+  if (horario instanceof Date) {
+
+    return (
+      horario.getUTCHours() * 60 +
+      horario.getUTCMinutes()
+    )
+
+  }
+
+
+  // Caso venha como string
+  if (typeof horario === 'string') {
+
+    // Exemplo:
+    // "08:00:00"
+    // "08:00"
+
+    const somenteHorario =
+      horario.substring(0, 5)
+
+    return paraMinutos(
+      somenteHorario
+    )
+  }
+
+
+  return 0
+}
+
+
+// =====================================================
+// CRIA DATA DO AGENDAMENTO SEM ALTERAÇÃO DE FUSO
+// =====================================================
+
+function criarDataUTC(data) {
+
+  return new Date(
+    `${data}T00:00:00.000Z`
   )
 }
 
 
 // =====================================================
-// VERIFICA SOBREPOSIÇÃO DE HORÁRIOS
+// CRIA HORÁRIO DO AGENDAMENTO SEM ALTERAÇÃO DE FUSO
+// =====================================================
+//
+// 08:00 -> 08:00 UTC
+// 10:30 -> 10:30 UTC
+//
+// Não usar:
+// new Date("1970-01-01T08:00:00")
+// =====================================================
+
+function criarHorarioUTC(horario) {
+
+  return new Date(
+    `1970-01-01T${horario}:00.000Z`
+  )
+}
+
+
+// =====================================================
+// VERIFICA SOBREPOSIÇÃO
 // =====================================================
 
 function existeSobreposicao(
@@ -104,10 +207,10 @@ function existeSobreposicao(
 
 
 // =====================================================
-// GET /agendamentos/horarios-disponiveis
+// GET
+// /agendamentos/horarios-disponiveis
 //
-// Exemplo:
-// /agendamentos/horarios-disponiveis?data=2026-09-23&idVeiculo=1
+// ?data=2026-09-23&idVeiculo=1
 // =====================================================
 
 export const horariosDisponiveis = async (req, res) => {
@@ -120,29 +223,53 @@ export const horariosDisponiveis = async (req, res) => {
     } = req.query
 
 
+    // =================================================
+    // VALIDA DATA
+    // =================================================
+
     if (!data) {
 
       return res.status(400).json({
-        erro: 'Informe a data (YYYY-MM-DD).'
+
+        erro:
+          'Informe a data (YYYY-MM-DD).'
+
       })
 
     }
 
 
+    // =================================================
+    // DATAS DO DIA EM UTC
+    // =================================================
+
     const inicioDia =
-      new Date(`${data}T00:00:00`)
+      criarDataUTC(data)
 
 
-    const fimDia =
-      new Date(`${data}T23:59:59`)
+    const proximoDia =
+      new Date(inicioDia)
 
+
+    proximoDia.setUTCDate(
+      proximoDia.getUTCDate() + 1
+    )
+
+
+    // =================================================
+    // BUSCA AGENDAMENTOS DO DIA
+    // =================================================
 
     const agendamentosDoDia =
       await agendamentoModel.buscarAgendamentosDoDia(
         inicioDia,
-        fimDia
+        proximoDia
       )
 
+
+    // =================================================
+    // BUSCA VEÍCULO
+    // =================================================
 
     let veiculo = null
 
@@ -157,41 +284,56 @@ export const horariosDisponiveis = async (req, res) => {
     }
 
 
-    const ocupados = new Set()
+    // =================================================
+    // HORÁRIOS OCUPADOS
+    // =================================================
+
+    const ocupados =
+      new Set()
 
 
     // =================================================
-    // ANALISA CADA AGENDAMENTO EXISTENTE
+    // ANALISA AGENDAMENTOS
     // =================================================
 
-    for (const ag of agendamentosDoDia) {
+    for (
+      const ag of agendamentosDoDia
+    ) {
 
-      // Ignora agendamentos cancelados
+      // Cancelado não ocupa horário
       if (
-        ag.statusAgendamento === 'CANCELADO'
+        ag.statusAgendamento ===
+        'CANCELADO'
       ) {
+
         continue
+
       }
 
 
       const inicioMin =
-        obterHoraMinutos(ag.horario)
+        horarioBancoParaMinutos(
+          ag.horario
+        )
 
 
       let duracaoTotal = 0
 
 
-      // ===============================================
-      // CALCULA A DURAÇÃO TOTAL
-      // ===============================================
+      // =================================================
+      // CALCULA DURAÇÃO DOS SERVIÇOS
+      // =================================================
 
-      for (const sa of ag.servicos || []) {
+      for (
+        const servicoAgendamento
+        of ag.servicos || []
+      ) {
 
         if (veiculo) {
 
           const tipoServico =
             await agendamentoModel.buscarTipoServico(
-              sa.idServico,
+              servicoAgendamento.idServico,
               veiculo.idTipoVeiculo
             )
 
@@ -216,49 +358,61 @@ export const horariosDisponiveis = async (req, res) => {
 
 
       const fimMin =
-        inicioMin + duracaoTotal
+        inicioMin +
+        duracaoTotal
 
 
-      // ===============================================
-      // MARCA OS HORÁRIOS OCUPADOS
-      // ===============================================
+      // =================================================
+      // MARCA HORÁRIOS SOBREPOSTOS
+      // =================================================
 
-      HORARIOS_BASE.forEach(horario => {
+      for (
+        const horarioBase
+        of HORARIOS_BASE
+      ) {
 
-        const horarioMin =
-          paraMinutos(horario)
+        const inicioHorario =
+          paraMinutos(
+            horarioBase
+          )
 
 
-        /*
-         * Verifica se o intervalo de 30 minutos
-         * do horário-base possui sobreposição.
-         */
+        const fimHorario =
+          inicioHorario + 30
+
 
         if (
-          horarioMin < fimMin &&
-          horarioMin + 30 > inicioMin
+          existeSobreposicao(
+            inicioHorario,
+            fimHorario,
+            inicioMin,
+            fimMin
+          )
         ) {
 
-          ocupados.add(horario)
+          ocupados.add(
+            horarioBase
+          )
 
         }
 
-      })
+      }
 
     }
 
 
     // =================================================
-    // RETORNA SOMENTE OS HORÁRIOS LIVRES
+    // RETORNA HORÁRIOS LIVRES
     // =================================================
 
     const livres =
       HORARIOS_BASE.filter(
-        horario => !ocupados.has(horario)
+        horario =>
+          !ocupados.has(horario)
       )
 
 
-    res.status(200).json({
+    return res.status(200).json({
 
       data,
 
@@ -276,8 +430,11 @@ export const horariosDisponiveis = async (req, res) => {
     )
 
 
-    res.status(500).json({
-      erro: error.message
+    return res.status(500).json({
+
+      erro:
+        error.message
+
     })
 
   }
@@ -285,23 +442,95 @@ export const horariosDisponiveis = async (req, res) => {
 }
 
 
+
+// =====================================================
+// GET /agendamentos
+// Lista agendamentos com os relacionamentos necessários
+// para o painel do funcionário.
+// =====================================================
+export const listar = async (req, res) => {
+  try {
+    const { q, status, dataInicio, dataFim } = req.query
+
+    const filtro = req.usuarioTipo === 'cliente'
+      ? { idCliente: req.usuarioId }
+      : {}
+
+    if (status && ['AGENDADO', 'EM_ANDAMENTO', 'FINALIZADO', 'CANCELADO'].includes(status)) {
+      filtro.statusAgendamento = status
+    }
+
+    if (dataInicio || dataFim) {
+      filtro.data = {}
+      if (dataInicio) filtro.data.gte = new Date(`${dataInicio}T00:00:00.000Z`)
+      if (dataFim) {
+        const fim = new Date(`${dataFim}T00:00:00.000Z`)
+        fim.setUTCDate(fim.getUTCDate() + 1)
+        filtro.data.lt = fim
+      }
+    }
+
+    if (q && q.trim()) {
+      const termo = q.trim()
+      filtro.AND = [
+        {
+          OR: [
+            { cliente: { nome: { contains: termo, mode: 'insensitive' } } },
+            { cliente: { telefone: { contains: termo, mode: 'insensitive' } } },
+            { veiculo: { placa: { contains: termo, mode: 'insensitive' } } },
+            { veiculo: { marca: { contains: termo, mode: 'insensitive' } } },
+            { veiculo: { modelo: { contains: termo, mode: 'insensitive' } } },
+            { servicos: { some: { servico: { nome: { contains: termo, mode: 'insensitive' } } } } }
+          ]
+        }
+      ]
+    }
+
+    const agendamentos = await prisma.agendamento.findMany({
+      where: filtro,
+      orderBy: [
+        { data: 'asc' },
+        { horario: 'asc' }
+      ],
+      include: {
+        cliente: true,
+        veiculo: {
+          include: { tipoVeiculo: true }
+        },
+        funcionario: true,
+        servicos: {
+          include: { servico: true }
+        }
+      }
+    })
+
+    const resultado = agendamentos.map(ag => ({
+      ...ag,
+      cliente: ag.cliente ? { id: ag.cliente.id, nome: ag.cliente.nome, cpf: ag.cliente.cpf, telefone: ag.cliente.telefone } : null,
+      funcionario: ag.funcionario ? { id: ag.funcionario.id, nome: ag.funcionario.nome } : null,
+      servicos: ag.servicos.map(s => ({
+        id: s.id,
+        idServico: s.idServico,
+        precoAplicado: s.precoAplicado,
+        servico: s.servico
+      }))
+    }))
+
+    return res.status(200).json(resultado)
+  } catch (error) {
+    console.error('Erro ao listar agendamentos:', error)
+    return res.status(500).json({ erro: error.message })
+  }
+}
+
 // =====================================================
 // POST /agendamentos
-//
-// Body:
-//
-// {
-//   "idCliente": 1,
-//   "idVeiculo": 2,
-//   "idFuncionario": 1,
-//   "servicos": [1, 2],
-//   "data": "2026-09-23",
-//   "horario": "08:00",
-//   "obs": "Observação"
-// }
 // =====================================================
 
-export const criarAgendamento = async (req, res) => {
+export const criarAgendamento = async (
+  req,
+  res
+) => {
 
   try {
 
@@ -318,7 +547,7 @@ export const criarAgendamento = async (req, res) => {
 
 
     // =================================================
-    // ACEITA "servicos" OU "servicosIds"
+    // ACEITA servicos OU servicosIds
     // =================================================
 
     const listaServicos =
@@ -333,7 +562,7 @@ export const criarAgendamento = async (req, res) => {
 
 
     // =================================================
-    // VALIDA CAMPOS OBRIGATÓRIOS
+    // VALIDA CAMPOS
     // =================================================
 
     if (
@@ -355,7 +584,7 @@ export const criarAgendamento = async (req, res) => {
 
 
     // =================================================
-    // CLIENTE SÓ PODE AGENDAR PARA ELE MESMO
+    // VALIDA CLIENTE
     // =================================================
 
     if (
@@ -364,14 +593,17 @@ export const criarAgendamento = async (req, res) => {
     ) {
 
       return res.status(403).json({
-        erro: 'Acesso negado.'
+
+        erro:
+          'Acesso negado.'
+
       })
 
     }
 
 
     // =================================================
-    // BUSCA O VEÍCULO
+    // BUSCA VEÍCULO
     // =================================================
 
     const veiculo =
@@ -383,14 +615,17 @@ export const criarAgendamento = async (req, res) => {
     if (!veiculo) {
 
       return res.status(404).json({
-        erro: 'Veículo não encontrado.'
+
+        erro:
+          'Veículo não encontrado.'
+
       })
 
     }
 
 
     // =================================================
-    // CLIENTE SÓ PODE USAR SEUS PRÓPRIOS VEÍCULOS
+    // CLIENTE SÓ PODE USAR SEU VEÍCULO
     // =================================================
 
     if (
@@ -409,14 +644,16 @@ export const criarAgendamento = async (req, res) => {
 
 
     // =================================================
-    // VALIDA FORMATO DA DATA
+    // VALIDA DATA
     // =================================================
 
     const dataRegex =
       /^\d{4}-\d{2}-\d{2}$/
 
 
-    if (!dataRegex.test(data)) {
+    if (
+      !dataRegex.test(data)
+    ) {
 
       return res.status(400).json({
 
@@ -429,14 +666,16 @@ export const criarAgendamento = async (req, res) => {
 
 
     // =================================================
-    // VALIDA FORMATO DO HORÁRIO
+    // VALIDA HORÁRIO
     // =================================================
 
     const horarioRegex =
       /^\d{2}:\d{2}$/
 
 
-    if (!horarioRegex.test(horario)) {
+    if (
+      !horarioRegex.test(horario)
+    ) {
 
       return res.status(400).json({
 
@@ -449,22 +688,12 @@ export const criarAgendamento = async (req, res) => {
 
 
     // =================================================
-    // CONVERTE HORÁRIO PARA MINUTOS
+    // VERIFICA SE HORÁRIO EXISTE NA GRADE
     // =================================================
 
-    const horarioMinutos =
-      paraMinutos(horario)
-
-
-    // =================================================
-    // VERIFICA SE O HORÁRIO EXISTE NA GRADE
-    // =================================================
-
-    const horarioPermitido =
-      HORARIOS_BASE.includes(horario)
-
-
-    if (!horarioPermitido) {
+    if (
+      !HORARIOS_BASE.includes(horario)
+    ) {
 
       return res.status(400).json({
 
@@ -476,29 +705,45 @@ export const criarAgendamento = async (req, res) => {
     }
 
 
-    const dataAgendamento =
-      new Date(`${data}T00:00:00`)
-
-
-    const horarioAgendamento =
-      new Date(`1970-01-01T${horario}:00`)
+    const horarioInicioMin =
+      paraMinutos(horario)
 
 
     // =================================================
-    // VALIDA SERVIÇOS E CALCULA:
+    // DATA E HORÁRIO
     //
-    // - PREÇO TOTAL
-    // - DURAÇÃO TOTAL
+    // CORREÇÃO DO FUSO HORÁRIO
+    // =================================================
+
+    const dataAgendamento =
+      criarDataUTC(data)
+
+
+    const horarioAgendamento =
+      criarHorarioUTC(horario)
+
+
+    // =================================================
+    // VALIDA SERVIÇOS
     // =================================================
 
     const servicosValidados = []
 
+
     let somaTotal = 0
+
 
     let duracaoTotal = 0
 
 
-    for (const idServico of listaServicos) {
+    // =================================================
+    // BUSCA CONFIGURAÇÃO DOS SERVIÇOS
+    // =================================================
+
+    for (
+      const idServico
+      of listaServicos
+    ) {
 
       const tipoServicoConfig =
         await prisma.tipoServico.findFirst({
@@ -528,17 +773,19 @@ export const criarAgendamento = async (req, res) => {
       }
 
 
-      // ===============================================
+      // =================================================
       // PREÇO
-      // ===============================================
+      // =================================================
 
       const precoCobrado =
-        Number(tipoServicoConfig.preco) || 0
+        Number(
+          tipoServicoConfig.preco
+        ) || 0
 
 
-      // ===============================================
+      // =================================================
       // DURAÇÃO
-      // ===============================================
+      // =================================================
 
       const duracaoServico =
         duracaoParaMinutos(
@@ -568,23 +815,16 @@ export const criarAgendamento = async (req, res) => {
 
 
     // =================================================
-    // CALCULA INÍCIO E FIM DO NOVO AGENDAMENTO
+    // FIM DO NOVO AGENDAMENTO
     // =================================================
 
-    const inicioNovoAgendamento =
-      horarioMinutos
-
-
-    const fimNovoAgendamento =
-      inicioNovoAgendamento +
+    const horarioFimMin =
+      horarioInicioMin +
       duracaoTotal
 
 
     // =================================================
-    // HORÁRIO FINAL DE FUNCIONAMENTO
-    //
-    // 17:30 é o último horário de início.
-    // O funcionamento termina às 18:00.
+    // LIMITE DO EXPEDIENTE
     // =================================================
 
     const FIM_EXPEDIENTE =
@@ -592,7 +832,7 @@ export const criarAgendamento = async (req, res) => {
 
 
     if (
-      fimNovoAgendamento >
+      horarioFimMin >
       FIM_EXPEDIENTE
     ) {
 
@@ -607,36 +847,39 @@ export const criarAgendamento = async (req, res) => {
 
 
     // =================================================
-    // BUSCA AGENDAMENTOS DO DIA
+    // BUSCA AGENDAMENTOS DA MESMA DATA
     // =================================================
 
     const inicioDia =
-      new Date(`${data}T00:00:00`)
+      criarDataUTC(data)
 
 
-    const fimDia =
-      new Date(`${data}T23:59:59`)
+    const proximoDia =
+      new Date(inicioDia)
+
+
+    proximoDia.setUTCDate(
+      proximoDia.getUTCDate() + 1
+    )
 
 
     const agendamentosDoDia =
       await agendamentoModel.buscarAgendamentosDoDia(
         inicioDia,
-        fimDia
+        proximoDia
       )
 
 
     // =================================================
-    // VERIFICA CONFLITO DE HORÁRIO
+    // VERIFICA CONFLITOS
     // =================================================
 
     for (
-      const ag of agendamentosDoDia
+      const ag
+      of agendamentosDoDia
     ) {
 
-      // ===============================================
-      // CANCELADO NÃO BLOQUEIA HORÁRIO
-      // ===============================================
-
+      // Cancelado não bloqueia horário
       if (
         ag.statusAgendamento ===
         'CANCELADO'
@@ -647,32 +890,41 @@ export const criarAgendamento = async (req, res) => {
       }
 
 
-      // ===============================================
-      // INÍCIO DO AGENDAMENTO EXISTENTE
-      // ===============================================
-
       const inicioExistente =
-        obterHoraMinutos(
+        horarioBancoParaMinutos(
           ag.horario
         )
 
 
-      // ===============================================
-      // DURAÇÃO DO AGENDAMENTO EXISTENTE
-      // ===============================================
-
       let duracaoExistente = 0
 
+
+      // =================================================
+      // CALCULA DURAÇÃO DO AGENDAMENTO EXISTENTE
+      // =================================================
 
       for (
         const servicoAgendamento
         of ag.servicos || []
       ) {
 
+        /*
+         * Aqui usamos o tipo do veículo que pertence
+         * ao próprio agendamento quando disponível.
+         *
+         * Caso não esteja disponível, usamos o veículo
+         * que está sendo agendado.
+         */
+
+        const tipoVeiculo =
+          ag.veiculo?.idTipoVeiculo ??
+          veiculo.idTipoVeiculo
+
+
         const tipoServico =
           await agendamentoModel.buscarTipoServico(
             servicoAgendamento.idServico,
-            veiculo.idTipoVeiculo
+            tipoVeiculo
           )
 
 
@@ -684,8 +936,6 @@ export const criarAgendamento = async (req, res) => {
       }
 
 
-      // Se não conseguir descobrir a duração,
-      // considera 30 minutos.
       if (!duracaoExistente) {
 
         duracaoExistente = 30
@@ -693,25 +943,21 @@ export const criarAgendamento = async (req, res) => {
       }
 
 
-      // ===============================================
-      // FIM DO AGENDAMENTO EXISTENTE
-      // ===============================================
-
       const fimExistente =
         inicioExistente +
         duracaoExistente
 
 
-      // ===============================================
+      // =================================================
       // VERIFICA SOBREPOSIÇÃO
-      // ===============================================
+      // =================================================
 
       const conflito =
         existeSobreposicao(
 
-          inicioNovoAgendamento,
+          horarioInicioMin,
 
-          fimNovoAgendamento,
+          horarioFimMin,
 
           inicioExistente,
 
@@ -737,10 +983,140 @@ export const criarAgendamento = async (req, res) => {
     // =================================================
     // CRIA O AGENDAMENTO
     // =================================================
+    //
+    // A verificação acima evita duplicidade no fluxo
+    // normal. A transação mantém a criação atômica.
+    // =================================================
 
     const novoAgendamento =
       await prisma.$transaction(
         async tx => {
+
+          // =============================================
+          // SEGUNDA VERIFICAÇÃO DENTRO DA TRANSAÇÃO
+          //
+          // Isso protege contra duas requisições chegando
+          // praticamente ao mesmo tempo.
+          // =============================================
+
+          const agendamentosNovamente =
+            await tx.agendamento.findMany({
+
+              where: {
+
+                data: {
+
+                  gte:
+                    inicioDia,
+
+                  lt:
+                    proximoDia
+
+                },
+
+                statusAgendamento: {
+
+                  in: [
+                    'AGENDADO',
+                    'EM_ANDAMENTO'
+                  ]
+
+                }
+
+              },
+
+              include: {
+
+                servicos: true
+
+              }
+
+            })
+
+
+          // =============================================
+          // VERIFICA DUPLICIDADE/CONFLITO NOVAMENTE
+          // =============================================
+
+          for (
+            const ag
+            of agendamentosNovamente
+          ) {
+
+            const inicioExistente =
+              horarioBancoParaMinutos(
+                ag.horario
+              )
+
+
+            let duracaoExistente = 0
+
+
+            for (
+              const servicoAgendamento
+              of ag.servicos || []
+            ) {
+
+              const tipoServico =
+                await agendamentoModel.buscarTipoServico(
+                  servicoAgendamento.idServico,
+                  veiculo.idTipoVeiculo
+                )
+
+
+              duracaoExistente +=
+                duracaoParaMinutos(
+                  tipoServico?.duracao
+                )
+
+            }
+
+
+            if (!duracaoExistente) {
+
+              duracaoExistente = 30
+
+            }
+
+
+            const fimExistente =
+              inicioExistente +
+              duracaoExistente
+
+
+            if (
+              existeSobreposicao(
+
+                horarioInicioMin,
+
+                horarioFimMin,
+
+                inicioExistente,
+
+                fimExistente
+
+              )
+            ) {
+
+              const erro =
+                new Error(
+                  `Horário indisponível. Já existe um agendamento entre ${minutosParaHora(inicioExistente)} e ${minutosParaHora(fimExistente)}.`
+                )
+
+
+              erro.statusCode = 409
+
+
+              throw erro
+
+            }
+
+          }
+
+
+          // =============================================
+          // CRIA AGENDAMENTO
+          // =============================================
 
           const agendamento =
             await tx.agendamento.create({
@@ -802,10 +1178,10 @@ export const criarAgendamento = async (req, res) => {
     // RESPOSTA
     // =================================================
 
-    res.status(201).json({
+    return res.status(201).json({
 
       mensagem:
-        'Agendamento criado e calculado com sucesso!',
+        'Agendamento criado com sucesso!',
 
       duracaoTotal:
         duracaoTotal,
@@ -815,7 +1191,7 @@ export const criarAgendamento = async (req, res) => {
 
       horarioFim:
         minutosParaHora(
-          fimNovoAgendamento
+          horarioFimMin
         ),
 
       valorTotal:
@@ -834,7 +1210,25 @@ export const criarAgendamento = async (req, res) => {
     )
 
 
-    res.status(500).json({
+    // =================================================
+    // ERRO DE CONFLITO
+    // =================================================
+
+    if (
+      error.statusCode === 409
+    ) {
+
+      return res.status(409).json({
+
+        erro:
+          error.message
+
+      })
+
+    }
+
+
+    return res.status(500).json({
 
       erro:
         error.message ||
@@ -851,7 +1245,10 @@ export const criarAgendamento = async (req, res) => {
 // PUT /agendamentos/:id/status
 // =====================================================
 
-export const alterarStatus = async (req, res) => {
+export const alterarStatus = async (
+  req,
+  res
+) => {
 
   try {
 
@@ -864,10 +1261,6 @@ export const alterarStatus = async (req, res) => {
       statusAgendamento
     } = req.body
 
-
-    // =================================================
-    // STATUS PERMITIDOS
-    // =================================================
 
     const valoresValidos = [
 
@@ -898,18 +1291,39 @@ export const alterarStatus = async (req, res) => {
     }
 
 
-    // =================================================
-    // ATUALIZA STATUS
-    // =================================================
+    const agendamentoExistente = await agendamentoModel.buscarAgendamentoPorId(id)
 
-    const atualizado =
-      await agendamentoModel.atualizarStatus(
-        id,
-        statusAgendamento
-      )
+    if (!agendamentoExistente) {
+      return res.status(404).json({ erro: 'Agendamento não encontrado.' })
+    }
+
+    // Cancelamento: cliente só pode cancelar o próprio agendamento;
+    // funcionário autenticado pode cancelar qualquer agendamento ainda AGENDADO.
+    if (statusAgendamento === 'CANCELADO') {
+      if (agendamentoExistente.statusAgendamento !== 'AGENDADO') {
+        return res.status(409).json({
+          erro: 'Somente agendamentos com status AGENDADO podem ser cancelados.'
+        })
+      }
+
+      if (req.usuarioTipo === 'cliente' && Number(agendamentoExistente.idCliente) !== Number(req.usuarioId)) {
+        return res.status(403).json({ erro: 'Você só pode cancelar seus próprios agendamentos.' })
+      }
+
+      if (!['cliente', 'funcionario'].includes(req.usuarioTipo)) {
+        return res.status(403).json({ erro: 'Você não tem permissão para cancelar agendamentos.' })
+      }
+    } else {
+      // Mudanças operacionais (iniciar/finalizar) são exclusivas da equipe.
+      if (req.usuarioTipo !== 'funcionario') {
+        return res.status(403).json({ erro: 'Somente funcionários podem alterar o status para iniciar ou finalizar.' })
+      }
+    }
+
+    const atualizado = await agendamentoModel.atualizarStatus(id, statusAgendamento)
 
 
-    res.status(200).json({
+    return res.status(200).json({
 
       mensagem:
         'Status atualizado com sucesso.',
@@ -922,7 +1336,7 @@ export const alterarStatus = async (req, res) => {
 
   } catch (error) {
 
-    res.status(400).json({
+    return res.status(400).json({
 
       erro:
         error.message

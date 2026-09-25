@@ -2,7 +2,8 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import * as clienteModel from '../models/cliente.model.js'
 
-const SECRET = process.env.JWT_SECRET || 'chave_secreta_padrao'
+const SECRET = process.env.JWT_SECRET
+if (!SECRET || SECRET.length < 32) throw new Error('JWT_SECRET é obrigatório e deve ter pelo menos 32 caracteres.')
 
 // Remove a senha do objeto antes de responder ao front-end
 const semSenha = (cliente) => {

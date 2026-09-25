@@ -2,7 +2,8 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import * as funcionarioModel from '../models/funcionario.model.js'
 
-const SECRET = process.env.JWT_SECRET || 'chave_secreta_padrao'
+const SECRET = process.env.JWT_SECRET
+if (!SECRET || SECRET.length < 32) throw new Error('JWT_SECRET é obrigatório e deve ter pelo menos 32 caracteres.')
 
 // Remove a senha do objeto antes de responder ao front-end
 const semSenha = (funcionario) => {
@@ -22,7 +23,7 @@ const semSenha = (funcionario) => {
 // ==========================================
 export const cadastrar = async (req, res) => {
   try {
-    const { nome, email, senha, cpf, telefone, cargo, salario } = req.body
+    const { nome, email, senha, cpf, telefone, cargo, salario, status, cep, endereco, numero, bairro, estado } = req.body
 
     if (!email || !senha) {
       return res.status(400).json({ erro: 'Email e senha são obrigatórios.' })
@@ -43,7 +44,13 @@ export const cadastrar = async (req, res) => {
       cpf,
       telefone,
       cargo,
-      salario
+      salario,
+      status: status === undefined ? true : Boolean(status),
+      cep,
+      endereco,
+      numero,
+      bairro,
+      estado
     })
 
     res.status(201).json(semSenha(novo))
@@ -71,14 +78,14 @@ export const login = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: funcionario.id, nome: funcionario.nome, tipo: 'funcionario' },
+      { id: funcionario.id, nome: funcionario.nome, tipo: 'funcionario', cargo: funcionario.cargo === 'ADMIN' ? 'ADMIN' : 'FUNCIONARIO' },
       SECRET,
       { expiresIn: '1d' }
     )
 
     return res.status(200).json({
       token,
-      usuario: { id: funcionario.id, nome: funcionario.nome, tipo: 'funcionario' }
+      usuario: { id: funcionario.id, nome: funcionario.nome, tipo: 'funcionario', cargo: funcionario.cargo === 'ADMIN' ? 'ADMIN' : 'FUNCIONARIO' }
     })
   } catch (error) {
     res.status(500).json({ erro: error.message })
@@ -110,13 +117,16 @@ export const buscarPorId = async (req, res) => {
 
 export const atualizar = async (req, res) => {
   try {
-    const dados = { ...req.body }
+    const permitidos = ['nome', 'email', 'telefone', 'cpf', 'cep', 'estado', 'endereco', 'numero', 'bairro']
+    const dados = Object.fromEntries(Object.entries(req.body).filter(([chave]) => permitidos.includes(chave)))
+    if (req.body.senha) dados.senha = req.body.senha
 
     if (dados.senha) {
       const salt = await bcrypt.genSalt(10)
       dados.senha = await bcrypt.hash(dados.senha, salt)
     }
 
+    if (Number(req.usuarioId) !== Number(req.params.id)) return res.status(403).json({ erro: 'Você só pode atualizar seu próprio cadastro.' })
     const atualizado = await funcionarioModel.atualizar(req.params.id, dados)
     res.status(200).json(semSenha(atualizado))
   } catch (error) {

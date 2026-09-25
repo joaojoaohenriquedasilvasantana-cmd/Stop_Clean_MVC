@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
   <link rel="stylesheet" href="styles.css"/>
   <link rel="stylesheet" href="cadastro_veiculo.css"/>
+  <link rel="stylesheet" href="common.css">
 </head>
 <body id="page-cadastro">
 
@@ -20,9 +21,7 @@
       </div>
       <div class="sc-logo-text">Stop Clean<small>Lava-jato</small></div>
     </a>
-    <button type="button" class="back-btn" onclick="history.back()" aria-label="Voltar para a página anterior">
-      <i class="ti ti-arrow-left" aria-hidden="true"></i> Voltar
-    </button>
+
   </header>
 
   <main class="page-body">
@@ -34,32 +33,7 @@
     <form id="vehicleForm" onsubmit="salvarVeiculo(event)">
       <section aria-labelledby="tipo-veiculo-title" style="margin-bottom: 20px;">
         <h2 id="tipo-veiculo-title" class="card-title" style="margin-bottom:12px;">Tipo de veículo</h2>
-        <div class="type-grid">
-          <button type="button" class="type-card selected" data-type="Sedan" onclick="selectType(this,'Sedan','ti-car')">
-            <i class="ti ti-car" aria-hidden="true"></i>
-            <span>Sedan</span>
-          </button>
-          <button type="button" class="type-card" data-type="Hatch" onclick="selectType(this,'Hatch','ti-car')">
-            <i class="ti ti-car" aria-hidden="true"></i>
-            <span>Hatch</span>
-          </button>
-          <button type="button" class="type-card" data-type="SUV" onclick="selectType(this,'SUV','ti-car-suv')">
-            <i class="ti ti-car-suv" aria-hidden="true"></i>
-            <span>SUV</span>
-          </button>
-          <button type="button" class="type-card" data-type="Picape" onclick="selectType(this,'Picape','ti-truck')">
-            <i class="ti ti-truck" aria-hidden="true"></i>
-            <span>Picape</span>
-          </button>
-          <button type="button" class="type-card" data-type="Moto" onclick="selectType(this,'Moto','ti-motorbike')">
-            <i class="ti ti-motorbike" aria-hidden="true"></i>
-            <span>Moto</span>
-          </button>
-          <button type="button" class="type-card" data-type="Van" onclick="selectType(this,'Van','ti-van')">
-            <i class="ti ti-van" aria-hidden="true"></i>
-            <span>Van / Utilitário</span>
-          </button>
-        </div>
+        <div class="type-grid" id="typeGrid"><p class="type-loading">Carregando tipos de veículos cadastrados...</p></div>
       </section>
 
       <section class="sc-card" aria-labelledby="dados-veiculo-title">
@@ -97,7 +71,7 @@
           <div class="form-group">
             <label class="form-label" for="placa">Placa</label>
             <div class="placa-wrap">
-              <input class="form-input" id="placa" type="text" placeholder="ABC-1234" maxlength="8" required oninput="formatPlaca(this)"/>
+              <input class="form-input" id="placa" name="placa" type="text" placeholder="ABC1234" maxlength="7" minlength="7" pattern="[A-Za-z0-9]{7}" title="Informe exatamente 7 letras ou números." required oninput="formatPlaca(this)"/>
               <span class="placa-badge">BR</span>
             </div>
           </div>
@@ -164,5 +138,7 @@
 
   <script src="js/api.js"></script>
   <script src="js/cadastro_veiculo.js"></script>
+<script src="js/common.js"></script>
+  <script src="js/input-masks.js"></script>
 </body>
 </html>

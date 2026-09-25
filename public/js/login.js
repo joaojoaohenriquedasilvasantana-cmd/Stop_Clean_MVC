@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnSubmit = form.querySelector('button[type="submit"]')
 
   // Se já estiver logado, não faz sentido ficar na tela de login
-  if (StopCleanAPI.getToken()) {
+  if (StopCleanAPI.getToken() && StopCleanAPI.getUsuario()?.tipo === 'cliente') {
     window.location.href = 'index.html'
     return
   }
