@@ -163,13 +163,19 @@ body {
 
 #tab-agendamento-input:checked ~ .app-container #tab-agendamento,
 #tab-veiculo-input:checked ~ .app-container #tab-veiculo,
-#tab-perfil-input:checked ~ .app-container #tab-perfil {
+#tab-perfil-input:checked ~ .app-container #tab-perfil,
+#tab-agendamento-input:checked ~ .sc-global-controls ~ .app-container #tab-agendamento,
+#tab-veiculo-input:checked ~ .sc-global-controls ~ .app-container #tab-veiculo,
+#tab-perfil-input:checked ~ .sc-global-controls ~ .app-container #tab-perfil {
   display: block;
 }
 
 #tab-agendamento-input:checked ~ .app-container #label-agendamento,
 #tab-veiculo-input:checked ~ .app-container #label-veiculo,
-#tab-perfil-input:checked ~ .app-container #label-perfil {
+#tab-perfil-input:checked ~ .app-container #label-perfil,
+#tab-agendamento-input:checked ~ .sc-global-controls ~ .app-container #label-agendamento,
+#tab-veiculo-input:checked ~ .sc-global-controls ~ .app-container #label-veiculo,
+#tab-perfil-input:checked ~ .sc-global-controls ~ .app-container #label-perfil {
   background: rgba(245, 196, 0, 0.1);
   color: var(--sc-yellow);
   font-weight: 600;

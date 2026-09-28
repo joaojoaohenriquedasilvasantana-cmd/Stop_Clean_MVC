@@ -93,7 +93,6 @@
             <p class="sc-team-meta">Desde jan/2023 &nbsp;·&nbsp; rafael.m@stopclean.com</p>
           </div>
           <div class="sc-perms">
-            <span class="sc-perm-tag os">Ordens de Serviço</span>
             <span class="sc-perm-tag">Agendamentos</span>
           </div>
           <span class="sc-status ativo"><span class="sc-status-dot" aria-hidden="true"></span>Ativo</span>
@@ -112,8 +111,6 @@
             <p class="sc-team-meta">Desde mar/2023 &nbsp;·&nbsp; juliana.s@stopclean.com</p>
           </div>
           <div class="sc-perms">
-            <span class="sc-perm-tag fin">Financeiro</span>
-            <span class="sc-perm-tag os">Ordens de Serviço</span>
             <span class="sc-perm-tag">Agendamentos</span>
           </div>
           <span class="sc-status ativo"><span class="sc-status-dot" aria-hidden="true"></span>Ativo</span>
@@ -236,17 +233,9 @@
           <h2 class="sc-modal-title">PERMISSÕES DO <span>FUNCIONÁRIO</span></h2>
           <p class="sc-step-subtitle" id="subtitulo-permissoes">Selecione as telas e acessos permitidos</p>
 
-          <div class="sc-permissions-list">
+          <div class="sc-permissions-list" id="lista-permissoes">
             <label class="sc-checkbox-card">
-              <input type="checkbox" name="permissoes" value="1">
-              <div>
-                <strong>Ordens de Serviço</strong>
-                <p>Permite criar, editar e atualizar status das ordens de serviço.</p>
-              </div>
-            </label>
-
-            <label class="sc-checkbox-card">
-              <input type="checkbox" name="permissoes" value="2">
+              <input type="checkbox" name="permissoes" value="" data-tela="AGENDAMENTOS">
               <div>
                 <strong>Agendamentos</strong>
                 <p>Permite gerenciar horários e agenda dos clientes.</p>
@@ -254,18 +243,10 @@
             </label>
 
             <label class="sc-checkbox-card">
-              <input type="checkbox" name="permissoes" value="3">
-              <div>
-                <strong>Caixa & Financeiro</strong>
-                <p>Permite registrar pagamentos, faturamento e lançamentos.</p>
-              </div>
-            </label>
-
-            <label class="sc-checkbox-card">
-              <input type="checkbox" name="permissoes" value="4">
+              <input type="checkbox" name="permissoes" value="" data-tela="ACESSO_ADMINISTRATIVO">
               <div>
                 <strong>Acesso Administrativo</strong>
-                <p>Acesso total para gerenciar usuários, preços e configurações.</p>
+                <p>Permite gerenciar funcionários, serviços e configurações administrativas.</p>
               </div>
             </label>
           </div>

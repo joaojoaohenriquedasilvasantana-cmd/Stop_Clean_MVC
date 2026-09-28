@@ -683,3 +683,227 @@ pre, code { overflow-wrap: anywhere; }
   th, td { padding: 8px; }
   .logo, .brand img { max-width: min(170px, 55vw); }
 }
+
+/* =========================================================
+   SERVICOS — MOBILE: formulario e catalogo sem corte
+   ========================================================= */
+.sc-main-content,
+.dash-body,
+.sc-tab-panel,
+.sc-grid-layout,
+.sc-card-form,
+.sc-card-table {
+  min-width: 0;
+}
+
+.sc-grid-layout > * {
+  min-width: 0;
+  width: 100%;
+}
+
+.sc-card-form,
+.sc-card-table {
+  overflow: hidden;
+}
+
+.sc-table-responsive {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.sc-table {
+  min-width: 640px;
+}
+
+@media (max-width: 768px) {
+  .app-container {
+    display: block;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .sc-main-content {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .dash-body {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    padding: 18px 12px 24px;
+  }
+
+  .sc-page-header {
+    margin-bottom: 14px;
+  }
+
+  .sc-page-title {
+    font-size: clamp(27px, 8vw, 34px);
+    line-height: .98;
+    overflow-wrap: anywhere;
+  }
+
+  .sc-page-subtitle {
+    font-size: 13px;
+    line-height: 1.35;
+  }
+
+  .sc-tabs-container {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 16px;
+    gap: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+
+  .sc-tab-btn {
+    flex: 0 0 auto;
+    min-height: 44px;
+    padding: 10px 13px;
+    font-size: 12px;
+  }
+
+  .sc-grid-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 14px;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .sc-card-form,
+  .sc-card-table {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    padding: 16px 13px;
+    border-radius: 8px;
+  }
+
+  .sc-card-title {
+    font-size: 19px;
+    margin-bottom: 14px;
+  }
+
+  .sc-form {
+    width: 100%;
+    gap: 13px;
+  }
+
+  .sc-form-group,
+  .sc-input,
+  .sc-select,
+  .sc-textarea {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .sc-input,
+  .sc-select,
+  .sc-textarea {
+    font-size: 16px;
+  }
+
+  .sc-textarea {
+    min-height: 104px;
+  }
+
+  .sc-checkbox-group {
+    min-height: 42px;
+  }
+
+  .sc-checkbox-label {
+    min-height: 42px;
+    font-size: 14px;
+  }
+
+  .sc-checkbox-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 auto;
+  }
+
+  .sc-btn-full {
+    min-height: 44px;
+    margin-top: 4px;
+    padding: 11px 12px;
+    font-size: 14px;
+  }
+
+  .sc-table-responsive {
+    margin: 0;
+    padding-bottom: 3px;
+  }
+
+  .sc-table {
+    min-width: 640px;
+    font-size: 12px;
+  }
+
+  .sc-table th,
+  .sc-table td {
+    padding: 10px 8px;
+  }
+
+  .sc-footer {
+    padding: 14px 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .sc-footer nav {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dash-body {
+    padding: 16px 10px 22px;
+  }
+
+  .sc-page-title {
+    font-size: 30px;
+  }
+
+  .sc-page-subtitle {
+    font-size: 12px;
+  }
+
+  .sc-tabs-container {
+    margin-right: 0;
+  }
+
+  .sc-tab-btn {
+    padding: 10px 12px;
+    font-size: 11px;
+  }
+
+  .sc-card-form,
+  .sc-card-table {
+    padding: 14px 11px;
+  }
+
+  .sc-card-title {
+    font-size: 18px;
+  }
+
+  .sc-form-group label {
+    font-size: 11px;
+  }
+
+  .sc-checkbox-label {
+    font-size: 13px;
+  }
+}

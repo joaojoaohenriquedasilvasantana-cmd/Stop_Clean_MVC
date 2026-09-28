@@ -393,3 +393,95 @@ pre, code { overflow-wrap: anywhere; }
     flex: 0 0 auto !important;
   }
 }
+
+
+/* Correção de layout: cabeçalho e controles globais sempre ocupam linhas distintas */
+.sc-topbar,
+.sc-header,
+header.sc-topbar {
+  position: relative !important;
+  inset: auto !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  transform: none !important;
+  width: 100%;
+  min-width: 0;
+  height: auto !important;
+  min-height: 56px;
+  flex-shrink: 0;
+  z-index: 1 !important;
+}
+.sc-global-controls {
+  position: relative !important;
+  display: flex !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  clear: both !important;
+  float: none !important;
+  inset: auto !important;
+  transform: none !important;
+  z-index: 2 !important;
+}
+.sc-global-controls .sc-global-btn {
+  position: static !important;
+  transform: none !important;
+}
+@media (max-width: 768px) {
+  .sc-topbar,
+  .sc-header,
+  header.sc-topbar {
+    display: flex !important;
+    flex-direction: row;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+    padding: 10px 14px !important;
+  }
+  .sc-topbar .sc-logo,
+  .sc-header .sc-logo {
+    flex: 0 1 auto;
+    min-width: 0;
+  }
+  .sc-topbar .sc-topbar-actions,
+  .sc-topbar .sc-nav,
+  .sc-header .sc-topbar-actions,
+  .sc-header .sc-nav {
+    position: static !important;
+    display: flex !important;
+    flex: 1 1 100%;
+    flex-wrap: wrap !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    gap: 8px !important;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 !important;
+    transform: none !important;
+  }
+  .sc-topbar .sc-topbar-actions > *,
+  .sc-topbar .sc-nav > *,
+  .sc-header .sc-topbar-actions > *,
+  .sc-header .sc-nav > * {
+    max-width: 100%;
+    white-space: normal;
+  }
+  .sc-global-controls {
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: stretch !important;
+    align-items: stretch !important;
+    min-height: 0 !important;
+    padding: 8px 10px !important;
+    gap: 8px !important;
+  }
+  .sc-global-controls .sc-global-btn {
+    flex: 1 1 120px !important;
+    width: auto !important;
+    min-width: 0 !important;
+    min-height: 42px !important;
+    max-width: 100% !important;
+  }
+}

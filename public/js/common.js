@@ -49,9 +49,23 @@
     // Insere os controles em uma faixa própria abaixo do cabeçalho, evitando
     // sobreposição com logo, saudação, sair e demais botões da página.
     const header = document.querySelector('.sc-topbar, .sc-header, header, .topbar, .navbar');
+    const layout = document.querySelector('.sc-layout');
+    const main = document.querySelector('main');
+
+    // Em páginas com layout flex (como o Home do funcionário), a barra de
+    // controles não pode virar um terceiro item dentro de .sc-layout, pois
+    // isso empurra a sidebar e o conteúdo para fora da viewport.
+    // Mantemos os controles no fluxo, entre o cabeçalho e o layout.
+    // Prioriza o cabeçalho: os controles ficam em uma faixa própria logo
+    // abaixo dele, sem virar item do layout principal (flex/grid).
+    // Isso evita deslocar a sidebar/conteúdo e preserva layouts com abas
+    // controladas por inputs radio.
     if (header && header.parentElement) {
-      // Mantém os controles como irmão do cabeçalho, nunca sobre o conteúdo.
       header.insertAdjacentElement('afterend', controls);
+    } else if (layout && layout.parentElement) {
+      layout.parentElement.insertBefore(controls, layout);
+    } else if (main && main.parentElement) {
+      main.parentElement.insertBefore(controls, main);
     } else {
       document.body.insertBefore(controls, document.body.firstChild);
     }

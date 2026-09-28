@@ -149,6 +149,26 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .sc-checkbox-card strong { font-size: 13px; color: var(--sc-text); display: block; }
 .sc-checkbox-card p { font-size: 11px; color: var(--sc-muted); margin-top: 2px; }
 
+/* Corrige os cards de permissao no tema escuro. */
+html.sc-dark .sc-checkbox-card {
+  background: #2b2b2b !important;
+  border-color: var(--sc-border) !important;
+  color: var(--sc-text) !important;
+}
+html.sc-dark .sc-checkbox-card:hover {
+  background: #333333 !important;
+  border-color: #555555 !important;
+}
+html.sc-dark .sc-checkbox-card strong {
+  color: var(--sc-text) !important;
+}
+html.sc-dark .sc-checkbox-card p {
+  color: var(--sc-muted) !important;
+}
+html.sc-dark .sc-checkbox-card input[type="checkbox"] {
+  accent-color: var(--sc-yellow);
+}
+
 .sc-modal-actions { display: flex; gap: 10px; margin-top: 20px; }
 .sc-modal-actions .sc-btn { flex: 1; justify-content: center; padding: 10px; }
 

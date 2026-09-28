@@ -82,6 +82,29 @@
     aplicarFiltros()
   }
 
+
+  const normalizarTela = value => String(value ?? '')
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .trim().toUpperCase().replace(/[- ]+/g, '_')
+
+  async function carregarCatalogoPermissoes() {
+    const registros = await API.get('/permissoes')
+    const permitidas = new Map(
+      registros.map(p => [normalizarTela(p.tela), Number(p.id)])
+    )
+
+    document.querySelectorAll('input[name="permissoes"]').forEach(cb => {
+      const id = permitidas.get(normalizarTela(cb.dataset.tela))
+      cb.value = id ? String(id) : ''
+      cb.disabled = !id
+      const card = cb.closest('.sc-checkbox-card')
+      if (card) {
+        card.title = id ? '' : 'Esta permissão ainda não foi cadastrada no banco de dados.'
+        card.style.opacity = id ? '' : '0.55'
+      }
+    })
+  }
+
   function limparPermissoes() {
     document.querySelectorAll('input[name="permissoes"]').forEach(cb => { cb.checked = false })
   }
@@ -234,8 +257,13 @@
     }
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', async () => {
     $('sc-search-input')?.addEventListener('input', aplicarFiltros)
+    try {
+      await carregarCatalogoPermissoes()
+    } catch (error) {
+      console.warn('Não foi possível carregar o catálogo de permissões:', error)
+    }
     carregarFuncionarios()
     document.querySelector('.sc-badge')?.replaceChildren(document.createTextNode('★ Funcionário'))
   })

@@ -576,8 +576,54 @@
     finally { btn.disabled = false }
   }
 
+  function configurarMenuLateral() {
+    const botao = $('btnToggleSidebar')
+    if (!botao) return
+    const mobile = () => window.matchMedia('(max-width: 768px)').matches
+    const atualizar = () => {
+      const aberto = mobile()
+        ? document.body.classList.contains('sidebar-mobile-open')
+        : !document.body.classList.contains('sidebar-collapsed')
+      botao.setAttribute('aria-expanded', String(aberto))
+      botao.setAttribute('aria-label', aberto ? 'Recolher menu lateral' : 'Expandir menu lateral')
+      botao.title = aberto ? 'Recolher menu' : 'Expandir menu'
+    }
+    document.querySelectorAll('.sc-nav-item').forEach(item => {
+      const label = item.textContent.trim().replace(/\\s+/g, ' ')
+      if (label) item.dataset.tooltip = label
+    })
+    botao.addEventListener('click', () => {
+      if (mobile()) document.body.classList.toggle('sidebar-mobile-open')
+      else document.body.classList.toggle('sidebar-collapsed')
+      atualizar()
+    })
+    document.querySelectorAll('.sc-sidebar .tab-btn').forEach(item => {
+      item.addEventListener('click', () => {
+        if (mobile()) {
+          document.body.classList.remove('sidebar-mobile-open')
+          atualizar()
+        }
+      })
+    })
+    document.addEventListener('click', event => {
+      if (mobile() && document.body.classList.contains('sidebar-mobile-open')
+        && !event.target.closest('.sc-sidebar') && !event.target.closest('#btnToggleSidebar')) {
+        document.body.classList.remove('sidebar-mobile-open')
+        atualizar()
+      }
+    })
+    window.addEventListener('resize', () => {
+      if (mobile()) document.body.classList.remove('sidebar-collapsed')
+      else document.body.classList.remove('sidebar-mobile-open')
+      atualizar()
+    })
+    if (mobile()) document.body.classList.remove('sidebar-mobile-open')
+    atualizar()
+  }
+
   document.addEventListener('DOMContentLoaded', async () => {
     configurarUsuario()
+    configurarMenuLateral()
     configurarAbas()
     configurarModais()
     $('btnInformacoesPessoais')?.addEventListener('click', abrirPerfilFuncionario)
